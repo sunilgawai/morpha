@@ -84,9 +84,11 @@ These are the non-negotiables, each anchored to its governing document:
 
 ## Package boundaries and import law
 
-The topology is Package-Structure.md 1.1.0, projected 1:1 into `packages/`:
+The topology is Package-Structure.md (v1.2.0), projected 1:1 into
+`packages/`. Naming (ADR-0009): handbook logical name `presentation-<x>`
+= npm `@presentation/<x>` = directory `packages/<x>`.
 
-- Ring 0: `presentation-domain` (imports nothing)
+- Ring 0: `domain` (imports nothing)
 - Ring 1: `events`, `state`, `commands`, `runtime` (inward + enumerated
   intra-ring edges only)
 - Ring 2: `widget-api`, `rendering`, `interaction`, `plugin-api`,
@@ -104,10 +106,10 @@ Rules that matter in practice:
   `Package-Structure.md` **and** the Index **in the same PR** (Index §11
   rule 4) — and the dependency-cruiser config if edges change.
 - pnpm's strict isolation means an undeclared cross-package import fails to
-  resolve. If you hit "cannot resolve presentation-x", the fix is usually
+  resolve. If you hit "cannot resolve @presentation/x", the fix is usually
   that the import is architecturally illegal — check before declaring the
   dependency.
-- `presentation-ai` / `presentation-collaboration` do not exist yet by
+- `@presentation/ai` / `@presentation/collaboration` do not exist yet by
   explicit decision. Do not create them "while you're at it."
 
 ## Coding standards
@@ -131,7 +133,7 @@ Rules that matter in practice:
 
 - Package-local tests (`packages/*/test/`) run with **no DOM, no network,
   no real renderer** — everything injectable is injected
-  (`presentation-testing`'s `createTestEngine()` once it exists).
+  (`@presentation/testing`'s `createTestEngine()` once it exists).
 - Cross-package tests go in `tests/integration/`; benchmarks in
   `tests/benchmarks/`.
 - Property-based tests (fast-check) are **required** where the handbook
@@ -191,5 +193,5 @@ Performance.md; until then, don't regress the complexity class.
 - When implementing a contract, transcribe the handbook's interface shapes
   exactly — the documents contain the canonical TypeScript signatures; do
   not "improve" them inline. Signature changes go through governance.
-- Prefer extending `presentation-testing` fixtures over ad-hoc mocks so
+- Prefer extending `@presentation/testing` fixtures over ad-hoc mocks so
   test infrastructure accumulates in one place.

@@ -1,8 +1,8 @@
 # Ring 0/1 packages and the Architecture Handbook require core-team review
 # (Package-Structure.md §9). Update handles when the team exists.
 /docs/architecture/           @slide-core/architecture
-/packages/presentation-domain/    @slide-core/architecture
-/packages/presentation-events/    @slide-core/architecture
-/packages/presentation-state/     @slide-core/architecture
-/packages/presentation-commands/  @slide-core/architecture
-/packages/presentation-runtime/   @slide-core/architecture
+/packages/domain/    @slide-core/architecture
+/packages/events/    @slide-core/architecture
+/packages/state/     @slide-core/architecture
+/packages/commands/  @slide-core/architecture
+/packages/runtime/   @slide-core/architecture

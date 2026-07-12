@@ -1,0 +1,22 @@
+{
+  "extends": "../../configs/typescript/tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "dist/tsc",
+    "rootDir": "."
+  },
+  "include": ["src", "test"],
+  "references": [
+    {
+      "path": "../runtime"
+    },
+    {
+      "path": "../events"
+    },
+    {
+      "path": "../commands"
+    },
+    {
+      "path": "../plugin-api"
+    }
+  ]
+}

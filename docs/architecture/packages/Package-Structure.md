@@ -1,10 +1,15 @@
 # Package-Structure.md
 
 **Status:** Core — changes require an ADR (governed by Architecture-Index.md §11)
-**Version:** 1.1.0
+**Version:** 1.2.0
 
-**Naming (unified 1.1.0):** `presentation-*` is the canonical package
-naming scheme. Older documents' `@engine/*` names map 1:1 and are read as
+**Naming (unified 1.1.0, revised 1.2.0 per ADR-0009):** `presentation-*`
+is the canonical **logical** naming scheme used throughout this handbook.
+Each logical name maps 1:1 to an npm package `@presentation/<short>` in
+directory `packages/<short>` — e.g. `presentation-commands` ↔
+`@presentation/commands` ↔ `packages/commands`. (Bare short npm names were
+rejected: `react` and `events` collide with the React package and the Node
+builtin.) Older documents' `@engine/*` names also map 1:1 and are read as
 aliases: `@engine/core` → the Ring 0/1 packages collectively,
 `@engine/renderer-dom` → `presentation-renderer-dom`, `@engine/renderer-ssr`
 → `presentation-renderer-ssr`, `@engine/widgets-base` →
@@ -529,4 +534,5 @@ via project tags [web:209][web:212].
 | Version | Change | Reason |
 | --- | --- | --- |
 | 1.0.0 | Initial finalized version | N/A |
+| 1.2.0 | Naming revised: logical `presentation-*` names map to `@presentation/<short>` npm packages in `packages/<short>` directories | ADR-0009 |
 | 1.1.0 | Ring rule corrected to enumerated-directed-edges (the strict sibling ban contradicted this document's own catalogue); `presentation-*` declared canonical naming with `@engine/*` alias map; added `presentation-widgets-base` and `presentation-renderer-ssr`; `RenderNode` homed in `presentation-widget-api`; removed unsanctioned `widget-api → commands` dependency; §5 diagram corrected (format adapters never depend on renderers) | Readiness Review M3; Widget-System.md 1.1.0 alignment |

@@ -62,6 +62,7 @@ per major piece of work; they settle most debates before they start.
 | License: MIT | LICENSE, user decision 2026-07-12 |
 | npm names: bare, exactly as Package-Structure.md records; packages `private: true` until a publishing ADR | ADR-0008 |
 | `presentation-ai` / `presentation-collaboration` deliberately not scaffolded | README, Principle 7 |
+| 2026-07-13 — Short package dirs + `@presentation/*` npm scope (supersedes ADR-0008 bare names) | ADR-0009 |
 
 ## Architectural Invariants (never violate — enforcement copy in CLAUDE.md)
 
@@ -92,7 +93,9 @@ per major piece of work; they settle most debates before they start.
   `DocumentSession`, `InteractionIntent`, `ChangeSet`, `RenderState`,
   `Snapshot`. Don't invent synonyms; if a concept has no handbook name,
   that's a governance conversation.
-- Packages: `presentation-<name>`, directories match npm names 1:1.
+- Packages (ADR-0009): handbook logical name `presentation-<x>` = npm
+  `@presentation/<x>` = directory `packages/<x>`, mapped 1:1. Bare short
+  npm names were rejected (`react`/`events` collisions).
 - Commit scopes: package short-names (`domain`, `state`, `renderer-dom`,…)
   plus `docs`, `repo`, `ci`, `examples`, `deps`, `release`
   (commitlint.config.mjs is the enum).
@@ -206,3 +209,14 @@ and TASKS.md. ROADMAP.md reduced to a pointer at PLANS.md to avoid two
 competing phase lists. Phase order corrected against the dependency graph
 (runtime after events/state/commands; widget contract before rendering
 core). Next real work: Phase 1 (`presentation-domain`), tasks T-001…T-005.
+
+### 2026-07-13 — Package naming shortened (ADR-0009)
+
+Owner found `presentation-*` directory names redundant. Renamed all 19
+packages: dirs to short form (`packages/commands`), npm names to
+`@presentation/<short>`. Literal bare names were impossible (`react`,
+`events` collisions). Handbook prose untouched — Package-Structure.md 1.2.0
+defines the three-form mapping. Import law re-negative-tested under scoped
+`node_modules/@presentation/` paths. Gotcha learned: `git checkout -- <dir>`
+after `git mv` restores mv-time content and silently reverts unstaged
+rewrites — re-verify after using it.

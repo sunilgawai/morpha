@@ -78,225 +78,225 @@ importers:
 
   examples/widget-authoring: {}
 
-  packages/presentation-commands:
+  packages/commands:
     dependencies:
-      presentation-domain:
+      '@presentation/domain':
         specifier: workspace:*
-        version: link:../presentation-domain
-      presentation-events:
+        version: link:../domain
+      '@presentation/events':
         specifier: workspace:*
-        version: link:../presentation-events
-      presentation-state:
+        version: link:../events
+      '@presentation/state':
         specifier: workspace:*
-        version: link:../presentation-state
+        version: link:../state
 
-  packages/presentation-devtools:
+  packages/devtools:
     dependencies:
-      presentation-commands:
+      '@presentation/commands':
         specifier: workspace:*
-        version: link:../presentation-commands
-      presentation-events:
+        version: link:../commands
+      '@presentation/events':
         specifier: workspace:*
-        version: link:../presentation-events
-      presentation-plugin-api:
+        version: link:../events
+      '@presentation/plugin-api':
         specifier: workspace:*
-        version: link:../presentation-plugin-api
-      presentation-runtime:
+        version: link:../plugin-api
+      '@presentation/runtime':
         specifier: workspace:*
-        version: link:../presentation-runtime
+        version: link:../runtime
 
-  packages/presentation-domain: {}
+  packages/domain: {}
 
-  packages/presentation-events:
+  packages/events:
     dependencies:
-      presentation-domain:
+      '@presentation/domain':
         specifier: workspace:*
-        version: link:../presentation-domain
+        version: link:../domain
 
-  packages/presentation-export-pptx:
+  packages/export-pptx:
     dependencies:
-      presentation-domain:
+      '@presentation/domain':
         specifier: workspace:*
-        version: link:../presentation-domain
-      presentation-plugin-api:
+        version: link:../domain
+      '@presentation/plugin-api':
         specifier: workspace:*
-        version: link:../presentation-plugin-api
-      presentation-serialization:
+        version: link:../plugin-api
+      '@presentation/serialization':
         specifier: workspace:*
-        version: link:../presentation-serialization
+        version: link:../serialization
 
-  packages/presentation-import-pptx:
+  packages/import-pptx:
     dependencies:
-      presentation-commands:
+      '@presentation/commands':
         specifier: workspace:*
-        version: link:../presentation-commands
-      presentation-domain:
+        version: link:../commands
+      '@presentation/domain':
         specifier: workspace:*
-        version: link:../presentation-domain
-      presentation-plugin-api:
+        version: link:../domain
+      '@presentation/plugin-api':
         specifier: workspace:*
-        version: link:../presentation-plugin-api
+        version: link:../plugin-api
 
-  packages/presentation-interaction:
+  packages/interaction:
     dependencies:
-      presentation-domain:
+      '@presentation/domain':
         specifier: workspace:*
-        version: link:../presentation-domain
-      presentation-events:
+        version: link:../domain
+      '@presentation/events':
         specifier: workspace:*
-        version: link:../presentation-events
-      presentation-rendering:
+        version: link:../events
+      '@presentation/rendering':
         specifier: workspace:*
-        version: link:../presentation-rendering
+        version: link:../rendering
 
-  packages/presentation-plugin-api:
+  packages/plugin-api:
     dependencies:
-      presentation-commands:
+      '@presentation/commands':
         specifier: workspace:*
-        version: link:../presentation-commands
-      presentation-domain:
+        version: link:../commands
+      '@presentation/domain':
         specifier: workspace:*
-        version: link:../presentation-domain
-      presentation-interaction:
+        version: link:../domain
+      '@presentation/interaction':
         specifier: workspace:*
-        version: link:../presentation-interaction
-      presentation-rendering:
+        version: link:../interaction
+      '@presentation/rendering':
         specifier: workspace:*
-        version: link:../presentation-rendering
-      presentation-widget-api:
+        version: link:../rendering
+      '@presentation/widget-api':
         specifier: workspace:*
-        version: link:../presentation-widget-api
+        version: link:../widget-api
 
-  packages/presentation-react:
+  packages/react:
     dependencies:
-      presentation-interaction:
+      '@presentation/interaction':
         specifier: workspace:*
-        version: link:../presentation-interaction
-      presentation-rendering:
+        version: link:../interaction
+      '@presentation/rendering':
         specifier: workspace:*
-        version: link:../presentation-rendering
-      presentation-runtime:
+        version: link:../rendering
+      '@presentation/runtime':
         specifier: workspace:*
-        version: link:../presentation-runtime
+        version: link:../runtime
 
-  packages/presentation-renderer-canvas:
+  packages/renderer-canvas:
     dependencies:
-      presentation-domain:
+      '@presentation/domain':
         specifier: workspace:*
-        version: link:../presentation-domain
-      presentation-rendering:
+        version: link:../domain
+      '@presentation/rendering':
         specifier: workspace:*
-        version: link:../presentation-rendering
-      presentation-widget-api:
+        version: link:../rendering
+      '@presentation/widget-api':
         specifier: workspace:*
-        version: link:../presentation-widget-api
+        version: link:../widget-api
 
-  packages/presentation-renderer-dom:
+  packages/renderer-dom:
     dependencies:
-      presentation-domain:
+      '@presentation/domain':
         specifier: workspace:*
-        version: link:../presentation-domain
-      presentation-rendering:
+        version: link:../domain
+      '@presentation/rendering':
         specifier: workspace:*
-        version: link:../presentation-rendering
-      presentation-widget-api:
+        version: link:../rendering
+      '@presentation/widget-api':
         specifier: workspace:*
-        version: link:../presentation-widget-api
+        version: link:../widget-api
 
-  packages/presentation-renderer-ssr:
+  packages/renderer-ssr:
     dependencies:
-      presentation-domain:
+      '@presentation/domain':
         specifier: workspace:*
-        version: link:../presentation-domain
-      presentation-rendering:
+        version: link:../domain
+      '@presentation/rendering':
         specifier: workspace:*
-        version: link:../presentation-rendering
-      presentation-widget-api:
+        version: link:../rendering
+      '@presentation/widget-api':
         specifier: workspace:*
-        version: link:../presentation-widget-api
+        version: link:../widget-api
 
-  packages/presentation-rendering:
+  packages/rendering:
     dependencies:
-      presentation-domain:
+      '@presentation/domain':
         specifier: workspace:*
-        version: link:../presentation-domain
-      presentation-state:
+        version: link:../domain
+      '@presentation/state':
         specifier: workspace:*
-        version: link:../presentation-state
-      presentation-widget-api:
+        version: link:../state
+      '@presentation/widget-api':
         specifier: workspace:*
-        version: link:../presentation-widget-api
+        version: link:../widget-api
 
-  packages/presentation-runtime:
+  packages/runtime:
     dependencies:
-      presentation-commands:
+      '@presentation/commands':
         specifier: workspace:*
-        version: link:../presentation-commands
-      presentation-domain:
+        version: link:../commands
+      '@presentation/domain':
         specifier: workspace:*
-        version: link:../presentation-domain
-      presentation-events:
+        version: link:../domain
+      '@presentation/events':
         specifier: workspace:*
-        version: link:../presentation-events
-      presentation-state:
+        version: link:../events
+      '@presentation/state':
         specifier: workspace:*
-        version: link:../presentation-state
+        version: link:../state
 
-  packages/presentation-serialization:
+  packages/serialization:
     dependencies:
-      presentation-domain:
+      '@presentation/domain':
         specifier: workspace:*
-        version: link:../presentation-domain
-      presentation-state:
+        version: link:../domain
+      '@presentation/state':
         specifier: workspace:*
-        version: link:../presentation-state
+        version: link:../state
 
-  packages/presentation-state:
+  packages/state:
     dependencies:
-      presentation-domain:
+      '@presentation/domain':
         specifier: workspace:*
-        version: link:../presentation-domain
-      presentation-events:
+        version: link:../domain
+      '@presentation/events':
         specifier: workspace:*
-        version: link:../presentation-events
+        version: link:../events
 
-  packages/presentation-testing:
+  packages/testing:
     dependencies:
-      presentation-commands:
+      '@presentation/commands':
         specifier: workspace:*
-        version: link:../presentation-commands
-      presentation-domain:
+        version: link:../commands
+      '@presentation/domain':
         specifier: workspace:*
-        version: link:../presentation-domain
-      presentation-runtime:
+        version: link:../domain
+      '@presentation/runtime':
         specifier: workspace:*
-        version: link:../presentation-runtime
+        version: link:../runtime
 
-  packages/presentation-widget-api:
+  packages/widget-api:
     dependencies:
-      presentation-domain:
+      '@presentation/domain':
         specifier: workspace:*
-        version: link:../presentation-domain
+        version: link:../domain
 
-  packages/presentation-widgets-base:
+  packages/widgets-base:
     dependencies:
-      presentation-domain:
+      '@presentation/domain':
         specifier: workspace:*
-        version: link:../presentation-domain
-      presentation-widget-api:
+        version: link:../domain
+      '@presentation/widget-api':
         specifier: workspace:*
-        version: link:../presentation-widget-api
+        version: link:../widget-api
 
   tests/benchmarks: {}
 
   tests/integration:
     dependencies:
-      presentation-domain:
+      '@presentation/domain':
         specifier: workspace:*
-        version: link:../../packages/presentation-domain
-      presentation-runtime:
+        version: link:../../packages/domain
+      '@presentation/runtime':
         specifier: workspace:*
-        version: link:../../packages/presentation-runtime
+        version: link:../../packages/runtime
 
 packages:
 

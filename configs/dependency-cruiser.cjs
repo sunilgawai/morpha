@@ -5,22 +5,22 @@
  */
 
 const RING = {
-  0: ["presentation-domain"],
-  1: ["presentation-events", "presentation-state", "presentation-commands", "presentation-runtime"],
+  0: ["domain"],
+  1: ["events", "state", "commands", "runtime"],
   2: [
-    "presentation-widget-api",
-    "presentation-rendering",
-    "presentation-interaction",
-    "presentation-plugin-api",
-    "presentation-serialization",
-    "presentation-widgets-base",
-    "presentation-renderer-dom",
-    "presentation-renderer-canvas",
-    "presentation-renderer-ssr",
-    "presentation-export-pptx",
-    "presentation-import-pptx",
+    "widget-api",
+    "rendering",
+    "interaction",
+    "plugin-api",
+    "serialization",
+    "widgets-base",
+    "renderer-dom",
+    "renderer-canvas",
+    "renderer-ssr",
+    "export-pptx",
+    "import-pptx",
   ],
-  3: ["presentation-react", "presentation-devtools", "presentation-testing"],
+  3: ["react", "devtools", "testing"],
 };
 
 /** Match a source file belonging to one of these packages. */
@@ -28,20 +28,20 @@ const from = (names) => `^packages/(${names.join("|")})/`;
 /**
  * Match a resolved dependency target in one of these packages. pnpm resolves
  * workspace imports through node_modules symlinks, so a cross-package import
- * may surface as either `packages/<name>/…` or `node_modules/<name>/…` —
+ * may surface as either `packages/<name>/…` or `node_modules/@presentation/<name>/…` —
  * match both, or the rules silently never fire.
  */
-const to = (names) => `^(packages|node_modules)/(${names.join("|")})/`;
+const to = (names) => `^(packages|node_modules/@presentation)/(${names.join("|")})/`;
 const ALL = Object.values(RING).flat();
 
 /** Named forbidden pairs beyond the ring rule — Package-Structure.md §6. */
 const FORBIDDEN_PAIRS = [
-  ["presentation-rendering", ["presentation-commands"]],
-  ["presentation-interaction", ["presentation-commands"]], // types-only exception handled at review time
-  ["presentation-widget-api", ["presentation-commands", "presentation-rendering"]],
-  ["presentation-export-pptx", ["presentation-rendering", "presentation-commands"]],
-  ["presentation-import-pptx", ["presentation-rendering"]],
-  ["presentation-serialization", ["presentation-commands", "presentation-rendering"]],
+  ["rendering", ["commands"]],
+  ["interaction", ["commands"]], // types-only exception handled at review time
+  ["widget-api", ["commands", "rendering"]],
+  ["export-pptx", ["rendering", "commands"]],
+  ["import-pptx", ["rendering"]],
+  ["serialization", ["commands", "rendering"]],
 ];
 
 module.exports = {

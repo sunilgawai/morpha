@@ -5,7 +5,7 @@
   "type": "module",
   "description": "Cross-package integration tests",
   "dependencies": {
-    "presentation-domain": "workspace:*",
-    "presentation-runtime": "workspace:*"
+    "@presentation/domain": "workspace:*",
+    "@presentation/runtime": "workspace:*"
   }
 }

@@ -22,7 +22,7 @@ docs/architecture/   The Architecture Handbook — the source of truth for DESIG
 PLANS.md             Master implementation plan — the source of truth for EXECUTION
 TASKS.md             Active backlog (task board)
 MEMORY.md            Durable project knowledge + session notes
-packages/            19 packages projected 1:1 from Package-Structure.md 1.1.0
+packages/            19 packages (@presentation/* scope, short dirs — ADR-0009)
 examples/            Structure-only example workspaces (editor, viewer, plugins, …)
 apps/                Future deployable apps (playground, docs site)
 tests/               Cross-package integration tests, benchmarks, future e2e
@@ -34,19 +34,16 @@ configs/             Shared tsconfig presets, dependency-cruiser import law
 Packages by ring (Clean Architecture Dependency Rule, mechanically enforced
 by `pnpm lint:deps`):
 
-- **Ring 0:** `presentation-domain`
-- **Ring 1:** `presentation-events`, `presentation-state`,
-  `presentation-commands`, `presentation-runtime`
-- **Ring 2:** `presentation-widget-api`, `presentation-rendering`,
-  `presentation-interaction`, `presentation-plugin-api`,
-  `presentation-serialization`, `presentation-widgets-base`,
-  `presentation-renderer-{dom,canvas,ssr}`,
-  `presentation-{export,import}-pptx`
-- **Ring 3:** `presentation-react`, `presentation-devtools`,
-  `presentation-testing`
+- **Ring 0:** `@presentation/domain`
+- **Ring 1:** `@presentation/{events,state,commands,runtime}`
+- **Ring 2:** `@presentation/{widget-api,rendering,interaction,plugin-api,serialization,widgets-base}`,
+  `@presentation/renderer-{dom,canvas,ssr}`, `@presentation/{export,import}-pptx`
+- **Ring 3:** `@presentation/{react,devtools,testing}`
 
-`presentation-ai` and `presentation-collaboration` are catalogued by the
-handbook but deliberately **not** scaffolded — those features are deferred
+Directory names are the short form (`packages/commands`); the handbook's
+logical `presentation-*` names map 1:1 (ADR-0009). `@presentation/ai` and
+`@presentation/collaboration` are catalogued by the handbook but
+deliberately **not** scaffolded — those features are deferred
 by explicit decision (Design Principle 7), and their seams are already
 fixed by the architecture.
 
