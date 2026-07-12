@@ -1,5 +1,5 @@
 blank_issues_enabled: false
 contact_links:
   - name: Architecture Handbook
-    url: https://github.com/OWNER/slide-core/tree/main/docs/architecture
+    url: https://github.com/sunilgawai/morpha/tree/main/docs/architecture
     about: Read the handbook before filing — the Index's reading paths (§9) answer most questions.
