@@ -1,0 +1,7 @@
+{
+  "name": "example-plugin-development",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Example (structure only): a full plugin: manifest, activation events, tool + widget contributions"
+}

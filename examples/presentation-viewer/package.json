@@ -1,0 +1,7 @@
+{
+  "name": "example-presentation-viewer",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Example (structure only): a read-only viewer (no interaction layer, capability-negotiated renderer)"
+}

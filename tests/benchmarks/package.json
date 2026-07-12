@@ -1,0 +1,7 @@
+{
+  "name": "tests-benchmarks",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Performance benchmarks (budgets owned by the future Performance.md)"
+}

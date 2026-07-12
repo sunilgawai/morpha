@@ -1,0 +1,39 @@
+name: PR checks
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened, labeled, unlabeled]
+
+jobs:
+  pr-title:
+    name: Conventional Commit PR title
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Lint PR title (squash-merge commit message)
+        env:
+          TITLE: ${{ github.event.pull_request.title }}
+        run: printf "%s\n" "$TITLE" | pnpm exec commitlint
+
+  changeset:
+    name: Changeset present
+    if: "!contains(github.event.pull_request.labels.*.name, 'no-changeset')"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Require a changeset for package changes
+        run: pnpm exec changeset status --since=origin/${{ github.base_ref }}

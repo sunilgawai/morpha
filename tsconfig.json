@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "files": [],
+  "references": [
+    { "path": "packages/presentation-domain" },
+    { "path": "packages/presentation-events" },
+    { "path": "packages/presentation-state" },
+    { "path": "packages/presentation-commands" },
+    { "path": "packages/presentation-runtime" },
+    { "path": "packages/presentation-widget-api" },
+    { "path": "packages/presentation-rendering" },
+    { "path": "packages/presentation-interaction" },
+    { "path": "packages/presentation-plugin-api" },
+    { "path": "packages/presentation-serialization" },
+    { "path": "packages/presentation-widgets-base" },
+    { "path": "packages/presentation-renderer-dom" },
+    { "path": "packages/presentation-renderer-canvas" },
+    { "path": "packages/presentation-renderer-ssr" },
+    { "path": "packages/presentation-export-pptx" },
+    { "path": "packages/presentation-import-pptx" },
+    { "path": "packages/presentation-react" },
+    { "path": "packages/presentation-devtools" },
+    { "path": "packages/presentation-testing" }
+  ]
+}

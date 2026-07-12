@@ -1,0 +1,26 @@
+{
+  // Protects the Architecture Handbook (the source of truth) from formatting
+  // rot without fighting its established prose style.
+  "config": {
+    "default": true,
+    "MD013": false, // line length — handbook uses semantic wrapping incl. wide tables
+    "MD033": false, // inline HTML — used sparingly and deliberately
+    "MD040": false, // fenced blocks without language — handbook diagrams are plain fences
+    "MD024": { "siblings_only": true }, // repeated headings across sections are intentional
+    "MD036": false, // bold-as-heading used for callouts
+    "MD041": false, // some fragments (templates) don't start with an H1
+    "MD060": false, // compact table pipes (|---|---|) are the handbook convention
+    "MD052": false, // [web:123] research citations are not reference links
+    "MD026": false, // headings that end in "…, corrected 1.1.0," etc. are deliberate
+    "MD029": false // handbook ordered lists restart numbering inside sections
+  },
+  "globs": ["**/*.md"],
+  "ignores": [
+    "node_modules",
+    "**/node_modules",
+    "**/dist",
+    "CHANGELOG.md",
+    "**/CHANGELOG.md",
+    ".changeset"
+  ]
+}

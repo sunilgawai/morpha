@@ -1,0 +1,37 @@
+name: Architecture proposal
+description: Propose a change to the Architecture Handbook (ADR / Amendment / Follow-up Patch)
+labels: [architecture]
+body:
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Governance artifact required (Architecture-Index.md §11)
+      options:
+        - "ADR — reverses or supersedes an accepted decision"
+        - "Amendment Proposal — adds to or changes a finalized document"
+        - "Follow-up Patch — a small, previously-flagged addition"
+    validations:
+      required: true
+  - type: input
+    id: documents
+    attributes:
+      label: Affected architecture document(s) + sections
+      placeholder: "Command-System.md §8, State-Management.md §10"
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Context — what problem makes the current architecture insufficient?
+    validations:
+      required: true
+  - type: textarea
+    id: decision
+    attributes:
+      label: Proposed decision and its consequences (including downstream documents needing updates)
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Rejected alternatives and why

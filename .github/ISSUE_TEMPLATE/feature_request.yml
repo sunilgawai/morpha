@@ -1,0 +1,26 @@
+name: Feature request
+description: Propose new functionality within the existing architecture
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem this solves
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+    validations:
+      required: true
+  - type: dropdown
+    id: fits
+    attributes:
+      label: Does this fit the current architecture?
+      options:
+        - "Yes — it uses existing extension points / contracts"
+        - "Unsure"
+        - "No — it likely needs an Architecture Proposal instead"
+    validations:
+      required: true

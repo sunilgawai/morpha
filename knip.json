@@ -1,0 +1,26 @@
+{
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "workspaces": {
+    ".": {
+      "entry": ["scripts/*.mjs"],
+      "project": ["scripts/**"],
+      "ignoreDependencies": ["fast-check", "@swc/core", "lefthook"]
+    },
+    "packages/*": {
+      "entry": ["test/**/*.test.ts"],
+      "project": ["src/**", "test/**"]
+    },
+    "examples/*": {
+      "entry": ["src/main.ts"],
+      "project": ["src/**"]
+    },
+    "tests/integration": {
+      "entry": ["**/*.test.ts"],
+      "project": ["**/*.ts"]
+    },
+    "tests/benchmarks": {
+      "entry": ["**/*.bench.ts"],
+      "project": ["**/*.ts"]
+    }
+  }
+}

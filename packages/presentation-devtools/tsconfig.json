@@ -1,0 +1,22 @@
+{
+  "extends": "../../configs/typescript/tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "dist/tsc",
+    "rootDir": "."
+  },
+  "include": ["src", "test"],
+  "references": [
+    {
+      "path": "../presentation-runtime"
+    },
+    {
+      "path": "../presentation-events"
+    },
+    {
+      "path": "../presentation-commands"
+    },
+    {
+      "path": "../presentation-plugin-api"
+    }
+  ]
+}

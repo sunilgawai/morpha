@@ -1,0 +1,7 @@
+{
+  "name": "example-renderer-integration",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Example (structure only): implementing a custom RendererAdapter from scratch"
+}

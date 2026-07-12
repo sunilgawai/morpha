@@ -1,0 +1,7 @@
+{
+  "name": "example-basic-editor",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Example (structure only): a minimal interactive editor built on presentation-runtime + presentation-renderer-dom + presentation-react"
+}
