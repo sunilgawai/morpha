@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
 import { DECLARED_DEPENDENCIES, PACKAGE_NAME } from "../src/index";
 
-describe("@presentation/domain (placeholder)", () => {
+describe("@morpha/domain (placeholder)", () => {
   it("exports its package name", () => {
-    expect(PACKAGE_NAME).toBe("@presentation/domain");
+    expect(PACKAGE_NAME).toBe("@morpha/domain");
   });
 
   it("declares its Package-Structure.md dependency edges", () => {

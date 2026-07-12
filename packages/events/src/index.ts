@@ -1,12 +1,12 @@
 /**
- * @presentation/events — placeholder package. No engine implementation yet.
+ * @morpha/events — placeholder package. No engine implementation yet.
  *
  * Owning architecture document: docs/architecture/runtime/Event-System.md
  * Package contract: docs/architecture/packages/Package-Structure.md (Ring 1)
  */
-import { PACKAGE_NAME as depDomain } from "@presentation/domain";
+import { PACKAGE_NAME as depDomain } from "@morpha/domain";
 
-export const PACKAGE_NAME: "@presentation/events" = "@presentation/events";
+export const PACKAGE_NAME: "@morpha/events" = "@morpha/events";
 
 /** The dependency edges declared by Package-Structure.md 1.1.0, made real so
  * that dependency-cruiser and knip validate the actual graph from day one. */

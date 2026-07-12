@@ -1,4 +1,4 @@
-# @presentation/plugin-api
+# @morpha/plugin-api
 
 **Ring 2** · **Status: placeholder — no implementation yet**
 

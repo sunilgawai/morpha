@@ -1,13 +1,13 @@
 /**
- * @presentation/widgets-base — placeholder package. No engine implementation yet.
+ * @morpha/widgets-base — placeholder package. No engine implementation yet.
  *
  * Owning architecture document: docs/architecture/widgets/Widget-System.md
  * Package contract: docs/architecture/packages/Package-Structure.md (Ring 2)
  */
-import { PACKAGE_NAME as depDomain } from "@presentation/domain";
-import { PACKAGE_NAME as depWidgetApi } from "@presentation/widget-api";
+import { PACKAGE_NAME as depDomain } from "@morpha/domain";
+import { PACKAGE_NAME as depWidgetApi } from "@morpha/widget-api";
 
-export const PACKAGE_NAME: "@presentation/widgets-base" = "@presentation/widgets-base";
+export const PACKAGE_NAME: "@morpha/widgets-base" = "@morpha/widgets-base";
 
 /** The dependency edges declared by Package-Structure.md 1.1.0, made real so
  * that dependency-cruiser and knip validate the actual graph from day one. */

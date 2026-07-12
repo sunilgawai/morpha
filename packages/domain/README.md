@@ -1,4 +1,4 @@
-# @presentation/domain
+# @morpha/domain
 
 **Ring 0** · **Status: placeholder — no implementation yet**
 

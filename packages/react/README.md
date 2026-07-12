@@ -1,4 +1,4 @@
-# @presentation/react
+# @morpha/react
 
 **Ring 3** · **Status: placeholder — no implementation yet**
 

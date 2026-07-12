@@ -1,4 +1,4 @@
-# @presentation/rendering
+# @morpha/rendering
 
 **Ring 2** · **Status: placeholder — no implementation yet**
 

@@ -1,4 +1,4 @@
-# @presentation/devtools
+# @morpha/devtools
 
 **Ring 3** · **Status: placeholder — no implementation yet**
 

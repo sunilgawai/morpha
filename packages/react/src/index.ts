@@ -1,15 +1,15 @@
 /**
- * @presentation/react — placeholder package. No engine implementation yet.
+ * @morpha/react — placeholder package. No engine implementation yet.
  *
  * Owning architecture document: docs/architecture/packages/Package-Structure.md
  * Package contract: docs/architecture/packages/Package-Structure.md (Ring 3)
  */
 
-import { PACKAGE_NAME as depInteraction } from "@presentation/interaction";
-import { PACKAGE_NAME as depRendering } from "@presentation/rendering";
-import { PACKAGE_NAME as depRuntime } from "@presentation/runtime";
+import { PACKAGE_NAME as depInteraction } from "@morpha/interaction";
+import { PACKAGE_NAME as depRendering } from "@morpha/rendering";
+import { PACKAGE_NAME as depRuntime } from "@morpha/runtime";
 
-export const PACKAGE_NAME: "@presentation/react" = "@presentation/react";
+export const PACKAGE_NAME: "@morpha/react" = "@morpha/react";
 
 /** The dependency edges declared by Package-Structure.md 1.1.0, made real so
  * that dependency-cruiser and knip validate the actual graph from day one. */

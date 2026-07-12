@@ -1,5 +1,5 @@
 {
-  "name": "@presentation/widget-api",
+  "name": "@morpha/widget-api",
   "version": "0.0.0",
   "private": true,
   "description": "Presentation Engine — widget-api (Ring 2). Placeholder; see docs/architecture/widgets/Widget-System.md.",
@@ -32,6 +32,6 @@
     "clean": "rm -rf dist *.tsbuildinfo"
   },
   "dependencies": {
-    "@presentation/domain": "workspace:*"
+    "@morpha/domain": "workspace:*"
   }
 }

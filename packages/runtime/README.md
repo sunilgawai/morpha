@@ -1,4 +1,4 @@
-# @presentation/runtime
+# @morpha/runtime
 
 **Ring 1** · **Status: placeholder — no implementation yet**
 

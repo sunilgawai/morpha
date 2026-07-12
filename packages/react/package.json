@@ -1,5 +1,5 @@
 {
-  "name": "@presentation/react",
+  "name": "@morpha/react",
   "version": "0.0.0",
   "private": true,
   "description": "Presentation Engine — react (Ring 3). Placeholder; see docs/architecture/packages/Package-Structure.md.",
@@ -32,8 +32,8 @@
     "clean": "rm -rf dist *.tsbuildinfo"
   },
   "dependencies": {
-    "@presentation/runtime": "workspace:*",
-    "@presentation/rendering": "workspace:*",
-    "@presentation/interaction": "workspace:*"
+    "@morpha/runtime": "workspace:*",
+    "@morpha/rendering": "workspace:*",
+    "@morpha/interaction": "workspace:*"
   }
 }

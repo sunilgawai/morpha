@@ -1,5 +1,5 @@
 {
-  "name": "@presentation/rendering",
+  "name": "@morpha/rendering",
   "version": "0.0.0",
   "private": true,
   "description": "Presentation Engine — rendering (Ring 2). Placeholder; see docs/architecture/rendering/Rendering-Architecture.md.",
@@ -32,8 +32,8 @@
     "clean": "rm -rf dist *.tsbuildinfo"
   },
   "dependencies": {
-    "@presentation/domain": "workspace:*",
-    "@presentation/state": "workspace:*",
-    "@presentation/widget-api": "workspace:*"
+    "@morpha/domain": "workspace:*",
+    "@morpha/state": "workspace:*",
+    "@morpha/widget-api": "workspace:*"
   }
 }

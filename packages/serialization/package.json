@@ -1,5 +1,5 @@
 {
-  "name": "@presentation/serialization",
+  "name": "@morpha/serialization",
   "version": "0.0.0",
   "private": true,
   "description": "Presentation Engine — serialization (Ring 2). Placeholder; see docs/architecture/persistence/Serialization.md.",
@@ -32,7 +32,7 @@
     "clean": "rm -rf dist *.tsbuildinfo"
   },
   "dependencies": {
-    "@presentation/domain": "workspace:*",
-    "@presentation/state": "workspace:*"
+    "@morpha/domain": "workspace:*",
+    "@morpha/state": "workspace:*"
   }
 }

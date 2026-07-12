@@ -1,11 +1,11 @@
-# slide-core
+# morpha
 
 > **Status: architecture finalized · implementation starting.** The
 > [Architecture Handbook](docs/architecture/Architecture-Index.md) is
 > complete and reconciled (v1.1.0, ADR-0001…0007); packages are placeholders
 > awaiting Phase 1 (see [ROADMAP.md](ROADMAP.md)).
 
-**slide-core** is a Presentation Domain Engine — a framework-agnostic,
+**morpha** is a Presentation Domain Engine — a framework-agnostic,
 format-agnostic core for creating, editing, rendering, importing, and
 exporting visual documents composed of positioned widgets on pages. It is
 the substrate that slide editors, pitch-deck builders, whiteboards,
@@ -22,7 +22,7 @@ docs/architecture/   The Architecture Handbook — the source of truth for DESIG
 PLANS.md             Master implementation plan — the source of truth for EXECUTION
 TASKS.md             Active backlog (task board)
 MEMORY.md            Durable project knowledge + session notes
-packages/            19 packages (@presentation/* scope, short dirs — ADR-0009)
+packages/            19 packages (@morpha/* scope, short dirs — ADR-0009)
 examples/            Structure-only example workspaces (editor, viewer, plugins, …)
 apps/                Future deployable apps (playground, docs site)
 tests/               Cross-package integration tests, benchmarks, future e2e
@@ -34,15 +34,15 @@ configs/             Shared tsconfig presets, dependency-cruiser import law
 Packages by ring (Clean Architecture Dependency Rule, mechanically enforced
 by `pnpm lint:deps`):
 
-- **Ring 0:** `@presentation/domain`
-- **Ring 1:** `@presentation/{events,state,commands,runtime}`
-- **Ring 2:** `@presentation/{widget-api,rendering,interaction,plugin-api,serialization,widgets-base}`,
-  `@presentation/renderer-{dom,canvas,ssr}`, `@presentation/{export,import}-pptx`
-- **Ring 3:** `@presentation/{react,devtools,testing}`
+- **Ring 0:** `@morpha/domain`
+- **Ring 1:** `@morpha/{events,state,commands,runtime}`
+- **Ring 2:** `@morpha/{widget-api,rendering,interaction,plugin-api,serialization,widgets-base}`,
+  `@morpha/renderer-{dom,canvas,ssr}`, `@morpha/{export,import}-pptx`
+- **Ring 3:** `@morpha/{react,devtools,testing}`
 
 Directory names are the short form (`packages/commands`); the handbook's
-logical `presentation-*` names map 1:1 (ADR-0009). `@presentation/ai` and
-`@presentation/collaboration` are catalogued by the handbook but
+logical `presentation-*` names map 1:1 (ADR-0009). `@morpha/ai` and
+`@morpha/collaboration` are catalogued by the handbook but
 deliberately **not** scaffolded — those features are deferred
 by explicit decision (Design Principle 7), and their seams are already
 fixed by the architecture.

@@ -1,4 +1,4 @@
-# @presentation/renderer-canvas
+# @morpha/renderer-canvas
 
 **Ring 2** · **Status: placeholder — no implementation yet**
 

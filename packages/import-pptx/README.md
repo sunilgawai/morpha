@@ -1,4 +1,4 @@
-# @presentation/import-pptx
+# @morpha/import-pptx
 
 **Ring 2** · **Status: placeholder — no implementation yet**
 

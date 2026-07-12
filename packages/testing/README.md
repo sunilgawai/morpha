@@ -1,4 +1,4 @@
-# @presentation/testing
+# @morpha/testing
 
 **Ring 3** · **Status: placeholder — no implementation yet**
 

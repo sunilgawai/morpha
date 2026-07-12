@@ -1,5 +1,5 @@
 {
-  "name": "@presentation/runtime",
+  "name": "@morpha/runtime",
   "version": "0.0.0",
   "private": true,
   "description": "Presentation Engine — runtime (Ring 1). Placeholder; see docs/architecture/runtime/Engine-Lifecycle.md.",
@@ -32,9 +32,9 @@
     "clean": "rm -rf dist *.tsbuildinfo"
   },
   "dependencies": {
-    "@presentation/domain": "workspace:*",
-    "@presentation/events": "workspace:*",
-    "@presentation/state": "workspace:*",
-    "@presentation/commands": "workspace:*"
+    "@morpha/domain": "workspace:*",
+    "@morpha/events": "workspace:*",
+    "@morpha/state": "workspace:*",
+    "@morpha/commands": "workspace:*"
   }
 }

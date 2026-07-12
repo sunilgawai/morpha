@@ -1,4 +1,4 @@
-# @presentation/widget-api
+# @morpha/widget-api
 
 **Ring 2** · **Status: placeholder — no implementation yet**
 

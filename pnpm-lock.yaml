@@ -80,28 +80,28 @@ importers:
 
   packages/commands:
     dependencies:
-      '@presentation/domain':
+      '@morpha/domain':
         specifier: workspace:*
         version: link:../domain
-      '@presentation/events':
+      '@morpha/events':
         specifier: workspace:*
         version: link:../events
-      '@presentation/state':
+      '@morpha/state':
         specifier: workspace:*
         version: link:../state
 
   packages/devtools:
     dependencies:
-      '@presentation/commands':
+      '@morpha/commands':
         specifier: workspace:*
         version: link:../commands
-      '@presentation/events':
+      '@morpha/events':
         specifier: workspace:*
         version: link:../events
-      '@presentation/plugin-api':
+      '@morpha/plugin-api':
         specifier: workspace:*
         version: link:../plugin-api
-      '@presentation/runtime':
+      '@morpha/runtime':
         specifier: workspace:*
         version: link:../runtime
 
@@ -109,181 +109,181 @@ importers:
 
   packages/events:
     dependencies:
-      '@presentation/domain':
+      '@morpha/domain':
         specifier: workspace:*
         version: link:../domain
 
   packages/export-pptx:
     dependencies:
-      '@presentation/domain':
+      '@morpha/domain':
         specifier: workspace:*
         version: link:../domain
-      '@presentation/plugin-api':
+      '@morpha/plugin-api':
         specifier: workspace:*
         version: link:../plugin-api
-      '@presentation/serialization':
+      '@morpha/serialization':
         specifier: workspace:*
         version: link:../serialization
 
   packages/import-pptx:
     dependencies:
-      '@presentation/commands':
+      '@morpha/commands':
         specifier: workspace:*
         version: link:../commands
-      '@presentation/domain':
+      '@morpha/domain':
         specifier: workspace:*
         version: link:../domain
-      '@presentation/plugin-api':
+      '@morpha/plugin-api':
         specifier: workspace:*
         version: link:../plugin-api
 
   packages/interaction:
     dependencies:
-      '@presentation/domain':
+      '@morpha/domain':
         specifier: workspace:*
         version: link:../domain
-      '@presentation/events':
+      '@morpha/events':
         specifier: workspace:*
         version: link:../events
-      '@presentation/rendering':
+      '@morpha/rendering':
         specifier: workspace:*
         version: link:../rendering
 
   packages/plugin-api:
     dependencies:
-      '@presentation/commands':
+      '@morpha/commands':
         specifier: workspace:*
         version: link:../commands
-      '@presentation/domain':
+      '@morpha/domain':
         specifier: workspace:*
         version: link:../domain
-      '@presentation/interaction':
+      '@morpha/interaction':
         specifier: workspace:*
         version: link:../interaction
-      '@presentation/rendering':
+      '@morpha/rendering':
         specifier: workspace:*
         version: link:../rendering
-      '@presentation/widget-api':
+      '@morpha/widget-api':
         specifier: workspace:*
         version: link:../widget-api
 
   packages/react:
     dependencies:
-      '@presentation/interaction':
+      '@morpha/interaction':
         specifier: workspace:*
         version: link:../interaction
-      '@presentation/rendering':
+      '@morpha/rendering':
         specifier: workspace:*
         version: link:../rendering
-      '@presentation/runtime':
+      '@morpha/runtime':
         specifier: workspace:*
         version: link:../runtime
 
   packages/renderer-canvas:
     dependencies:
-      '@presentation/domain':
+      '@morpha/domain':
         specifier: workspace:*
         version: link:../domain
-      '@presentation/rendering':
+      '@morpha/rendering':
         specifier: workspace:*
         version: link:../rendering
-      '@presentation/widget-api':
+      '@morpha/widget-api':
         specifier: workspace:*
         version: link:../widget-api
 
   packages/renderer-dom:
     dependencies:
-      '@presentation/domain':
+      '@morpha/domain':
         specifier: workspace:*
         version: link:../domain
-      '@presentation/rendering':
+      '@morpha/rendering':
         specifier: workspace:*
         version: link:../rendering
-      '@presentation/widget-api':
+      '@morpha/widget-api':
         specifier: workspace:*
         version: link:../widget-api
 
   packages/renderer-ssr:
     dependencies:
-      '@presentation/domain':
+      '@morpha/domain':
         specifier: workspace:*
         version: link:../domain
-      '@presentation/rendering':
+      '@morpha/rendering':
         specifier: workspace:*
         version: link:../rendering
-      '@presentation/widget-api':
+      '@morpha/widget-api':
         specifier: workspace:*
         version: link:../widget-api
 
   packages/rendering:
     dependencies:
-      '@presentation/domain':
+      '@morpha/domain':
         specifier: workspace:*
         version: link:../domain
-      '@presentation/state':
+      '@morpha/state':
         specifier: workspace:*
         version: link:../state
-      '@presentation/widget-api':
+      '@morpha/widget-api':
         specifier: workspace:*
         version: link:../widget-api
 
   packages/runtime:
     dependencies:
-      '@presentation/commands':
+      '@morpha/commands':
         specifier: workspace:*
         version: link:../commands
-      '@presentation/domain':
+      '@morpha/domain':
         specifier: workspace:*
         version: link:../domain
-      '@presentation/events':
+      '@morpha/events':
         specifier: workspace:*
         version: link:../events
-      '@presentation/state':
+      '@morpha/state':
         specifier: workspace:*
         version: link:../state
 
   packages/serialization:
     dependencies:
-      '@presentation/domain':
+      '@morpha/domain':
         specifier: workspace:*
         version: link:../domain
-      '@presentation/state':
+      '@morpha/state':
         specifier: workspace:*
         version: link:../state
 
   packages/state:
     dependencies:
-      '@presentation/domain':
+      '@morpha/domain':
         specifier: workspace:*
         version: link:../domain
-      '@presentation/events':
+      '@morpha/events':
         specifier: workspace:*
         version: link:../events
 
   packages/testing:
     dependencies:
-      '@presentation/commands':
+      '@morpha/commands':
         specifier: workspace:*
         version: link:../commands
-      '@presentation/domain':
+      '@morpha/domain':
         specifier: workspace:*
         version: link:../domain
-      '@presentation/runtime':
+      '@morpha/runtime':
         specifier: workspace:*
         version: link:../runtime
 
   packages/widget-api:
     dependencies:
-      '@presentation/domain':
+      '@morpha/domain':
         specifier: workspace:*
         version: link:../domain
 
   packages/widgets-base:
     dependencies:
-      '@presentation/domain':
+      '@morpha/domain':
         specifier: workspace:*
         version: link:../domain
-      '@presentation/widget-api':
+      '@morpha/widget-api':
         specifier: workspace:*
         version: link:../widget-api
 
@@ -291,10 +291,10 @@ importers:
 
   tests/integration:
     dependencies:
-      '@presentation/domain':
+      '@morpha/domain':
         specifier: workspace:*
         version: link:../../packages/domain
-      '@presentation/runtime':
+      '@morpha/runtime':
         specifier: workspace:*
         version: link:../../packages/runtime
 

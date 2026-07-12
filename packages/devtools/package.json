@@ -1,5 +1,5 @@
 {
-  "name": "@presentation/devtools",
+  "name": "@morpha/devtools",
   "version": "0.0.0",
   "private": true,
   "description": "Presentation Engine — devtools (Ring 3). Placeholder; see docs/architecture/packages/Package-Structure.md.",
@@ -32,9 +32,9 @@
     "clean": "rm -rf dist *.tsbuildinfo"
   },
   "dependencies": {
-    "@presentation/runtime": "workspace:*",
-    "@presentation/events": "workspace:*",
-    "@presentation/commands": "workspace:*",
-    "@presentation/plugin-api": "workspace:*"
+    "@morpha/runtime": "workspace:*",
+    "@morpha/events": "workspace:*",
+    "@morpha/commands": "workspace:*",
+    "@morpha/plugin-api": "workspace:*"
   }
 }

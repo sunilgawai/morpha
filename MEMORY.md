@@ -62,7 +62,7 @@ per major piece of work; they settle most debates before they start.
 | License: MIT | LICENSE, user decision 2026-07-12 |
 | npm names: bare, exactly as Package-Structure.md records; packages `private: true` until a publishing ADR | ADR-0008 |
 | `presentation-ai` / `presentation-collaboration` deliberately not scaffolded | README, Principle 7 |
-| 2026-07-13 — Short package dirs + `@presentation/*` npm scope (supersedes ADR-0008 bare names) | ADR-0009 |
+| 2026-07-13 — Short package dirs + `@morpha/*` npm scope (supersedes ADR-0008 bare names) | ADR-0009 |
 
 ## Architectural Invariants (never violate — enforcement copy in CLAUDE.md)
 
@@ -94,7 +94,7 @@ per major piece of work; they settle most debates before they start.
   `Snapshot`. Don't invent synonyms; if a concept has no handbook name,
   that's a governance conversation.
 - Packages (ADR-0009): handbook logical name `presentation-<x>` = npm
-  `@presentation/<x>` = directory `packages/<x>`, mapped 1:1. Bare short
+  `@morpha/<x>` = directory `packages/<x>`, mapped 1:1. Bare short
   npm names were rejected (`react`/`events` collisions).
 - Commit scopes: package short-names (`domain`, `state`, `renderer-dom`,…)
   plus `docs`, `repo`, `ci`, `examples`, `deps`, `release`
@@ -214,9 +214,20 @@ core). Next real work: Phase 1 (`presentation-domain`), tasks T-001…T-005.
 
 Owner found `presentation-*` directory names redundant. Renamed all 19
 packages: dirs to short form (`packages/commands`), npm names to
-`@presentation/<short>`. Literal bare names were impossible (`react`,
+`@morpha/<short>`. Literal bare names were impossible (`react`,
 `events` collisions). Handbook prose untouched — Package-Structure.md 1.2.0
 defines the three-form mapping. Import law re-negative-tested under scoped
-`node_modules/@presentation/` paths. Gotcha learned: `git checkout -- <dir>`
+`node_modules/@morpha/` paths. Gotcha learned: `git checkout -- <dir>`
 after `git mv` restores mv-time content and silently reverts unstaged
 rewrites — re-verify after using it.
+
+### 2026-07-13 — Project named "morpha" (ADR-0010)
+
+Owner named the project **morpha**; npm scope is now `@morpha/*` (root
+package `morpha`, repo directory still `slide-core` on disk). Handbook
+logical names (`presentation-*`) unchanged; Package-Structure.md 1.3.0
+updates the mapping. Owner's examples `@morpha/widgets` / `@morpha/pptx`
+were treated as illustrative — `widgets-base` and the separate
+`export-pptx`/`import-pptx` packages were kept (the split is deliberate,
+Package-Structure.md §3); flagged to the owner for follow-up if a real
+rename/merge is wanted.

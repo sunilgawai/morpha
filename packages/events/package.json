@@ -1,5 +1,5 @@
 {
-  "name": "@presentation/events",
+  "name": "@morpha/events",
   "version": "0.0.0",
   "private": true,
   "description": "Presentation Engine — events (Ring 1). Placeholder; see docs/architecture/runtime/Event-System.md.",
@@ -32,6 +32,6 @@
     "clean": "rm -rf dist *.tsbuildinfo"
   },
   "dependencies": {
-    "@presentation/domain": "workspace:*"
+    "@morpha/domain": "workspace:*"
   }
 }

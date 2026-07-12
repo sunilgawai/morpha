@@ -1,8 +1,8 @@
 {
-  "name": "slide-core",
+  "name": "morpha",
   "version": "0.0.0",
   "private": true,
-  "description": "Presentation Domain Engine — monorepo root. See docs/architecture/Architecture-Index.md.",
+  "description": "morpha — the Presentation Domain Engine. See docs/architecture/Architecture-Index.md.",
   "license": "MIT",
   "type": "module",
   "packageManager": "pnpm@10.32.1",

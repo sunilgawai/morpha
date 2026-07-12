@@ -1,5 +1,5 @@
 {
-  "name": "@presentation/testing",
+  "name": "@morpha/testing",
   "version": "0.0.0",
   "private": true,
   "description": "Presentation Engine — testing (Ring 3). Placeholder; see docs/architecture/packages/Package-Structure.md.",
@@ -32,8 +32,8 @@
     "clean": "rm -rf dist *.tsbuildinfo"
   },
   "dependencies": {
-    "@presentation/domain": "workspace:*",
-    "@presentation/runtime": "workspace:*",
-    "@presentation/commands": "workspace:*"
+    "@morpha/domain": "workspace:*",
+    "@morpha/runtime": "workspace:*",
+    "@morpha/commands": "workspace:*"
   }
 }

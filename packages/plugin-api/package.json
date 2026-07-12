@@ -1,5 +1,5 @@
 {
-  "name": "@presentation/plugin-api",
+  "name": "@morpha/plugin-api",
   "version": "0.0.0",
   "private": true,
   "description": "Presentation Engine — plugin-api (Ring 2). Placeholder; see docs/architecture/plugins/Plugin-System.md.",
@@ -32,10 +32,10 @@
     "clean": "rm -rf dist *.tsbuildinfo"
   },
   "dependencies": {
-    "@presentation/domain": "workspace:*",
-    "@presentation/commands": "workspace:*",
-    "@presentation/widget-api": "workspace:*",
-    "@presentation/rendering": "workspace:*",
-    "@presentation/interaction": "workspace:*"
+    "@morpha/domain": "workspace:*",
+    "@morpha/commands": "workspace:*",
+    "@morpha/widget-api": "workspace:*",
+    "@morpha/rendering": "workspace:*",
+    "@morpha/interaction": "workspace:*"
   }
 }

@@ -1,16 +1,16 @@
 import { describe, expect, it } from "vitest";
 import { DECLARED_DEPENDENCIES, PACKAGE_NAME } from "../src/index";
 
-describe("@presentation/export-pptx (placeholder)", () => {
+describe("@morpha/export-pptx (placeholder)", () => {
   it("exports its package name", () => {
-    expect(PACKAGE_NAME).toBe("@presentation/export-pptx");
+    expect(PACKAGE_NAME).toBe("@morpha/export-pptx");
   });
 
   it("declares its Package-Structure.md dependency edges", () => {
     expect(DECLARED_DEPENDENCIES).toEqual([
-      "@presentation/domain",
-      "@presentation/serialization",
-      "@presentation/plugin-api",
+      "@morpha/domain",
+      "@morpha/serialization",
+      "@morpha/plugin-api",
     ]);
   });
 });

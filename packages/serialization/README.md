@@ -1,4 +1,4 @@
-# @presentation/serialization
+# @morpha/serialization
 
 **Ring 2** · **Status: placeholder — no implementation yet**
 

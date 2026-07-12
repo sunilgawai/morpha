@@ -1,4 +1,4 @@
-# @presentation/export-pptx
+# @morpha/export-pptx
 
 **Ring 2** · **Status: placeholder — no implementation yet**
 

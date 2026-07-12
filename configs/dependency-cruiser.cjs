@@ -28,10 +28,10 @@ const from = (names) => `^packages/(${names.join("|")})/`;
 /**
  * Match a resolved dependency target in one of these packages. pnpm resolves
  * workspace imports through node_modules symlinks, so a cross-package import
- * may surface as either `packages/<name>/…` or `node_modules/@presentation/<name>/…` —
+ * may surface as either `packages/<name>/…` or `node_modules/@morpha/<name>/…` —
  * match both, or the rules silently never fire.
  */
-const to = (names) => `^(packages|node_modules/@presentation)/(${names.join("|")})/`;
+const to = (names) => `^(packages|node_modules/@morpha)/(${names.join("|")})/`;
 const ALL = Object.values(RING).flat();
 
 /** Named forbidden pairs beyond the ring rule — Package-Structure.md §6. */

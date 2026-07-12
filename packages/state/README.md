@@ -1,4 +1,4 @@
-# @presentation/state
+# @morpha/state
 
 **Ring 1** · **Status: placeholder — no implementation yet**
 

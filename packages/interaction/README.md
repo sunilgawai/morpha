@@ -1,4 +1,4 @@
-# @presentation/interaction
+# @morpha/interaction
 
 **Ring 2** · **Status: placeholder — no implementation yet**
 
