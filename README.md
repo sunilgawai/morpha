@@ -18,7 +18,10 @@ Start with the handbook: **[docs/architecture/Architecture-Index.md](docs/archit
 ## Monorepo map
 
 ```
-docs/architecture/   The Architecture Handbook — the source of truth (+ adr/)
+docs/architecture/   The Architecture Handbook — the source of truth for DESIGN (+ adr/)
+PLANS.md             Master implementation plan — the source of truth for EXECUTION
+TASKS.md             Active backlog (task board)
+MEMORY.md            Durable project knowledge + session notes
 packages/            19 packages projected 1:1 from Package-Structure.md 1.1.0
 examples/            Structure-only example workspaces (editor, viewer, plugins, …)
 apps/                Future deployable apps (playground, docs site)

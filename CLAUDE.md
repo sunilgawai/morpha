@@ -11,6 +11,19 @@ It is **architecture-first**: every structural decision is recorded in the
 Architecture Handbook at `docs/architecture/`, reconciled and versioned.
 The handbook is the source of truth; this repository is its implementation.
 
+Three execution documents complement the handbook — keep them current
+**in the same PR as the work they describe**:
+
+- **PLANS.md** — phases, milestones, quality gates, definition of done.
+  Check which phase is active and whether its gate items are met before
+  starting a layer.
+- **TASKS.md** — the live backlog. Pick work from *Ready*, move it to
+  *In Progress* (WIP ≤ 3), record the PR ref on completion. Never reuse
+  task IDs.
+- **MEMORY.md** — durable project knowledge and the append-only Session
+  Notes log. Read it at session start; append a short entry after any
+  session that decides something or discovers a gotcha.
+
 ## The prime directive
 
 **The handbook wins.** Before working on anything:
