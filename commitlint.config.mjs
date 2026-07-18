@@ -31,6 +31,7 @@ export default {
         "docs",
         "repo",
         "ci",
+        "apps",
         "examples",
         "deps",
         "release",

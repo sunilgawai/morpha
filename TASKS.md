@@ -103,3 +103,4 @@ in the [handbook](docs/architecture/Architecture-Index.md), never here.
 | T-000a | Architecture reconciliation: ADR-0001…0007, all docs → 1.1.0, State-Management.md, truthful Index | 2026-07-12 | docs/architecture/adr/ |
 | T-000b | Repository bootstrap: workspace, 19 packages, import law, toolchain, CI, governance surface (Phase 0 exit) | 2026-07-13 | commit `282831f` |
 | T-000c | Execution planning system: PLANS.md, MEMORY.md, TASKS.md; ROADMAP.md → pointer | 2026-07-13 | this PR |
+| T-000d | Development environment: apps/{playground,inspector,docs}, numbered examples ladder (01–17), tests taxonomy, root scripts, DEVELOPMENT.md; ADR-0011 (DP7 scoping) | 2026-07-18 | this PR |

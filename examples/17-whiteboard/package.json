@@ -1,0 +1,7 @@
+{
+  "name": "example-17-whiteboard",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Example 17 — Whiteboard (structure only). Build a free-canvas whiteboard on the same core — the engine is agnostic to document shape."
+}

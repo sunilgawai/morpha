@@ -1,0 +1,7 @@
+{
+  "name": "example-08-custom-tool",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Example 08 — Custom Tool (structure only). Build an interaction tool as a state machine plus an Intent Interpreter — the only intent-to-Command path (ADR-0002)."
+}

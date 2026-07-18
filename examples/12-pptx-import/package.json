@@ -1,0 +1,7 @@
+{
+  "name": "example-12-pptx-import",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Example 12 — PPTX Import (structure only). Import a PPTX into a document — an importer adapter maps shapes to widgets at the boundary."
+}

@@ -1,0 +1,7 @@
+{
+  "name": "example-04-basic-editor",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Example 04 — Basic Editor (structure only). A minimal interactive editor (select, move) demonstrating the closed mutation loop — input becomes intent becomes Command."
+}

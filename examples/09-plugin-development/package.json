@@ -1,0 +1,7 @@
+{
+  "name": "example-09-plugin-development",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Example 09 — Plugin Development (structure only). Build a plugin: manifest, lazy activation, and extension points — no privileged path over third parties."
+}

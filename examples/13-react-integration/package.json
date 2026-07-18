@@ -1,0 +1,7 @@
+{
+  "name": "example-13-react-integration",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Example 13 — React Integration (structure only). Mount an editor with @morpha/react hooks — session-scoped bindings (ADR-0004)."
+}

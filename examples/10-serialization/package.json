@@ -1,0 +1,7 @@
+{
+  "name": "example-10-serialization",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Example 10 — Serialization (structure only). Save a document, load it back, and run a schema migration — canonical persistence and versioning from day one."
+}

@@ -1,0 +1,7 @@
+{
+  "name": "example-02-basic-rendering",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Example 02 — Basic Rendering (structure only). Project a document to a RenderState and render it once — renderers are stateless projections that never mutate."
+}

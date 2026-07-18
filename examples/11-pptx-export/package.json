@@ -1,0 +1,7 @@
+{
+  "name": "example-11-pptx-export",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Example 11 — PPTX Export (structure only). Export a document to PPTX — an exporter adapter converts engine units to EMU at the boundary (Principle 5)."
+}
