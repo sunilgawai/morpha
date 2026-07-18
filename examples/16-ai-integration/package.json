@@ -1,0 +1,7 @@
+{
+  "name": "example-16-ai-integration",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Example 16 — AI Integration (structure only). Drive the engine from an AI provider that emits Commands — AI is a Command-producing adapter, not a privileged path."
+}

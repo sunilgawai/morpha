@@ -231,3 +231,34 @@ were treated as illustrative — `widgets-base` and the separate
 `export-pptx`/`import-pptx` packages were kept (the split is deliberate,
 Package-Structure.md §3); flagged to the owner for follow-up if a real
 rename/merge is wanted.
+
+### 2026-07-18 — Development environment stood up (ADR-0011)
+
+Owner asked for the long-term dev environment before engine work. Built
+`apps/playground` (Vite+React daily driver → :4173), `apps/inspector`
+(read-only runtime debugger → :4174), `apps/docs` (Astro+Starlight → :4175),
+renumbered `examples/` into a 01–17 educational ladder (git-mv'd the 6
+existing dirs, created 11 new; all structure-only), and expanded `tests/`
+into a cross-package taxonomy (contract/property/golden/snapshot/regression/
+example-validation + deferred visual-regression). Root scripts `dev:*`,
+`build:apps`; `pnpm-workspace.yaml` gains `apps/*`; shared
+`configs/typescript/tsconfig.app.json`.
+
+Governance decision: **ADR-0011 scopes DP7** rather than reversing it — DP7
+forbids speculative *engine* abstractions, not the developer harness used to
+build the engine. Rewrote the bootstrap-era "apps empty by design" READMEs
+(`apps/`, `tests/`, `tests/e2e/`) to cite ADR-0011. Design-Principles.md left
+untouched (DP7's text already supports the scoping). Index not touched — the
+ADR adds no handbook doc and shifts no dependency edge.
+
+Hard invariant carried into tooling: apps/examples/tests consume **public
+`@morpha/*` exports only** (mechanically safe — packages expose only their
+`.` export). Apps are **excluded from the engine CI gate** (`build`/`typecheck`/
+`check` stay `--filter=./packages/*`) so engine correctness never depends on a
+Vite/Astro build. Docs framework = Astro+Starlight (content-first, MDX, framework-
+agnostic islands for a future embedded Playground).
+
+Gotcha: the sandbox nondeterministically strips `PATH` inside piped/loop
+subshells (`mkdir: command not found`), even with `dangerouslyDisableSandbox`.
+Workaround that worked: create all dirs in one non-loop command, then write
+files in a loop using only shell builtins (`printf` + `>` redirection).

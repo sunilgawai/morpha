@@ -1,0 +1,7 @@
+{
+  "name": "example-01-hello-presentation",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Example 01 — Hello Presentation (structure only). Construct an empty PresentationDocument and read it back — the domain model is the single source of truth."
+}

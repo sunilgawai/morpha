@@ -1,0 +1,7 @@
+{
+  "name": "example-05-commands",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Example 05 — Commands (structure only). Dispatch commands and undo/redo — Commands are the only mutation mechanism (ADR-0007)."
+}

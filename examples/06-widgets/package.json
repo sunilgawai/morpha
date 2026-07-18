@@ -1,0 +1,7 @@
+{
+  "name": "example-06-widgets",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Example 06 — Widgets (structure only). Compose a document from built-in widgets (rect, group, image) resolved through the Widget Registry."
+}

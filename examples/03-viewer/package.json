@@ -1,0 +1,7 @@
+{
+  "name": "example-03-viewer",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Example 03 — Viewer (structure only). A read-only viewer over a document via the DocumentQuery read surface — no editing, no dispatch."
+}

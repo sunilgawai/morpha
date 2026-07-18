@@ -1,7 +1,0 @@
-{
-  "name": "example-pptx-export",
-  "version": "0.0.0",
-  "private": true,
-  "type": "module",
-  "description": "Example (structure only): headless Node export of a document to PPTX"
-}

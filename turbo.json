@@ -3,8 +3,20 @@
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": ["dist/**"],
-      "inputs": ["src/**", "tsdown.config.ts", "package.json", "tsconfig.json"]
+      "outputs": ["dist/**", ".astro/**"],
+      "inputs": [
+        "src/**",
+        "tsdown.config.ts",
+        "vite.config.ts",
+        "astro.config.mjs",
+        "index.html",
+        "package.json",
+        "tsconfig.json"
+      ]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
     },
     "clean": { "cache": false }
   }

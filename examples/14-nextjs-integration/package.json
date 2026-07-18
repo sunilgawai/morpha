@@ -1,0 +1,7 @@
+{
+  "name": "example-14-nextjs-integration",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Example 14 — Next.js Integration (structure only). Use the engine inside a Next.js app — server render then hydrate, engine untouched by the framework."
+}

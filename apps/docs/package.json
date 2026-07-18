@@ -1,0 +1,18 @@
+{
+  "name": "app-docs",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "morpha documentation website — Astro + Starlight (ADR-0011).",
+  "scripts": {
+    "dev": "astro dev --port 4175",
+    "build": "astro build",
+    "preview": "astro preview --port 4175",
+    "sync": "astro sync"
+  },
+  "dependencies": {
+    "@astrojs/starlight": "^0.34.0",
+    "astro": "^5.7.0",
+    "sharp": "^0.34.0"
+  }
+}

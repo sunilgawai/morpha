@@ -11,7 +11,7 @@
       "project": ["src/**", "test/**"]
     },
     "examples/*": {
-      "entry": ["src/main.ts"],
+      "entry": ["src/index.ts"],
       "project": ["src/**"]
     },
     "tests/integration": {
