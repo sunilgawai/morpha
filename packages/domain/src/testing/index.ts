@@ -17,10 +17,13 @@
 
 export type { RecordingTextMeasurer, TestClock } from "./capabilities.js";
 export {
+  acceptingWidgetDataValidator,
   fixedClock,
   recordingTextMeasurer,
+  rejectingWidgetDataValidator,
   seededRng,
   sequentialIdGenerator,
+  stubWidgetTypeLookup,
 } from "./capabilities.js";
 export {
   CANONICAL_DOCUMENT,

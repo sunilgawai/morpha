@@ -1,7 +1,8 @@
 # @morpha/domain
 
-**Ring 0** · **Status: in progress — model, capabilities and ordering are in;
-validation is next (TASKS.md T-003, blocked on a governance decision)**
+**Ring 0** · **Status: Phase 1 code-complete** — model, capabilities, ordering,
+validation and migration contracts are all in. One governance item is open
+before Ring 1 builds on this: see PLANS.md Phase 1 gate item 6.
 
 The Presentation Domain Model. Zero dependencies — pure data types and pure
 functions only, compiling without DOM or Node libs.
@@ -24,6 +25,10 @@ functions only, compiling without DOM or Node libs.
 | `SerializedPresentationDocument`, `SerializedPage` | §3 + Serialization.md §4 |
 | `IdGenerator`, `Rng`, `Clock`, `TextMeasurer` | Design Principle 8; ADR-0005 §3; ADR-0006 |
 | `generateKeyBetween`, `generateNKeysBetween`, `compareOrdered`, `compareOrderKeys`, `Ordered` | Ordering-Strategy.md |
+| `CURRENT_SCHEMA_VERSION`, `DocumentMigration`, `MigrateDocument`, `MigrateWidgetData`, `WidgetDataMigrator`, `needsWidgetDataMigration` | Serialization.md §15; Widget-System.md §10 |
+| `UnsupportedSchemaVersionError`, `UnsupportedWidgetDataVersionError` | Serialization.md §15 |
+| `validateDocument`, `ValidationResult`, `ValidationIssue`, `ValidationIssueCode`, `mergeValidationResults`, `validResult` | Domain-Model.md §12 |
+| `WidgetTypeLookup`, `WidgetDataValidator` | ADR-0013 |
 
 ### Live shape vs. persisted shape
 
@@ -52,6 +57,34 @@ algorithm is vendored from the established reference rather than depended upon,
 since this package carries zero runtime dependencies; a committed table of the
 reference's published values keeps the two in step.
 
+### Migration contracts, not machinery
+
+The document and widget-data migration *shapes* live here; the load sequence
+that composes them is `presentation-serialization`'s (Serialization.md §10).
+`DocumentMigration` steps are single-version by construction — `to` is always
+`from + 1` — because Serialization.md §15 forbids jump migrations.
+
+`WidgetDataMigrator` is worth noting as a pattern: Ring 0 cannot reference
+`WidgetDefinition` (Ring 2), so it declares the *minimum surface it consumes*
+and the real definition satisfies it structurally. Ring 0 states its needs;
+outer rings happen to meet them.
+
+### Validation delegates and never looks inside
+
+`validateDocument` checks what Ring 0 can know — that every reference resolves,
+no `parentId` chain cycles, `schemaVersion` is current — and hands widget `data`
+to the widget's own validator without inspecting it (Domain-Model.md §12,
+Design Principle 6). Issues **accumulate** rather than throw, because a caller
+needs every problem at once to report or quarantine them (Serialization.md §11).
+
+It takes a `WidgetTypeLookup`, not Ring 2's `WidgetRegistry` — ADR-0013's port
+pattern. The engine's real registry satisfies it structurally, so callers just
+pass the registry.
+
+This is whole-document validation, for load and import only. Per-transaction
+validation is incremental and O(what-changed) (ADR-0003), and belongs to
+`presentation-state`.
+
 ## Not here
 
-`validateDocument` and the `migrate()` contract arrive with T-003 and T-004.
+Nothing from Phase 1 is outstanding. Ring 1 work begins in `@morpha/events`.

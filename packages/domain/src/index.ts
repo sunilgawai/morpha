@@ -34,6 +34,19 @@ export type {
   WidgetId,
   WidgetTypeId,
 } from "./ids.js";
+export type {
+  DocumentMigration,
+  MigrateDocument,
+  MigrateWidgetData,
+  UnknownDocument,
+  WidgetDataMigrator,
+} from "./migration.js";
+export {
+  CURRENT_SCHEMA_VERSION,
+  needsWidgetDataMigration,
+  UnsupportedSchemaVersionError,
+  UnsupportedWidgetDataVersionError,
+} from "./migration.js";
 export type { Ordered } from "./ordering.js";
 export {
   compareOrdered,
@@ -47,6 +60,15 @@ export type {
   SerializedPresentationDocument,
 } from "./serialized.js";
 export type { Theme } from "./theme.js";
+export type {
+  ValidateDocumentOptions,
+  ValidationIssue,
+  ValidationIssueCode,
+  ValidationResult,
+  WidgetDataValidator,
+  WidgetTypeLookup,
+} from "./validation.js";
+export { mergeValidationResults, validateDocument, validResult } from "./validation.js";
 export type { LayoutConstraints, WidgetInstance } from "./widget.js";
 
 export const PACKAGE_NAME: "@morpha/domain" = "@morpha/domain";

@@ -66,6 +66,7 @@ per major piece of work; they settle most debates before they start.
 | 2026-07-18 — Development applications are engineering infrastructure; DP7 scoped to engine abstractions | ADR-0011 |
 | 2026-09-12 — Test fixtures are published by the contract-owning package via `./testing` subpaths; `presentation-testing` is the Ring 2-3 surface only | ADR-0012; Package-Structure.md 1.4.0 |
 | 2026-09-12 — Testing doctrine finalized before Phase 1; release cuts v0.1-v0.3 and a two-track (code / document) execution model adopted | Testing-Strategy.md 1.0.0; PLANS.md §3.1, §4.1 |
+| 2026-09-12 — Inner rings declare structural ports for contracts they consume from outer rings; `validateDocument` takes `WidgetTypeLookup`, not `WidgetRegistry` | ADR-0013 (accepted); Domain-Model.md 1.3.0 |
 
 ## Architectural Invariants (never violate — enforcement copy in CLAUDE.md)
 
@@ -492,3 +493,81 @@ header.
 
 Next: T-004 (migration contract shapes) is the only unblocked Phase 1 task left.
 T-003 still needs the `WidgetRegistry` ring decision.
+
+### 2026-09-12 — T-004: migration contract shapes; Phase 1 one task from its gate
+
+`packages/domain/src/migration.ts` fixes the document and widget-data migration
+contracts (Serialization.md §15, Widget-System.md §10): `CURRENT_SCHEMA_VERSION`,
+`UnknownDocument`, `DocumentMigration` (single-version steps by construction),
+`MigrateDocument`, `MigrateWidgetData`, `WidgetDataMigrator`,
+`needsWidgetDataMigration`, and two typed errors. Shapes only — the load-time
+runner is `presentation-serialization`'s. 130 tests green.
+
+**Handbook contact report** (gate 8):
+
+1. **The narrow-port pattern now has working precedent, and it answers T-003.**
+   Widget-System.md §10's flow needs `def.version`/`def.migrate` from a widget
+   definition that lives in Ring 2. Rather than reach for it, Ring 0 declares
+   `WidgetDataMigrator` — the minimum surface it consumes — and the real
+   `WidgetDefinition` satisfies it structurally. This is exactly the move
+   Domain-Model.md §12's `validateDocument(doc, registry: WidgetRegistry)`
+   needs, so T-003's blocker is no longer a design question, only a governance
+   one: the pattern is proven, an ADR just has to accept it and amend §12's
+   printed signature.
+2. **A migration's input cannot be typed as the current shape.** A
+   `schemaVersion: 1` document is not today's `SerializedPresentationDocument`,
+   so `UnknownDocument` (`Record<string, unknown>`) is the honest input type and
+   only the completed chain yields the real type. Typing it otherwise would
+   force every migration author to cast their way out of a lie.
+3. **`UnsupportedSchemaVersionError` was homed here, slightly ahead of T-003's
+   "shared typed errors" scope.** Serialization.md §15 names it as part of the
+   migration contract, so the contract is incomplete without it. If T-003
+   introduces a shared error base, re-homing these two under it is a widening,
+   not a break.
+
+**Phase 1 gate status:** exit criteria are met except property row P3 and
+`validateDocument` accepting/rejecting the handbook's example documents — both
+T-003. Everything else (P1, P2, the `./testing` subpath proven from Ring 1, zero
+platform APIs, real README) is done.
+
+### 2026-09-12 — T-003: validation. Phase 1 code-complete, one gate item open
+
+ADR-0013 accepted by the owner, so the governance edits landed with the code:
+Domain-Model.md → 1.3.0, Package-Structure.md → 1.4.2, Index → 1.5.1.
+`validateDocument` ships with referential integrity, parent-cycle detection,
+theme/asset reference checks, and optional derived-cache checking. Property row
+P3 done. 163 tests green.
+
+**Handbook contact report** (gate 8):
+
+1. **`ValidationResult` was referenced by three documents and defined by none.**
+   Domain-Model.md §12, Widget-System.md §3, and Plugin-System.md §10 all name
+   it. Shape fixed in Domain-Model.md 1.3.0 (the document that owns validation),
+   with `ValidationIssue` carrying a stable machine-readable `code`, a human
+   `message`, and a `path`. Issues **accumulate rather than throw** — a caller
+   needs every problem at once to quarantine (Serialization.md §11); throwing is
+   for Engine-Lifecycle.md §9's fail-loud rows only.
+2. **Parent cycles are structurally possible and nothing said so.**
+   Domain-Model.md §5 makes grouping a flat `parentId`, which means nothing
+   prevents a cycle, and a cycle hangs every tree walk. The validator detects it
+   with a settled-set walk, so a fully cyclic document terminates instead of
+   spinning. Worth remembering when the group widget lands (T-034).
+3. **Testing-Strategy.md §6 had omitted the injected capabilities.** Hosts supply
+   their own `IdGenerator`/`Clock`/`Rng` — a coordinated scheme for
+   collaboration, a virtual clock for export — so they are third-party-implemented
+   contracts like any other and now have a row (due Phase 5).
+4. **Mutation testing earned its keep.** The property tests passed first run
+   again, so I broke the validator three ways: disabling cycle detection (4
+   tests failed), forcing `valid: true` (8 failed), and skipping the
+   cross-page-parent check (**only 1 failed** — the property generator never
+   produced that violation). Added the missing breakage, plus a guard that
+   asserts each breakage actually applied at least once, since a mutation that
+   never applies makes its property vacuously true. **Do this for every property
+   suite**: a green property test is not evidence until something has been
+   broken and seen to fail.
+
+**Phase 1 gate: 7 of 8 items met.** Gate 6 fails — the `readonly`/immutability
+question is an open governance item against the layer's owning document. Left
+open deliberately rather than quietly decided, and **Phase 2 must not start
+until it closes**, because every Ring 1 package gets written against whichever
+shape wins. T-050 tracks it and is the only Ready task.

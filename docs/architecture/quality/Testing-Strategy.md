@@ -1,7 +1,7 @@
 # Testing-Strategy.md
 
 **Status:** Major — changes require an ADR (governed by Architecture-Index.md §11)
-**Version:** 1.0.2
+**Version:** 1.0.3
 **Depends on:** Domain-Model.md, Ordering-Strategy.md, State-Management.md,
 Command-System.md, Serialization.md, Widget-System.md,
 Rendering-Architecture.md, Selection-and-Interaction.md, Plugin-System.md,
@@ -151,7 +151,7 @@ gate is not met while a row belonging to it is unimplemented.
 | --- | --- | --- | --- | --- |
 | P1 ✅ | A generated key sorts strictly between its bounds; generation never exhausts the key space; output is a total order under the id tie-break | Ordering-Strategy.md | 1 | `packages/domain` |
 | P2 ✅ | Key generation is reproducible under a seeded `Rng` and varies under different seeds (jitter is real but not ambient) | Ordering-Strategy.md; ADR-0005 §3 | 1 | `packages/domain` |
-| P3 | `validateDocument` accepts every well-formed generated document and rejects every injected referential-integrity violation | Domain-Model.md §12 | 1 | `packages/domain` |
+| P3 ✅ | `validateDocument` accepts every well-formed generated document and rejects every injected referential-integrity violation | Domain-Model.md §12 | 1 | `packages/domain` |
 | P4 | Reference identity changes for an entity **if and only if** that entity was written by the transaction | State-Management.md §2 | 3 | `packages/state` |
 | P5 | A committed transaction's ChangeSet names every written entity exactly once and nothing else; derivation cost is O(writes), not O(document) | State-Management.md §5 | 3 | `packages/state` |
 | P6 | Incremental validation of a transaction equals whole-document validation restricted to the touched set | ADR-0003 | 3–4 | `packages/state` |
@@ -205,6 +205,7 @@ at its purpose.
 | Intent interpreter registration | Selection-and-Interaction.md §15; ADR-0002 | 8 |
 | `Command` + command factory / payload migration | Command-System.md §3, §16 | 4 |
 | `TextMeasurer` | ADR-0006; Text-System.md *(pending)* | 9 |
+| `IdGenerator` / `Rng` / `Clock` | Domain-Model.md §10; Ordering-Strategy.md; Command-System.md §15 | 5 (when `EngineConfig` admits a second implementation) |
 | Importer / exporter adapters | Serialization.md §17; Import-Export.md *(pending)* | 12 |
 | Plugin manifest + activation lifecycle | Plugin-System.md | 13 |
 | `CollabProviderContribution` | Command-System.md §14 *(deferred)* | 17 |
@@ -298,6 +299,7 @@ red because a development application's build tool changed.
 
 | Version | Change | Reason |
 | --- | --- | --- |
+| 1.0.3 | P3 marked done; §6 gains a row for the injected capability contracts, which it had omitted — a host supplies its own `IdGenerator`/`Clock` (a coordinated scheme for collaboration, a virtual clock for export), so they are third-party-implemented contracts like any other | T-003 |
 | 1.0.2 | §5 rows carry a ✅ when their property test is implemented; P1 and P2 marked done (T-002) | T-002 |
 | 1.0.1 | §3.2 corrected against the implementations delivered by T-005: the sequential `IdGenerator` emits `id1`/`id2` with a configurable prefix, and the `TextMeasurer` double is a recording stub rather than table-driven, because `TextLayout` is opaque until Text-System.md exists | T-005; ADR-0006 |
 | 1.0.0 | Initial finalized version: nine test kinds and their homes; the no-DOM environment rule; fixture layering (ADR-0012) and the ban on mocking first-party modules; determinism rules for test code; the required-property-test checklist (P1–P15) and required-conformance-suite table that PLANS.md §6 gates 2–3 are measured against; golden-file policy; the definition of "passing" including invariant coverage over line coverage; CI lanes | Architecture-Index.md §12.4; PLANS.md §6 needed an operational definition before Phase 1 |
