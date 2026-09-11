@@ -1,7 +1,7 @@
 # Domain-Model.md
 
 **Status:** Core — changes require an ADR
-**Version:** 1.1.0
+**Version:** 1.2.0
 **Depends on:** Vision.md, Design-Principles.md, Ordering-Strategy.md
 
 ---
@@ -140,6 +140,17 @@ This is the mechanism that lets a text widget, a chart widget, and a future
 third-party "signature-field" widget (for a document-builder product) all be
 first-class, with the core never special-casing any of them.
 
+### `LayoutConstraints` has no shape yet (follow-up patch, 1.2.0)
+
+`constraints?: LayoutConstraints` names a type this document never defines,
+and §14 defers constraint *resolution order* to Layout-System.md without
+fixing the constrained shape. Until that document exists the type is
+**deliberately opaque** — `presentation-domain` declares it as `unknown` so
+the field can exist on `WidgetInstance` without the implementation inventing a
+shape Layout-System.md would then inherit. Narrowing it is that document's
+decision, and narrowing it is not a breaking change for any consumer that
+treats the field as opaque today.
+
 ### Why `parentId` instead of nested `children`
 
 Grouping ("these three widgets move together") is expressed as a flat
@@ -248,6 +259,7 @@ type PageId = EntityId;
 type WidgetId = EntityId;
 type AssetId = EntityId;
 type ThemeId = EntityId;
+type LayoutId = EntityId;     // referenced by Page.layoutRef (§4); registered here in 1.2.0
 type WidgetTypeId = string;   // plugin-registered key, e.g. "text" — NOT a UUID
 ```
 
@@ -347,4 +359,5 @@ derived caches `pageOrder`/`widgetOrder` are absent, rebuilt on load)
 | Version | Change | Reason |
 | --- | --- | --- |
 | 1.0.0 | Initial version | N/A |
+| 1.2.0 | Follow-up patch: `LayoutId` registered in §10's ID list (it was already referenced by `Page.layoutRef` in §4 but never declared); `LayoutConstraints` declared deliberately opaque until Layout-System.md exists, with the reasoning recorded in §5. Both gaps were found by transcribing the model into `presentation-domain` (T-001) — the first time these interfaces were compiled | Discovered during T-001; Index §11 rule 2 (follow-up patch for a previously-flagged addition) |
 | 1.1.0 | Added `WidgetInstance.dataVersion` (applying Widget-System.md §10's tracked follow-up patch); declared `pageOrder`/`Page.widgetOrder` runtime-only derived caches excluded from serialization; scoped `widgetOrder` to top-level widgets; example updated accordingly | Readiness Review M1/M2; Serialization.md §4 alignment |

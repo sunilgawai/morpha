@@ -318,3 +318,50 @@ phase records a **handbook contact report** in these notes, naming what the
 specification got wrong. Phases 1-5 test the handbook as much as the code.
 
 Next session: T-001. No engine code was written in this one.
+
+### 2026-09-12 — T-001: domain model transcribed (first engine code)
+
+`packages/domain/src` now holds the Domain-Model.md §3-§10 shapes across nine
+modules, plus `Serialized*` projections for the persisted form. 46 tests green,
+`pnpm check` clean. The §13 canonical example is transcribed into the test
+suite typed as `SerializedPresentationDocument`, so a transcription drift that
+re-admitted a derived cache would stop compiling.
+
+**Handbook contact report** (PLANS.md §6 gate 8) — four findings, first time
+these interfaces were ever compiled:
+
+1. **`LayoutConstraints` had no shape anywhere.** Referenced by §5, and §14
+   defers only *resolution order* to Layout-System.md. Follow-up patch
+   (Domain-Model.md → 1.2.0): declared deliberately opaque, `unknown` in code,
+   narrowing left to Layout-System.md.
+2. **`LayoutId` was referenced by `Page.layoutRef` (§4) but absent from §10's
+   ID list.** Same follow-up patch registers it.
+3. **PLANS.md's own Phase 1 narrowing did not compile.** Deferring `Theme`/
+   `Asset` *shape* transcription is impossible — `.assets`/`.themes` are
+   non-optional, `Background` needs `AssetId`, `ColorValue` needs
+   `ThemeColorToken`. Corrected same day: shapes in, semantics out. Lesson for
+   future scope-narrowing: check the type graph, not the section headings.
+4. **`Omit<>` is weaker than it looks.** TypeScript does not
+   excess-property-check spreads, so `{ ...livePage }` still satisfies
+   `SerializedPage` while carrying `widgetOrder` at runtime. The types prevent
+   *declaring* and *reading* a derived cache, nothing more; stripping at the
+   persistence boundary needs a runtime guarantee (property row P12). A test
+   documents the limit so nobody re-derives it.
+
+**Two decisions the owner should settle before T-003 and Phase 3** (raised,
+deliberately not decided):
+
+- **§12's `validateDocument(doc, registry: WidgetRegistry)` is a Ring 0 → Ring
+  2 reference.** `WidgetRegistry` lives in `presentation-widget-api`; domain
+  imports nothing. Domain must own the narrow port it actually needs (look up
+  a widget type's validator), which is a contract change to §12 and probably
+  an ADR. Blocks T-003's signature.
+- **Immutability is not expressed in the types.** State-Management.md §2
+  requires an immutable structurally-shared value, but the transcribed
+  interfaces are mutable, because that is what the handbook prints. Making
+  them deeply `readonly` is a real improvement and a real deviation — an ADR,
+  not a unilateral edit. Cheapest to decide now, before Ring 1 builds on the
+  mutable shape.
+
+Next: T-005 (injected capabilities + the first `./testing` subpath, which also
+lands T-047/T-048), then T-002/T-003.
