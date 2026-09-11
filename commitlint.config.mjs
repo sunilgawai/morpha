@@ -4,6 +4,10 @@
  */
 export default {
   extends: ["@commitlint/config-conventional"],
+  // The changesets action authors this subject; it is not, and cannot be, a
+  // Conventional Commit. CI disables hooks outright (release.yml), this covers
+  // the same commit made locally by `pnpm version-packages`.
+  ignores: [(message) => message.startsWith("Version Packages")],
   rules: {
     "scope-enum": [
       2,

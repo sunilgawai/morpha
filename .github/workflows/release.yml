@@ -14,6 +14,11 @@ permissions:
 jobs:
   release:
     runs-on: ubuntu-latest
+    # Git hooks are a local developer gate, never a CI one. Without this, the
+    # changesets action's "Version Packages" commit is rejected by lefthook's
+    # commit-msg hook, because that subject is not a Conventional Commit.
+    env:
+      LEFTHOOK: 0
     steps:
       - uses: actions/checkout@v4
         with:

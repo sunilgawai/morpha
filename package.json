@@ -32,7 +32,7 @@
     "test:watch": "vitest",
     "bench": "vitest bench --run",
     "check": "pnpm format:check && pnpm lint:md && pnpm spell && pnpm lint:deps && pnpm lint:knip && pnpm typecheck && pnpm test && pnpm build",
-    "docs": "pnpm lint:md && cspell --no-progress \"docs/**/*.md\"",
+    "docs:check": "pnpm lint:md && cspell --no-progress \"docs/**/*.md\"",
     "changeset": "changeset",
     "version-packages": "changeset version",
     "release": "pnpm build && changeset publish",
