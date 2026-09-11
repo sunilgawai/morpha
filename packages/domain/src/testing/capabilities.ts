@@ -9,7 +9,8 @@
  */
 
 import type { Clock, IdGenerator, Rng, TextLayout, TextMeasurer } from "../capabilities.js";
-import type { EntityId } from "../ids.js";
+import type { EntityId, WidgetTypeId } from "../ids.js";
+import type { ValidationResult, WidgetDataValidator, WidgetTypeLookup } from "../validation.js";
 
 /**
  * IDs of the form `<prefix>1`, `<prefix>2`, … — stable across runs and
@@ -100,6 +101,50 @@ export function recordingTextMeasurer(layout: TextLayout = undefined): Recording
     measure(runs: unknown[], constraints: unknown): TextLayout {
       calls.push({ runs, constraints });
       return layout;
+    },
+  };
+}
+
+/**
+ * A `WidgetTypeLookup` over a plain map of type -> validator (ADR-0013).
+ *
+ * Every consumer that validates a document needs one of these, and none of them
+ * can import `@morpha/testing` from Ring 0-1, so it lives here beside the
+ * capability fakes.
+ *
+ * Types not present resolve to `undefined`, which is exactly what an
+ * unregistered widget type looks like to `validateDocument`.
+ */
+export function stubWidgetTypeLookup(
+  validators: Readonly<Record<WidgetTypeId, WidgetDataValidator>> = {},
+): WidgetTypeLookup {
+  return {
+    get(type: WidgetTypeId): WidgetDataValidator | undefined {
+      return validators[type];
+    },
+  };
+}
+
+/** A `WidgetDataValidator` that accepts everything — the common case in a test. */
+export function acceptingWidgetDataValidator(): WidgetDataValidator {
+  return {
+    validate(): ValidationResult {
+      return { valid: true, errors: [], warnings: [] };
+    },
+  };
+}
+
+/** A `WidgetDataValidator` that rejects everything with one fixed issue. */
+export function rejectingWidgetDataValidator(
+  message: string = "invalid widget data",
+): WidgetDataValidator {
+  return {
+    validate(): ValidationResult {
+      return {
+        valid: false,
+        errors: [{ code: "widget-data-invalid", message, path: [] }],
+        warnings: [],
+      };
     },
   };
 }

@@ -1,6 +1,6 @@
 # ADR-0013 — Inner Rings Declare Structural Ports for Contracts They Consume
 
-**Status:** Proposed
+**Status:** Accepted
 **Date:** 2026-09-12
 **Resolves:** Domain-Model.md §12's `validateDocument` signature being
 unimplementable as printed, which blocks TASKS.md T-003 and with it Phase 1's

@@ -60,6 +60,15 @@ export type {
   SerializedPresentationDocument,
 } from "./serialized.js";
 export type { Theme } from "./theme.js";
+export type {
+  ValidateDocumentOptions,
+  ValidationIssue,
+  ValidationIssueCode,
+  ValidationResult,
+  WidgetDataValidator,
+  WidgetTypeLookup,
+} from "./validation.js";
+export { mergeValidationResults, validateDocument, validResult } from "./validation.js";
 export type { LayoutConstraints, WidgetInstance } from "./widget.js";
 
 export const PACKAGE_NAME: "@morpha/domain" = "@morpha/domain";

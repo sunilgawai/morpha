@@ -122,7 +122,21 @@ contains all five of them, and both `tsc --build` project references and
 Turborepo's task graph reject the resulting cycle. See §6 below for the
 corrected gate text.
 
-### Phase 1 — Domain Layer (`presentation-domain`)
+### Phase 1 — Domain Layer (`presentation-domain`) — code-complete 2026-09-12, **one gate item open**
+
+**Status.** Every deliverable and exit criterion below is met: the M1 model
+subset, ordering with property rows P1-P2, validation with P3, migration
+contracts, the injected capabilities, and the `./testing` subpath proven from a
+Ring 1 package. `pnpm check` green at 163 tests.
+
+**Gate 6 is not met.** "Zero open governance items against the layer's owning
+document" fails on one: whether the domain model's interfaces should be deeply
+`readonly`. State-Management.md §2 requires an immutable, structurally shared
+document value, while the transcribed interfaces are mutable because that is
+what Domain-Model.md prints. This is deliberately unresolved rather than
+quietly decided — it needs an ADR, and it is cheapest to settle **before** Phase
+2, since every Ring 1 package will be written against whichever shape wins.
+Phase 2 should not start until it is closed.
 
 - **Objectives:** the domain model that Milestone M1 requires, as pure types
   and pure functions. **Narrowed 2026-09-12** from "the complete domain

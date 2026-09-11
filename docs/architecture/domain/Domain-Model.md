@@ -1,7 +1,7 @@
 # Domain-Model.md
 
 **Status:** Core — changes require an ADR
-**Version:** 1.2.0
+**Version:** 1.3.0
 **Depends on:** Vision.md, Design-Principles.md, Ordering-Strategy.md
 
 ---
@@ -294,8 +294,53 @@ touching call sites).
 The core provides one generic validation entry point:
 
 ```typescript
-function validateDocument(doc: PresentationDocument, registry: WidgetRegistry): ValidationResult
+function validateDocument(doc: PresentationDocument, registry: WidgetTypeLookup): ValidationResult
 ```
+
+**Signature amended in 1.3.0 (ADR-0013).** The parameter was previously typed
+`WidgetRegistry` — Widget-System.md §4's contract, which lives in
+`presentation-widget-api` (Ring 2). This package is Ring 0 and imports nothing
+(Package-Structure.md §3), so that signature could not be written where it is
+owned. Per ADR-0013 this package declares the minimum surface validation
+consumes, and the real `WidgetRegistry` satisfies it structurally — callers
+still pass the registry:
+
+```typescript
+interface WidgetDataValidator {
+  validate(data: unknown): ValidationResult;
+}
+
+interface WidgetTypeLookup {
+  get(type: WidgetTypeId): WidgetDataValidator | undefined;
+}
+```
+
+### `ValidationResult` (added 1.3.0 — previously referenced, never defined)
+
+This document, Widget-System.md §3, and Plugin-System.md all referenced
+`ValidationResult` without any document defining it. Its shape is fixed here,
+since validation is this document's boundary:
+
+```typescript
+interface ValidationResult {
+  valid: boolean;                 // true if and only if errors is empty
+  errors: ValidationIssue[];      // blocking — the document or data is not usable
+  warnings: ValidationIssue[];    // non-blocking — recoverable or advisory
+}
+
+interface ValidationIssue {
+  code: ValidationIssueCode;      // stable, machine-readable
+  message: string;                // human-readable, never the only signal
+  path: string[];                 // location, e.g. ["widgets", "widget_1", "pageId"]
+  entityId?: EntityId;            // the offending entity, when one is identifiable
+  widgetType?: WidgetTypeId;      // set when the issue came from a widget's own validator
+}
+```
+
+Issues are **accumulated, not thrown**: a caller needs every problem in a
+document to report or quarantine them (Serialization.md §11), not just the
+first. Throwing is reserved for the cases Engine-Lifecycle.md §9 marks as
+fail-loud, such as an unreachable `schemaVersion`.
 
 This function checks *structural* invariants the core owns (all
 `pageId`/`parentId`/`widgetOrder` references resolve to real entities, no
@@ -359,5 +404,6 @@ derived caches `pageOrder`/`widgetOrder` are absent, rebuilt on load)
 | Version | Change | Reason |
 | --- | --- | --- |
 | 1.0.0 | Initial version | N/A |
+| 1.3.0 | §12's `validateDocument` takes a `WidgetTypeLookup` port rather than Ring 2's `WidgetRegistry`, with `WidgetDataValidator`/`WidgetTypeLookup` declared here (ADR-0013); `ValidationResult`/`ValidationIssue` shapes fixed — three documents referenced `ValidationResult` and none defined it | ADR-0013 (accepted 2026-09-12); gap found implementing T-003 |
 | 1.2.0 | Follow-up patch: `LayoutId` registered in §10's ID list (it was already referenced by `Page.layoutRef` in §4 but never declared); `LayoutConstraints` declared deliberately opaque until Layout-System.md exists, with the reasoning recorded in §5. Both gaps were found by transcribing the model into `presentation-domain` (T-001) — the first time these interfaces were compiled | Discovered during T-001; Index §11 rule 2 (follow-up patch for a previously-flagged addition) |
 | 1.1.0 | Added `WidgetInstance.dataVersion` (applying Widget-System.md §10's tracked follow-up patch); declared `pageOrder`/`Page.widgetOrder` runtime-only derived caches excluded from serialization; scoped `widgetOrder` to top-level widgets; example updated accordingly | Readiness Review M1/M2; Serialization.md §4 alignment |
