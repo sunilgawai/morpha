@@ -1,7 +1,7 @@
 # Testing-Strategy.md
 
 **Status:** Major — changes require an ADR (governed by Architecture-Index.md §11)
-**Version:** 1.0.0
+**Version:** 1.0.1
 **Depends on:** Domain-Model.md, Ordering-Strategy.md, State-Management.md,
 Command-System.md, Serialization.md, Widget-System.md,
 Rendering-Architecture.md, Selection-and-Interaction.md, Plugin-System.md,
@@ -109,10 +109,10 @@ spies:
 
 | Capability | Test implementation | Behavior |
 | --- | --- | --- |
-| `IdGenerator` | sequential | `w1`, `w2`, … — stable, readable in failure output |
+| `IdGenerator` | sequential | `id1`, `id2`, … (prefix configurable) — stable, readable in failure output |
 | `Rng` | seeded | Deterministic sequence from a literal seed committed in the test |
 | `Clock` | fixed / advanceable | Starts at a fixed instant; advances only when the test advances it |
-| `TextMeasurer` | table-driven | Metrics from a committed table; no font, no canvas, no platform text stack (ADR-0006) |
+| `TextMeasurer` | recording stub | Returns a caller-supplied `TextLayout` and records every call, so a test can assert the measurer was consulted (Invariant 11). No font, no canvas, no platform text stack (ADR-0006). **Becomes table-driven once Text-System.md fixes `TextLayout`** — a metric-producing implementation is impossible while that type is opaque, and inventing one would design Text-System.md by implementation |
 
 Seeds and fixed instants are **literal constants written in the test**. A
 test that derives its seed from the ambient clock is not reproducible and is
@@ -297,4 +297,5 @@ red because a development application's build tool changed.
 
 | Version | Change | Reason |
 | --- | --- | --- |
+| 1.0.1 | §3.2 corrected against the implementations delivered by T-005: the sequential `IdGenerator` emits `id1`/`id2` with a configurable prefix, and the `TextMeasurer` double is a recording stub rather than table-driven, because `TextLayout` is opaque until Text-System.md exists | T-005; ADR-0006 |
 | 1.0.0 | Initial finalized version: nine test kinds and their homes; the no-DOM environment rule; fixture layering (ADR-0012) and the ban on mocking first-party modules; determinism rules for test code; the required-property-test checklist (P1–P15) and required-conformance-suite table that PLANS.md §6 gates 2–3 are measured against; golden-file policy; the definition of "passing" including invariant coverage over line coverage; CI lanes | Architecture-Index.md §12.4; PLANS.md §6 needed an operational definition before Phase 1 |

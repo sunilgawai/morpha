@@ -21,7 +21,8 @@ in the [handbook](docs/architecture/Architecture-Index.md), never here.
 
 ## In Progress
 
-*(none — T-001 complete; T-005 is next per the Ready sequencing)*
+*(none — T-001/T-005 complete; T-002 and T-003 are next, and T-003 is blocked
+on the `WidgetRegistry` decision recorded in MEMORY.md)*
 
 ## Ready
 
@@ -33,11 +34,7 @@ P1 follow-on.
 
 | ID | Task | Pri | Cx | Depends on | Architecture references |
 | --- | --- | --- | --- | --- | --- |
-| T-005 | Injected-capability interfaces: `IdGenerator`, `Rng`, `Clock`, `TextMeasurer` (shape only) **plus their deterministic implementations published on the `@morpha/domain/testing` subpath**; establishes the ADR-0012 fixture convention | P0 | M | T-001 | ADR-0006; ADR-0012; Design-Principles.md P8; Testing-Strategy.md §3 |
 | T-002 | Fractional-index ordering utility: `generateKeyBetween`, `generateNKeysBetween`, injected-RNG jitter, id tie-break; property rows P1–P2 | P0 | M | T-001, T-005 | Ordering-Strategy.md; ADR-0005 §3; Testing-Strategy.md §5 |
-| T-003 | Structural validation primitives: `validateDocument`, referential-integrity checks, `ValidationResult` + shared typed errors; property row P3 | P0 | M | T-001 | Domain-Model.md §12; Engine-Lifecycle.md §9; Testing-Strategy.md §5 |
-| T-047 | dependency-cruiser rule `no-testing-subpath-from-src` — `src/` may never import a `/testing` subpath | P0 | S | T-005 | ADR-0012 §6; Package-Structure.md §6 |
-| T-048 | tsdown + knip multi-entry configuration for the `./testing` subpath export (second entry point, tree-shakeable, `publishConfig` mapping) | P0 | S | T-005 | ADR-0012; Package-Structure.md §3 |
 | T-004 | Migration contract shapes: chained `migrate(doc, fromVersion)`, widget `dataVersion` flow types | P1 | S | T-001 | Serialization.md §15; Widget-System.md §10 |
 
 ### Document track (WIP 1 — does not count against code WIP)
@@ -55,6 +52,7 @@ never competes with code for the WIP ≤ 3 limit.
 
 | ID | Task | Blocked on | Notes |
 | --- | --- | --- | --- |
+| T-003 | Structural validation primitives: `validateDocument`, `ValidationResult`, typed errors; property row P3 | A decision on Domain-Model.md §12's `WidgetRegistry` parameter | §12's signature is a Ring 0 → Ring 2 reference; `WidgetRegistry` lives in `presentation-widget-api`. Domain must own the narrow port it needs. ADR-shaped — see MEMORY.md 2026-09-12 |
 | T-030 | `text` widget in widgets-base | T-006 (Text-System.md accepted) | Hard gate — ADR-0006; PLANS.md Phase 9 |
 | T-040 | PPTX export/import implementation | Import-Export.md authored (T-039) | Mapping tables must exist before code — PLANS.md Phase 12 |
 | T-090 | Raise Node baseline to 22 LTS; unpin dependency-cruiser/cspell | CI matrix proving Node 22; team machines updated | ADR-0008; low urgency |
@@ -120,5 +118,8 @@ never competes with code for the WIP ≤ 3 limit.
 | T-000c | Execution planning system: PLANS.md, MEMORY.md, TASKS.md; ROADMAP.md → pointer | 2026-07-13 | this PR |
 | T-000d | Development environment: apps/{playground,inspector,docs}, numbered examples ladder (01–17), tests taxonomy, root scripts, DEVELOPMENT.md; ADR-0011 (DP7 scoping) | 2026-07-18 | commit `e24263f` |
 | T-045 | Author **Testing-Strategy.md** 1.0.0 (test kinds, fixture rules, property-row checklist P1–P15, conformance-suite table, CI lanes); ADR-0012 (fixtures published by the contract-owning package via `./testing` subpaths); Package-Structure.md → 1.4.0; Index → 1.2.0. Promoted ahead of Phase 1 because PLANS.md §6 gate 2 was unsatisfiable for Rings 0–1 | 2026-09-12 | this PR |
+| T-005 | Injected-capability interfaces (`IdGenerator`, `Rng`, `Clock`, `TextMeasurer`) + deterministic implementations and pure fixtures on the `@morpha/domain/testing` subpath; ADR-0012 proven end to end by a Ring 1 (`state`) test consuming the subpath across its existing `domain` edge | 2026-09-12 | this PR |
+| T-047 | dependency-cruiser rule `no-testing-subpath-from-src`, negative-tested (fires by name on an `src/` → `src/testing/` edge) | 2026-09-12 | this PR |
+| T-048 | Multi-entry build for the `./testing` subpath: tsdown entries, `exports` + `publishConfig` mapping | 2026-09-12 | this PR |
 | T-001 | Domain model types transcribed: `PresentationDocument`, `DocumentMetadata`, `CanvasConfig`, `Page`, `Background`, `WidgetInstance`, `Transform`, `ColorValue`, `Asset`, `Theme`, ID types; `Serialized*` projections making derived caches unrepresentable in the persisted shape. Found two handbook gaps → Domain-Model.md 1.2.0 follow-up patch (`LayoutId` unregistered, `LayoutConstraints` shapeless); corrected PLANS.md's Phase 1 `Theme`/`Asset` narrowing, which did not compile | 2026-09-12 | this PR |
 | T-000e | Execution re-plan: PLANS.md gains Phase 0.5/0.75 records, narrowed Phase 1 scope, two execution tracks (§3.1), release cuts v0.1–v0.3 (§4.1), corrected gates 2–3, new gate 8 (handbook contact report) | 2026-09-12 | this PR |
