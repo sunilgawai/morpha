@@ -1,7 +1,7 @@
 # Testing-Strategy.md
 
 **Status:** Major — changes require an ADR (governed by Architecture-Index.md §11)
-**Version:** 1.0.1
+**Version:** 1.0.2
 **Depends on:** Domain-Model.md, Ordering-Strategy.md, State-Management.md,
 Command-System.md, Serialization.md, Widget-System.md,
 Rendering-Architecture.md, Selection-and-Interaction.md, Plugin-System.md,
@@ -149,8 +149,8 @@ gate is not met while a row belonging to it is unimplemented.
 
 | # | Invariant | Owning document | Phase | Home |
 | --- | --- | --- | --- | --- |
-| P1 | A generated key sorts strictly between its bounds; generation never exhausts the key space; output is a total order under the id tie-break | Ordering-Strategy.md | 1 | `packages/domain` |
-| P2 | Key generation is reproducible under a seeded `Rng` and varies under different seeds (jitter is real but not ambient) | Ordering-Strategy.md; ADR-0005 §3 | 1 | `packages/domain` |
+| P1 ✅ | A generated key sorts strictly between its bounds; generation never exhausts the key space; output is a total order under the id tie-break | Ordering-Strategy.md | 1 | `packages/domain` |
+| P2 ✅ | Key generation is reproducible under a seeded `Rng` and varies under different seeds (jitter is real but not ambient) | Ordering-Strategy.md; ADR-0005 §3 | 1 | `packages/domain` |
 | P3 | `validateDocument` accepts every well-formed generated document and rejects every injected referential-integrity violation | Domain-Model.md §12 | 1 | `packages/domain` |
 | P4 | Reference identity changes for an entity **if and only if** that entity was written by the transaction | State-Management.md §2 | 3 | `packages/state` |
 | P5 | A committed transaction's ChangeSet names every written entity exactly once and nothing else; derivation cost is O(writes), not O(document) | State-Management.md §5 | 3 | `packages/state` |
@@ -165,8 +165,9 @@ gate is not met while a row belonging to it is unimplemented.
 | P14 | A quarantined entity is re-emitted verbatim on the next save (no silent data loss) | Serialization.md §11 | 11 | `packages/serialization` |
 | P15 | Plugin dependency resolution yields a topological activation order, or reports a cycle — never a partial activation | Plugin-System.md §8, §15 | 13 | `packages/plugin-api` |
 
-Rows are added here when a document states a new invariant. Removing a row
-requires an ADR — it means the invariant itself was withdrawn.
+A ✅ marks a row whose property test is implemented and green. Rows are added
+here when a document states a new invariant. Removing a row requires an ADR —
+it means the invariant itself was withdrawn.
 
 Property tests use **fast-check** with generators that produce documents
 resembling real ones (varied page counts, nesting, widget kinds), not
@@ -297,5 +298,6 @@ red because a development application's build tool changed.
 
 | Version | Change | Reason |
 | --- | --- | --- |
+| 1.0.2 | §5 rows carry a ✅ when their property test is implemented; P1 and P2 marked done (T-002) | T-002 |
 | 1.0.1 | §3.2 corrected against the implementations delivered by T-005: the sequential `IdGenerator` emits `id1`/`id2` with a configurable prefix, and the `TextMeasurer` double is a recording stub rather than table-driven, because `TextLayout` is opaque until Text-System.md exists | T-005; ADR-0006 |
 | 1.0.0 | Initial finalized version: nine test kinds and their homes; the no-DOM environment rule; fixture layering (ADR-0012) and the ban on mocking first-party modules; determinism rules for test code; the required-property-test checklist (P1–P15) and required-conformance-suite table that PLANS.md §6 gates 2–3 are measured against; golden-file policy; the definition of "passing" including invariant coverage over line coverage; CI lanes | Architecture-Index.md §12.4; PLANS.md §6 needed an operational definition before Phase 1 |

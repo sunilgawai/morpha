@@ -34,6 +34,13 @@ export type {
   WidgetId,
   WidgetTypeId,
 } from "./ids.js";
+export type { Ordered } from "./ordering.js";
+export {
+  compareOrdered,
+  compareOrderKeys,
+  generateKeyBetween,
+  generateNKeysBetween,
+} from "./ordering.js";
 export type { Background, Page } from "./page.js";
 export type {
   SerializedPage,

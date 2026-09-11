@@ -1,7 +1,7 @@
 # @morpha/domain
 
-**Ring 0** · **Status: in progress — the domain model is transcribed; ordering
-and validation are next (TASKS.md T-002, T-003)**
+**Ring 0** · **Status: in progress — model, capabilities and ordering are in;
+validation is next (TASKS.md T-003, blocked on a governance decision)**
 
 The Presentation Domain Model. Zero dependencies — pure data types and pure
 functions only, compiling without DOM or Node libs.
@@ -22,6 +22,8 @@ functions only, compiling without DOM or Node libs.
 | `Theme` | §9 |
 | `EntityId`, `PageId`, `WidgetId`, `AssetId`, `ThemeId`, `LayoutId`, `WidgetTypeId` | §10 |
 | `SerializedPresentationDocument`, `SerializedPage` | §3 + Serialization.md §4 |
+| `IdGenerator`, `Rng`, `Clock`, `TextMeasurer` | Design Principle 8; ADR-0005 §3; ADR-0006 |
+| `generateKeyBetween`, `generateNKeysBetween`, `compareOrdered`, `compareOrderKeys`, `Ordered` | Ordering-Strategy.md |
 
 ### Live shape vs. persisted shape
 
@@ -41,8 +43,15 @@ requires an ADR or a follow-up patch against Domain-Model.md — not an edit to
 this package. `LayoutConstraints` is deliberately `unknown` until
 Layout-System.md exists (Domain-Model.md §5, 1.2.0).
 
+### Ordering
+
+`order` is a base-62 fractional index (Ordering-Strategy.md). Generation takes
+the engine's injected `Rng`, because the collision-avoidance jitter must be
+replayable (ADR-0005 §3) — there is no ambient-randomness overload. The
+algorithm is vendored from the established reference rather than depended upon,
+since this package carries zero runtime dependencies; a committed table of the
+reference's published values keeps the two in step.
+
 ## Not here
 
-Ordering (`generateKeyBetween`), `validateDocument`, the `migrate()` contract,
-and the injected-capability interfaces with their deterministic
-implementations on the `./testing` subpath (ADR-0012) arrive with T-002–T-005.
+`validateDocument` and the `migrate()` contract arrive with T-003 and T-004.
