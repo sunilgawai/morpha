@@ -63,6 +63,9 @@ per major piece of work; they settle most debates before they start.
 | npm names: bare, exactly as Package-Structure.md records; packages `private: true` until a publishing ADR | ADR-0008 |
 | `presentation-ai` / `presentation-collaboration` deliberately not scaffolded | README, Principle 7 |
 | 2026-07-13 — Short package dirs + `@morpha/*` npm scope (supersedes ADR-0008 bare names) | ADR-0009 |
+| 2026-07-18 — Development applications are engineering infrastructure; DP7 scoped to engine abstractions | ADR-0011 |
+| 2026-09-12 — Test fixtures are published by the contract-owning package via `./testing` subpaths; `presentation-testing` is the Ring 2-3 surface only | ADR-0012; Package-Structure.md 1.4.0 |
+| 2026-09-12 — Testing doctrine finalized before Phase 1; release cuts v0.1-v0.3 and a two-track (code / document) execution model adopted | Testing-Strategy.md 1.0.0; PLANS.md §3.1, §4.1 |
 
 ## Architectural Invariants (never violate — enforcement copy in CLAUDE.md)
 
@@ -122,8 +125,16 @@ the handbook's vocabulary in identifiers.
 ## Testing Philosophy
 
 - Package tests: no DOM, no network, no real renderer — inject everything.
-- `presentation-testing` accumulates fixtures + conformance suites;
-  contract tests exist *before* dependents build on a layer.
+- Doctrine is owned by
+  [Testing-Strategy.md](docs/architecture/quality/Testing-Strategy.md) —
+  read §5 (required property rows) and §6 (required conformance suites)
+  before starting a layer, since they are what its gate is measured against.
+- Fixtures live on the owning package's `./testing` subpath (ADR-0012);
+  `presentation-testing` holds the engine harness and Ring 2-3 conformance
+  suites and **cannot** be imported by Rings 0-1. Contract tests exist
+  *before* dependents build on a layer.
+- Never `vi.mock()` a first-party module. A missing seam is an architecture
+  finding, not a mocking problem (Testing-Strategy.md §3.1).
 - Property tests (fast-check) are mandatory for handbook-stated
   invariants: fractional ordering, replay determinism, migration chains,
   structural sharing, serialization round-trips.
@@ -149,6 +160,7 @@ the handbook's vocabulary in identifiers.
 | Sandboxed tier for function-bearing plugin contributions (widgets/tools/renderers) | Dedicated ADR with a real untrusted-plugin scenario (ADR-0005 §1) |
 | Multi-viewport-linked selection; collaborative undo protocol | Real product need (S&I §20, Command-System.md §14) |
 | Animation/timeline, layout engine, theme cascading, asset providers detail | Their future documents (Index §12) |
+| `Theme`/`Asset` domain shape transcription | The phase that first consumes them — deferred out of Phase 1 on 2026-09-12 because Theme-System.md / Asset-System.md do not exist (PLANS.md Phase 1 scope note) |
 | React peer deps in `presentation-react` | Phase 14 start |
 | Undo-grouping across streamed AI batches | AI.md (ADR-0005 §2 names it) |
 
@@ -262,3 +274,47 @@ Gotcha: the sandbox nondeterministically strips `PATH` inside piped/loop
 subshells (`mkdir: command not found`), even with `dangerouslyDisableSandbox`.
 Workaround that worked: create all dirs in one non-loop command, then write
 files in a loop using only shell builtins (`printf` + `>` redirection).
+
+### 2026-09-12 — Status review; testing doctrine and re-plan before Phase 1
+
+Returned after ~8 weeks idle (last commit `e24263f`, 2026-07-18). Verified
+the foundation is intact: `pnpm check` green end-to-end (19 builds, 20 test
+files, 39 placeholder tests, 0 depcruise errors). Confirmed the real state —
+**zero engine code**; all 19 packages are ~15-LOC placeholders; ~6,600 lines
+of finalized handbook awaiting a first implementation.
+
+Found and fixed five planning defects before writing any Phase 1 code:
+
+1. **PLANS.md §6 gate 2 was mechanically unsatisfiable for Rings 0-1.** It
+   required conformance suites in `presentation-testing`, whose dependency
+   closure contains domain/events/state/commands/runtime — i.e. Phases 1-5.
+   *Measured*, don't re-derive: adding `@morpha/testing` as a devDependency of
+   `@morpha/domain` makes `turbo` refuse every task with `Cyclic dependency
+   detected: @morpha/events#build … @morpha/domain#build`, and `tsc --build`
+   fails separately because `packages/*/tsconfig.json` includes `test`, so a
+   test-only import needs a project reference and `packages/testing` already
+   references `../domain`. **devDependency status exempts you from neither
+   tool** — both use the union of deps and devDeps. Resolved by ADR-0012:
+   fixtures live on the owning package's `./testing` subpath, which adds no
+   graph edge. A Ring 0 `testing-core` package was rejected — it would need
+   domain's types and hit the same cycle one package later.
+2. **Testing-Strategy.md was scheduled last but gates everything.** Written
+   now as 1.0.0 (`docs/architecture/quality/`); its §5 property-row checklist
+   (P1-P15) and §6 conformance-suite table are what phase gates 2-3 now cite.
+3. **T-002 depended on T-005 in fact but not on paper** (jitter needs `Rng`).
+   Ready is now sequenced T-001 → T-005 → {T-002, T-003} → T-004.
+4. **Phase 0.5 (ADR-0011) was never recorded in PLANS.md** despite that
+   file's own maintenance rule. Recorded retroactively, plus Phase 0.75 for
+   this session's doctrine work.
+5. **No release cuts existed** — 17 phases, nothing shippable in between.
+   Added §4.1 (v0.1 core loop = P1-5; v0.2 editable = P6-11; v0.3 open =
+   P12-13) and §3.1's two-track model so gated documents stop competing with
+   code for WIP ≤ 3.
+
+Also narrowed Phase 1 to the M1 domain subset (`Theme`/`Asset` deferred —
+their owning documents don't exist, so transcribing their shapes is the
+over-modeling that phase's own risk line warns about), and added gate 8: each
+phase records a **handbook contact report** in these notes, naming what the
+specification got wrong. Phases 1-5 test the handbook as much as the code.
+
+Next session: T-001. No engine code was written in this one.

@@ -1,10 +1,15 @@
 # tests/
 
-**Cross-package test workspaces.** Governed by the testing philosophy in
-[CLAUDE.md](../CLAUDE.md) and the taxonomy established by
-[ADR-0011](../docs/architecture/adr/ADR-0011-development-applications-workspace.md).
-The future `Testing-Strategy.md` (Index §12.4) will own the full doctrine;
-this tree implements its structure ahead of that document.
+**Cross-package test workspaces.** Governed by
+[Testing-Strategy.md](../docs/architecture/quality/Testing-Strategy.md) — the
+owning document for the full doctrine (test kinds and their homes §2, fixture
+rules §3, required property rows §5, required conformance suites §6, CI lanes
+§9) — with the taxonomy below established by
+[ADR-0011](../docs/architecture/adr/ADR-0011-development-applications-workspace.md)
+and fixture layering by
+[ADR-0012](../docs/architecture/adr/ADR-0012-test-fixture-layering.md).
+This table is the directory-level projection of Testing-Strategy.md §2; if the
+two disagree, that document wins.
 
 ## The dividing line
 

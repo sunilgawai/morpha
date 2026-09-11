@@ -1,7 +1,7 @@
 # Package-Structure.md
 
 **Status:** Core — changes require an ADR (governed by Architecture-Index.md §11)
-**Version:** 1.3.0
+**Version:** 1.4.0
 
 **Naming (unified 1.1.0, revised 1.2.0/1.3.0 per ADR-0009/ADR-0010):** `presentation-*`
 is the canonical **logical** naming scheme used throughout this handbook.
@@ -73,6 +73,7 @@ therefore uses per-package allowlists, not ring tags alone.
 | --- | --- |
 | Responsibility | The Presentation Domain Model: `PresentationDocument`, `Page`, `WidgetInstance`, `Transform`, `Theme`, `Asset` (Domain-Model.md); validation primitives (Section 12 of that document); versioning/migration contracts |
 | Public API | All Domain Model types; `validateDocument()`; `migrate()` contract shape; `WidgetDefinition` interface (type only, not a registry) |
+| Public API — `./testing` subpath | The deterministic implementations of the injected capabilities whose interfaces this package owns: seeded `Rng`, fixed/advanceable `Clock`, sequential `IdGenerator`, table-driven `TextMeasurer` stub, and pure document fixture builders (ADR-0012). Published, documented, versioned surface — not an internal test folder |
 | Internal API | Internal normalization helpers, structural-sharing utilities |
 | Dependencies | **None** (zero runtime dependencies — pure data types and pure functions only) |
 | Allowed imports | Nothing from any other `presentation-*` package |
@@ -325,12 +326,13 @@ therefore uses per-package allowlists, not ring tags alone.
 
 | Aspect | Definition |
 | --- | --- |
-| Responsibility | Shared test utilities: Engine test harness/fixture builders, deterministic clock injection (Command-System.md Section 15), snapshot-based assertion helpers, mock Renderer/Plugin implementations for testing Ring 1/2 packages in isolation |
-| Public API | `createTestEngine()`, `mockRenderer()`, `fixtureDocument()`, assertion helpers |
-| Internal API | None of note — this package is almost entirely public surface, by design, since its whole purpose is to be imported by every other package's test suite |
+| Responsibility | The **engine-level** test surface: Engine test harness, mock Renderer/Plugin implementations, snapshot-based assertion helpers, and the conformance suites for Ring 2-3 contracts. Revised 1.4.0 (ADR-0012): per-package fixtures and deterministic capability implementations are **not** homed here — each package publishes its own at `@morpha/<name>/testing`, and this package re-exports them so Ring 2-3 consumers keep a single import |
+| Public API | `createTestEngine()`, `mockRenderer()`, `mockPlugin()`, assertion helpers, contract conformance suites; re-exports of every package's `./testing` subpath (`fixtureDocument()` reaches consumers from `presentation-domain` through this re-export) |
+| Internal API | None of note — this package is almost entirely public surface by design |
 | Dependencies | `presentation-domain`, `presentation-runtime`, `presentation-commands` |
 | Allowed imports | The three above |
 | Forbidden imports | None strictly forbidden, but any additional dependency here becomes a transitive DEV dependency of every package that uses it for testing — kept deliberately minimal |
+| Consumable by | Ring 2-3 packages and `tests/*` only. **Rings 0-1 cannot import it** — they are inside its dependency closure, and both `tsc --build` project references and Turborepo's task graph reject the cycle (ADR-0012). Those packages use the `./testing` subpaths of the packages they already depend on |
 | Build targets | ESM + CJS; universal; **devDependency only** — never a runtime dependency of any shipped package |
 | Runtime environment | Universal (test runner environment — Node/jsdom/browser test runners alike) |
 | Ownership | Core architecture team, but structured to be the easiest package for external contributors to extend (adding a new mock/fixture rarely touches core logic) |
@@ -441,6 +443,24 @@ presentation-collaboration ⊗ presentation-rendering, presentation-react
 presentation-devtools     ⊗  any format adapter, ai, collaboration package
 ```
 
+**Fixture subpaths (added 1.4.0, ADR-0012).** A package's `./testing`
+subpath (`@morpha/<name>/testing`) publishes the fixtures and deterministic
+capability implementations for the contracts that package owns. Two rules
+govern it, and they are gates, not conventions:
+
+```
+1. A /testing subpath adds NO edge to the package graph. It may be imported
+   only along an edge already enumerated in Section 3 for the importer.
+2. Only test code imports a /testing subpath. src/ never does.
+```
+
+Rule 1 is what makes the convention safe: `presentation-state`'s tests reach
+`@morpha/domain/testing` across the `state → domain` edge that already
+exists, so the ring rule above still decides legality unchanged and no
+package's `dependencies` grow. Rule 2 keeps test doubles out of shipped code
+paths and is enforced by a dependency-cruiser rule
+(`no-testing-subpath-from-src`).
+
 A CI-enforced lint rule (an Nx-style `enforce-module-boundaries` ESLint
 rule, or equivalent for whatever build tool is chosen) fails the build on
 any violation — these rules are not documentation-only conventions, they
@@ -534,5 +554,6 @@ via project tags [web:209][web:212].
 | Version | Change | Reason |
 | --- | --- | --- |
 | 1.0.0 | Initial finalized version | N/A |
+| 1.4.0 | Test fixtures are published by the package owning the contract, via a `./testing` subpath export; `presentation-domain` entry gains that surface (deterministic `Rng`/`Clock`/`IdGenerator`/`TextMeasurer` implementations); `presentation-testing` entry corrected — it is the engine-level surface for Ring 2-3 and cannot be consumed by Rings 0-1, which sit in its dependency closure; §6 gains the two fixture-subpath rules | ADR-0012 |
 | 1.2.0 | Naming revised: logical `presentation-*` names map to `@morpha/<short>` npm packages in `packages/<short>` directories | ADR-0009 |
 | 1.1.0 | Ring rule corrected to enumerated-directed-edges (the strict sibling ban contradicted this document's own catalogue); `presentation-*` declared canonical naming with `@engine/*` alias map; added `presentation-widgets-base` and `presentation-renderer-ssr`; `RenderNode` homed in `presentation-widget-api`; removed unsanctioned `widget-api → commands` dependency; §5 diagram corrected (format adapters never depend on renderers) | Readiness Review M3; Widget-System.md 1.1.0 alignment |

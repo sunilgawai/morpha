@@ -131,9 +131,11 @@ Rules that matter in practice:
 
 ## Testing philosophy
 
+- Doctrine lives in `docs/architecture/quality/Testing-Strategy.md`. Its §5
+  property-row checklist and §6 conformance-suite table are what a phase's
+  quality gate is measured against — read them before starting a layer.
 - Package-local tests (`packages/*/test/`) run with **no DOM, no network,
-  no real renderer** — everything injectable is injected
-  (`@morpha/testing`'s `createTestEngine()` once it exists).
+  no real renderer** — everything injectable is injected.
 - Cross-package tests go in `tests/integration/`; benchmarks in
   `tests/benchmarks/`.
 - Property-based tests (fast-check) are **required** where the handbook
@@ -193,5 +195,11 @@ Performance.md; until then, don't regress the complexity class.
 - When implementing a contract, transcribe the handbook's interface shapes
   exactly — the documents contain the canonical TypeScript signatures; do
   not "improve" them inline. Signature changes go through governance.
-- Prefer extending `@morpha/testing` fixtures over ad-hoc mocks so
-  test infrastructure accumulates in one place.
+- Prefer published fixtures over ad-hoc mocks. Per ADR-0012 they live on the
+  owning package's `./testing` subpath (`@morpha/domain/testing`);
+  `@morpha/testing` carries the engine harness and Ring 2-3 conformance
+  suites and **cannot be imported by Rings 0-1** — those packages are inside
+  its dependency closure and both `tsc --build` and Turbo reject the cycle.
+- Never `vi.mock()` a first-party `@morpha/*` module. If a test needs a seam
+  that doesn't exist, that is a governance finding (Index §11), not a
+  mocking workaround.

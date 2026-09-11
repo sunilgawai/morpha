@@ -21,18 +21,36 @@ in the [handbook](docs/architecture/Architecture-Index.md), never here.
 
 ## In Progress
 
-*(none — Phase 1 not started)*
+*(none — Phase 1 is Ready to start; T-001 is the entry point)*
 
 ## Ready
 
+Sequenced: **T-001 → T-005 → {T-002, T-003} → T-004.** T-005 moved ahead of
+T-002/T-003 on 2026-09-12 — jitter needs the `Rng` interface
+(Ordering-Strategy.md; ADR-0005 §3) and both tasks' property tests need the
+deterministic capability implementations, so T-005 is a prerequisite, not a
+P1 follow-on.
+
 | ID | Task | Pri | Cx | Depends on | Architecture references |
 | --- | --- | --- | --- | --- | --- |
-| T-001 | Domain model types: `PresentationDocument`, `Page`, `WidgetInstance` (incl. `dataVersion`), `Transform`, `Theme`, `Asset`, ID types; derived caches typed as runtime-only | P0 | M | — | Domain-Model.md §3–§10 |
-| T-002 | Fractional-index ordering utility: `generateKeyBetween`, `generateNKeysBetween`, injected-RNG jitter, id tie-break; property tests (sort-between, never-exhaust, seeded determinism) | P0 | M | T-001 | Ordering-Strategy.md; ADR-0005 §3 |
-| T-003 | Structural validation primitives: `validateDocument`, referential-integrity checks, `ValidationResult` + shared typed errors | P0 | M | T-001 | Domain-Model.md §12; Engine-Lifecycle.md §9 |
+| T-001 | Domain model types for the M1 subset: `PresentationDocument`, `Page`, `WidgetInstance` (incl. `dataVersion`), `Transform`, ID types; derived caches typed as runtime-only. `Theme`/`Asset` deferred out of Phase 1 (PLANS.md Phase 1 scope note) | P0 | M | — | Domain-Model.md §3–§7, §10 |
+| T-005 | Injected-capability interfaces: `IdGenerator`, `Rng`, `Clock`, `TextMeasurer` (shape only) **plus their deterministic implementations published on the `@morpha/domain/testing` subpath**; establishes the ADR-0012 fixture convention | P0 | M | T-001 | ADR-0006; ADR-0012; Design-Principles.md P8; Testing-Strategy.md §3 |
+| T-002 | Fractional-index ordering utility: `generateKeyBetween`, `generateNKeysBetween`, injected-RNG jitter, id tie-break; property rows P1–P2 | P0 | M | T-001, T-005 | Ordering-Strategy.md; ADR-0005 §3; Testing-Strategy.md §5 |
+| T-003 | Structural validation primitives: `validateDocument`, referential-integrity checks, `ValidationResult` + shared typed errors; property row P3 | P0 | M | T-001 | Domain-Model.md §12; Engine-Lifecycle.md §9; Testing-Strategy.md §5 |
+| T-047 | dependency-cruiser rule `no-testing-subpath-from-src` — `src/` may never import a `/testing` subpath | P0 | S | T-005 | ADR-0012 §6; Package-Structure.md §6 |
+| T-048 | tsdown + knip multi-entry configuration for the `./testing` subpath export (second entry point, tree-shakeable, `publishConfig` mapping) | P0 | S | T-005 | ADR-0012; Package-Structure.md §3 |
 | T-004 | Migration contract shapes: chained `migrate(doc, fromVersion)`, widget `dataVersion` flow types | P1 | S | T-001 | Serialization.md §15; Widget-System.md §10 |
-| T-005 | Injected-capability interfaces: `IdGenerator`, `Rng`, `Clock`, `TextMeasurer` (shape only) + deterministic test implementations | P1 | S | T-001 | ADR-0006; Design-Principles.md P8 |
-| T-006 | Author **Text-System.md** (rich-text run model, editing/IME, caret, shaping strategy, font fallback) via governance — unblocks T-030 | P1 | L | — | ADR-0006; Index §12.1 |
+
+### Document track (WIP 1 — does not count against code WIP)
+
+PLANS.md §3.1 runs handbook authoring on its own track so a gated document
+never competes with code for the WIP ≤ 3 limit.
+
+| ID | Task | Pri | Cx | Authored during | Must land before |
+| --- | --- | --- | --- | --- | --- |
+| T-006 | Author **Text-System.md** (rich-text run model, editing/IME, caret, shaping strategy, font fallback) via governance — unblocks T-030 | P1 | L | Phases 2–8 | Phase 9 (hard gate, ADR-0006) |
+| T-039 | Author **Import-Export.md** via governance — unblocks T-040 | P1 | L | Phases 10–11 | Phase 12 |
+| T-044a | Author **Performance.md** (budgets, methodology, slow-subscriber rule) | P2 | M | Phases 13–14 | Phase 16 |
 
 ## Blocked
 
@@ -85,15 +103,13 @@ in the [handbook](docs/architecture/Architecture-Index.md), never here.
 ### Phases 11–13 — Persistence / Adapters / Plugins
 
 - T-037 Serialization: envelope, integrity, migration chain, quarantine, snapshots, incremental save → **Milestone M5** (P1, XL: split — Serialization.md)
-- T-039 Author **Import-Export.md** via governance (P1, L — Index §12.2)
 - T-041 Plugin system: manifest, dependency resolution, lazy activation, permissions, error isolation → **Milestone M7** (P2, XL: split — Plugin-System.md)
 
 ### Phases 14–17 — Integration / Hardening
 
 - T-042 React binding + shared e2e suite → **Milestone M8** (P2, L)
 - T-043 DevTools inspector → **Milestone M9** (P2, M)
-- T-044 Author **Performance.md**; benchmark suites + CI regression tracking (P2, L — Index §12.3)
-- T-045 Author **Testing-Strategy.md** (P2, M — Index §12.4)
+- T-044b Benchmark suites + CI regression tracking against Performance.md's budgets (P2, M — Index §12.3; Testing-Strategy.md §9)
 - T-046 Collaboration seam audit + op-log replay demo → **Milestone M10** (P3, M — PLANS.md Phase 17)
 
 ## Completed
@@ -103,4 +119,6 @@ in the [handbook](docs/architecture/Architecture-Index.md), never here.
 | T-000a | Architecture reconciliation: ADR-0001…0007, all docs → 1.1.0, State-Management.md, truthful Index | 2026-07-12 | docs/architecture/adr/ |
 | T-000b | Repository bootstrap: workspace, 19 packages, import law, toolchain, CI, governance surface (Phase 0 exit) | 2026-07-13 | commit `282831f` |
 | T-000c | Execution planning system: PLANS.md, MEMORY.md, TASKS.md; ROADMAP.md → pointer | 2026-07-13 | this PR |
-| T-000d | Development environment: apps/{playground,inspector,docs}, numbered examples ladder (01–17), tests taxonomy, root scripts, DEVELOPMENT.md; ADR-0011 (DP7 scoping) | 2026-07-18 | this PR |
+| T-000d | Development environment: apps/{playground,inspector,docs}, numbered examples ladder (01–17), tests taxonomy, root scripts, DEVELOPMENT.md; ADR-0011 (DP7 scoping) | 2026-07-18 | commit `e24263f` |
+| T-045 | Author **Testing-Strategy.md** 1.0.0 (test kinds, fixture rules, property-row checklist P1–P15, conformance-suite table, CI lanes); ADR-0012 (fixtures published by the contract-owning package via `./testing` subpaths); Package-Structure.md → 1.4.0; Index → 1.2.0. Promoted ahead of Phase 1 because PLANS.md §6 gate 2 was unsatisfiable for Rings 0–1 | 2026-09-12 | this PR |
+| T-000e | Execution re-plan: PLANS.md gains Phase 0.5/0.75 records, narrowed Phase 1 scope, two execution tracks (§3.1), release cuts v0.1–v0.3 (§4.1), corrected gates 2–3, new gate 8 (handbook contact report) | 2026-09-12 | this PR |

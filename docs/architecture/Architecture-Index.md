@@ -2,7 +2,7 @@
 
 **Status:** Core — changes require an ADR (governed by Section 11, this
 document's canonical governance statement)
-**Version:** 1.1.0
+**Version:** 1.2.0
 **Depends on:** None (this is the root entry point)
 **This document is the canonical entry point to the entire Architecture Handbook.**
 
@@ -99,7 +99,7 @@ Design Principles
              │
    ┌─────────┼──────────────────┐
    │         │                  │
-Import/Export*  Performance*  Testing Strategy*  Text System*
+Import/Export*  Performance*  Testing Strategy   Text System*
    │         │                  │
    └─────────┴──────────────────┘
              │
@@ -109,7 +109,8 @@ Import/Export*  Performance*  Testing Strategy*  Text System*
    │                   │
 Collaboration*        AI*
 
-  (* = not yet written; positioned here per Section 12's roadmap)
+  (* = not yet written; positioned here per Section 12's roadmap.
+   Testing Strategy is written — 1.0.0 — and cites, never defines.)
 ```
 
 **Reading the graph:** an arrow means "the lower document depends on and
@@ -134,8 +135,8 @@ layering.
 **Applied** (translate the architecture into concrete developer- or
 operations-facing form; narrowest blast radius):
 
-- Package Structure, Developer SDK, and every future Import/Export,
-  Performance, Testing Strategy, and Text System document
+- Package Structure, Developer SDK, Testing Strategy, and every future
+  Import/Export, Performance, and Text System document
 
 ## 6. Current Status of Every Document
 
@@ -159,7 +160,7 @@ operations-facing form; narrowest blast radius):
 | Text-System.md | **Not yet written — required before the Text widget is implemented** (seam fixed by ADR-0006) | — | Core |
 | Import-Export.md | Not yet written | — | Major |
 | Performance.md | Not yet written | — | Major |
-| Testing-Strategy.md | Not yet written | — | Major |
+| Testing-Strategy.md | Finalized | 1.0.0 | Major |
 | Theme-System.md | Not yet written (referenced by Domain-Model.md §9) | — | Major |
 | Asset-System.md | Not yet written (referenced by Domain-Model.md §8) | — | Major |
 | Layout-System.md | Not yet written (referenced by Domain-Model.md §14) | — | Supporting |
@@ -309,6 +310,16 @@ is planned.
 - **Referenced By:** (future) all format-adapter, AI, and collaboration
   documents.
 
+### Testing-Strategy.md
+
+- **Purpose:** How the codebase proves itself correct — the nine test kinds
+  and their homes, fixture layering (ADR-0012), determinism rules for test
+  code, the required-property-test checklist and required-conformance-suite
+  table that PLANS.md §6's gates are measured against, and what "passing"
+  means.
+- **Depends On:** every document that states an invariant (it cites them; it
+  defines none). **Referenced By:** PLANS.md §6-§7, tests/README.md.
+
 *(Future documents' purposes are recorded in Section 12.)*
 
 ## 8. Architectural Layers
@@ -332,7 +343,7 @@ is planned.
 | **Text** | Text-System.md *(pending — required before Text widget)* |
 | **Adapters** | Import-Export.md *(pending)* |
 | **Performance** | Performance.md *(pending)* |
-| **Quality** | Testing-Strategy.md *(pending)* |
+| **Quality** | Testing-Strategy.md |
 | **Collaboration** | Collaboration.md *(deferred)* |
 | **AI** | AI.md *(deferred)* |
 
@@ -346,6 +357,13 @@ Widget-System.md → Rendering-Architecture.md → Engine-Lifecycle.md
 ### Core engine developers
 
 Every document, in full dependency-graph order (Section 4), no exceptions.
+
+### Anyone writing a test (i.e. anyone writing code)
+
+Testing-Strategy.md (in full) → the owning document of whatever is under
+test → ADR-0012 (where fixtures live). Sections 5 and 6 of
+Testing-Strategy.md are the checklist a phase gate is measured against, so
+read them before starting a layer, not after finishing it.
 
 ### Renderer developers
 
@@ -449,20 +467,13 @@ Ordered by recommended priority:
   slow-subscriber rule for the synchronous commit→notify→render chain.
 - **Depends on:** nearly every prior document.
 
-### 4. Testing-Strategy.md — Priority: Medium-High
-
-- **Why needed:** `presentation-testing` exists as a package but no
-  document defines the testing philosophy (unit vs. integration vs.
-  golden-snapshot vs. plugin-conformance) across the codebase.
-- **Depends on:** Command-System.md, Plugin-System.md, Developer-SDK.md.
-
-### 5. Theme-System.md / Asset-System.md — Priority: Medium
+### 4. Theme-System.md / Asset-System.md — Priority: Medium
 
 - **Why needed:** Domain-Model.md fixes only the `Theme`/`Asset` shapes;
   cascading/inheritance rules and asset-provider mechanics are deferred to
   these documents by name. Needed before theming/asset features ship.
 
-### 6. Collaboration.md — Priority: Scheduled (not urgent)
+### 5. Collaboration.md — Priority: Scheduled (not urgent)
 
 - **Why needed:** Every seam is fixed (Command-System.md §14,
   Event-System.md §14, Serialization.md §16, Plugin-System.md §9.6); the
@@ -471,13 +482,13 @@ Ordered by recommended priority:
   are not. The bolded items were flagged by the Readiness Review as
   currently unowned and belong in this document's scope.
 
-### 7. AI.md — Priority: Scheduled (not urgent)
+### 6. AI.md — Priority: Scheduled (not urgent)
 
 - **Why needed:** The Command-producing seam (including streaming,
   ADR-0005 §2) is fixed; prompt architecture, request/response schema,
   and **undo-grouping across streamed batches** are not.
 
-### 8. Layout-System.md / Animation-System.md / Roadmap.md — Priority: Low
+### 7. Layout-System.md / Animation-System.md / Roadmap.md — Priority: Low
 
 - Deferred until real product need; seams already flagged in
   Domain-Model.md §14 and Engine-Lifecycle.md §10.5.
@@ -487,4 +498,5 @@ Ordered by recommended priority:
 | Version | Change | Reason |
 | --- | --- | --- |
 | 1.0.0 | Initial finalized version | N/A |
+| 1.2.0 | Testing-Strategy.md written and finalized at 1.0.0 (§6 status, §7 catalogue, §8 Quality layer, a §9 reading path for test authors, removed from §12's pending list with the remaining items renumbered); records ADR-0012, which relocates test fixtures to per-package `./testing` subpath exports and corrects Package-Structure.md's `presentation-testing` entry (→ 1.4.0) | PLANS.md §6 gates 2-3 were unsatisfiable for Rings 0-1; Index §12.4 |
 | 1.1.0 | Reconciliation pass: dependency graph corrected (ADR-0001 — Domain root, runtime orchestrates); nonexistent "Architecture" document struck; Ordering-Strategy.md registered; State-Management.md written and tracked; governance canonical statement moved here with `adr/` repository created; all "Assumed finalized" statuses resolved; every referenced future document now tracked; Text-System.md added as required-before-Text-widget (ADR-0006) | Architecture Readiness Review (2026-07-12); ADR-0001…0007 |

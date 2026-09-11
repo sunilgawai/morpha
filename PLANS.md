@@ -22,8 +22,8 @@ Vision.md §4's five-year success criteria:
   changes without breaking changes (proven by shipping ≥2 renderer families
   against one frozen contract).
 - Third-party widgets, tools, importers, and exporters register through the
-  same APIs first-party ones use (proven by conformance suites in
-  `presentation-testing`).
+  same APIs first-party ones use (proven by the conformance suites
+  Testing-Strategy.md §6 requires).
 - Collaboration and AI arrive later as additive layers (proven by keeping
   their seams — ADR-0002/0005, Command-System.md §14 — untouched and
   contract-tested throughout).
@@ -41,8 +41,11 @@ Vision.md §4's five-year success criteria:
 3. **Thin vertical slices.** Each phase ends with something *demonstrable*
    (a milestone), not a pile of untested horizontal plumbing.
 4. **Contracts before consumers.** Before a layer is built *upon*, its
-   contract tests live in `presentation-testing` so every future
-   implementation (including third-party) can verify conformance.
+   contract tests exist at the address Testing-Strategy.md §6 assigns them,
+   so every future implementation (including third-party) can verify
+   conformance. *Corrected 2026-09-12 (ADR-0012): that address is
+   `presentation-testing` for Ring 2-3 contracts and the owning package's
+   `./testing` subpath for Rings 0-1.*
 5. **Determinism from day one.** Injected IDs/RNG/clock/TextMeasurer in
    every line of core code — retrofitting determinism is how replay dies.
 6. **Test before feature-complete.** Property tests for every
@@ -63,26 +66,93 @@ Likewise the rendering core depends on `presentation-widget-api`, so the
 widget *contract* precedes rendering while widget *implementations* come
 after it.
 
+### 3.1 Two execution tracks (added 2026-09-12)
+
+Phases run on **two tracks in parallel**, because the gated documents
+(Text-System.md, Import-Export.md, Performance.md) block phases that are
+many months away and must not compete with code for the WIP ≤ 3 limit in
+TASKS.md.
+
+| Track | WIP | Contents |
+| --- | --- | --- |
+| **Code** | ≤ 3 | The numbered phases below, in dependency order |
+| **Document** | 1 | The gated handbook documents, each authored while the phases *beneath* it are being built |
+
+Document-track schedule, chosen so that no gate is ever the thing blocking
+the code track:
+
+| Document | Authored during | Must land before |
+| --- | --- | --- |
+| Testing-Strategy.md ✅ | — (done, Phase 0.75) | Phase 1 |
+| Text-System.md | Phases 2-8 | Phase 9 (hard gate, ADR-0006) |
+| Import-Export.md | Phases 10-11 | Phase 12 |
+| Performance.md | Phases 13-14 | Phase 16 |
+| Theme-System.md / Asset-System.md | When a phase first needs `Theme`/`Asset` semantics | That phase |
+
+A document-track item never counts against code WIP, and never starts a code
+phase. Its own quality gate is Index §11 governance, not `pnpm check`.
+
 ### Phase 0 — Repository Bootstrap ✅ (done, commit `282831f`)
 
 Workspace, tooling, CI, governance surface, 19 placeholder packages with
 enforced import law. Exit criteria met: `pnpm check` green end-to-end.
 
+### Phase 0.5 — Development Environment ✅ (done, commit `e24263f`)
+
+`apps/{playground,inspector,docs}`, the numbered `examples/01-17` ladder, and
+the cross-package `tests/` taxonomy — structure only, no engine code.
+Governed by **ADR-0011** (which scopes Design Principle 7 to *engine*
+abstractions rather than the harness used to build the engine). Applications
+are excluded from the engine CI gate by that ADR.
+
+*Recorded retroactively (2026-09-12): this phase was completed in commit
+`e24263f` but never entered this file, contrary to the maintenance rule in
+the header. It is numbered 0.5 because it shifts no dependency edge — it
+built no layer, only the instruments.*
+
+### Phase 0.75 — Testing Doctrine ✅ (done, 2026-09-12)
+
+`Testing-Strategy.md` 1.0.0 and **ADR-0012** (test fixtures are published by
+the package that owns the contract, via `./testing` subpath exports;
+Package-Structure.md → 1.4.0). Sequenced ahead of Phase 1 because §6's gates
+2 and 3 demanded conformance suites and property tests without defining
+either, and gate 2 as originally written was **mechanically unsatisfiable**
+for every Ring 0-1 package — `presentation-testing`'s dependency closure
+contains all five of them, and both `tsc --build` project references and
+Turborepo's task graph reject the resulting cycle. See §6 below for the
+corrected gate text.
+
 ### Phase 1 — Domain Layer (`presentation-domain`)
 
-- **Objectives:** the complete domain model as pure types + pure functions.
+- **Objectives:** the domain model that Milestone M1 requires, as pure types
+  and pure functions. **Narrowed 2026-09-12** from "the complete domain
+  model" — see the scope note below.
 - **Prerequisites:** none (Ring 0).
-- **Deliverables:** all Domain-Model.md shapes (incl. `dataVersion`, derived
-  caches as runtime-only); fractional-index ordering utility
-  (Ordering-Strategy.md, injected-RNG jitter); structural validation
-  primitives (Domain-Model.md §12); migration contract shapes
-  (Serialization.md §15's chain pattern); injected-capability interfaces
-  (`IdGenerator`, `Rng`, `Clock`, `TextMeasurer` shape from ADR-0006);
-  shared `ValidationResult`/typed-error types.
-- **Exit criteria:** ordering property tests (fast-check: keys always sort
-  strictly between bounds, never exhaust, deterministic under seeded RNG);
-  `validateDocument` accepts/rejects the handbook's example documents;
-  zero platform APIs (compile-enforced); package README real.
+- **Deliverables:** the M1 subset of Domain-Model.md shapes —
+  `PresentationDocument`, `Page`, `WidgetInstance` (incl. `dataVersion`),
+  `Transform`, the ID types, derived caches typed as runtime-only;
+  fractional-index ordering utility (Ordering-Strategy.md, injected-RNG
+  jitter); structural validation primitives (Domain-Model.md §12); migration
+  contract shapes (Serialization.md §15's chain pattern);
+  injected-capability interfaces (`IdGenerator`, `Rng`, `Clock`,
+  `TextMeasurer` shape from ADR-0006) **and their deterministic
+  implementations on the `./testing` subpath** (ADR-0012); shared
+  `ValidationResult`/typed-error types.
+- **Deferred out of this phase:** `Theme` and `Asset` shape transcription.
+  Nothing consumes them until theming/asset features ship, and their owning
+  documents (Theme-System.md, Asset-System.md) do not exist — transcribing
+  shapes whose semantics are unwritten is the over-modeling this phase's
+  risk line already warns about. They enter the phase that first consumes
+  them.
+- **Exit criteria:** property rows **P1-P3** of Testing-Strategy.md §5;
+  `validateDocument` accepts/rejects the handbook's example documents; the
+  `./testing` subpath is consumable by a Ring 1 package's tests (proves
+  ADR-0012 end to end, including the depcruise rule T-047 and the multi-entry
+  build T-048); zero platform APIs (compile-enforced); package README real.
+- **Scope note:** Guiding Principle 3 asks each phase to end in something
+  demonstrable, which a complete-domain-model phase cannot. Narrowing to the
+  M1 subset buys the vertical slice; widening happens when a consumer
+  arrives, which is also when the shapes can be tested against a real use.
 - **Risks:** over-modeling beyond the handbook (scope creep into
   Theme/Layout territory that is explicitly deferred).
 
@@ -316,7 +386,28 @@ enforced import law. Exit criteria met: `pnpm check` green end-to-end.
 - **Risks:** discovering seam drift late — mitigated by keeping the seam
   contract tests green from Phase 4 onward.
 
-## 4. Milestones
+## 4. Milestones and Release Cuts
+
+### 4.1 Release cuts (added 2026-09-12)
+
+Milestones prove things; **cuts ship things.** Seventeen phases with no
+intermediate release is a multi-year commitment with nothing usable in the
+middle, so the phases group into four cuts. Only the first two are planned
+with any confidence — Phases 1-10 will generate governance artifacts that
+re-plan the rest, and that is expected, not a planning failure.
+
+| Cut | Phases | Milestones | What it makes real |
+| --- | --- | --- | --- |
+| **v0.1 — core loop** | 1-5 | M1, M3 | A headless engine that loads a document, dispatches Commands, undoes them, replays a command log deterministically, and disposes clean. The first point at which the architecture is confirmed or falsified. |
+| **v0.2 — editable** | 6-11 | M2, M4, M5 | Interactive editing in a browser on top of trustworthy save/load. The first cut a person could use. |
+| **v0.3 — open** | 12-13 | M6, M7 | PPTX round-trip and third-party plugins — the engine meets other software. |
+| *post-0.3* | 14-17 | M8, M9, M10 | React binding, DevTools, performance budgets, collaboration checkpoint. Re-planned when v0.2 lands. |
+
+**v0.1 is the only cut worth optimizing for right now.** Everything in it is
+headless, which means everything in it is testable without the two hardest
+unsolved problems in the project (text and browser input).
+
+### 4.2 Milestones
 
 | # | Milestone | Phase | Proves |
 | --- | --- | --- | --- |
@@ -361,16 +452,28 @@ gates (Text-System, Import-Export, Performance) alongside preceding phases.
 
 1. `pnpm check` green (format, md-lint, spell, import law, knip,
    typecheck, tests, build).
-2. The layer's **contract/conformance suite** exists in
-   `presentation-testing` and passes.
-3. **Property tests** cover every determinism/algebraic invariant the
-   owning handbook document states for the layer.
+2. The layer's **contract/conformance suite** exists and passes, at the
+   address Testing-Strategy.md §6 assigns it. *Corrected 2026-09-12
+   (ADR-0012):* the suite lives in `presentation-testing` for Ring 2-3
+   contracts; Ring 0-1 packages publish their fixtures on their own
+   `./testing` subpath, because they sit inside `presentation-testing`'s
+   dependency closure and the workspace graph must stay acyclic.
+3. **Property tests** cover every row Testing-Strategy.md §5 assigns to this
+   phase. That table is the checklist; a phase with an unimplemented row of
+   its own has not met this gate.
 4. No new dependency-cruiser exceptions; package `dependencies` still
    match Package-Structure.md §3 (or the doc was amended in the same PR).
 5. Package README updated from placeholder to real; changesets recorded.
 6. Zero open governance items against the layer's owning document (no
    "we'll fix the spec later").
 7. TASKS.md and this file updated (phase status, discovered follow-ups).
+8. **Handbook contact report** recorded in MEMORY.md's Session Notes: which
+   handbook sections proved wrong, ambiguous, or expensive to implement, and
+   what governance artifact each produced (or why none was needed). Added
+   2026-09-12 — the handbook has never been executed, so Phases 1-5 test the
+   specification as much as the code, and that feedback is currently the
+   project's highest-value output. An empty report is a valid report; a
+   missing one is a gate failure.
 
 ## 7. Definition of Done (per subsystem)
 
