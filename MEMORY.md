@@ -365,3 +365,49 @@ deliberately not decided):
 
 Next: T-005 (injected capabilities + the first `./testing` subpath, which also
 lands T-047/T-048), then T-002/T-003.
+
+### 2026-09-12 — T-005/T-047/T-048: injected capabilities and the first `./testing` subpath
+
+`@morpha/domain/testing` now exists and ADR-0012 is proven rather than
+asserted: `packages/state/test` (Ring 1, cannot import `@morpha/testing`)
+consumes `fixtureDocument()`/`seededRng()` across its existing `state → domain`
+edge, with no new dependency, no project reference, and no depcruise
+exception. 67 tests green.
+
+Shipped: `IdGenerator`/`Rng`/`Clock`/`TextMeasurer` interfaces (src/capabilities.ts),
+`sequentialIdGenerator`/`seededRng`/`fixedClock`/`recordingTextMeasurer` and the
+document fixture builders on the subpath, the `no-testing-subpath-from-src`
+depcruise rule (**negative-tested** — fires by rule name on an `src/` →
+`src/testing/` edge), and the multi-entry tsdown/`exports` wiring.
+
+**Handbook contact report** (gate 8):
+
+1. **The handbook prints no signature for `IdGenerator`, `Rng`, or `Clock`** —
+   only the mechanism (Domain-Model.md §10, Ordering-Strategy.md,
+   Command-System.md §15). Implemented as minimal single-method interfaces
+   (`next()`, `next()`, `now()`), marked provisional in code. The first real
+   consumer (Phase 3/4) may need more; that is an amendment, not a bug.
+   Note §10 says ID generation is an injected "function" — a single-method
+   interface is a deliberate, flagged deviation, chosen so a second method
+   later is not a breaking change.
+2. **ADR-0006's `TextMeasurer` signature is not implementable yet.**
+   `measure(runs: TextRun[], constraints: MeasureConstraints): TextLayout`
+   names three types that only Text-System.md can define. All three are opaque
+   (`unknown`), same treatment as `LayoutConstraints`. Consequence: the test
+   measurer is a **recording stub**, not table-driven — no implementation can
+   produce metrics while `TextLayout` is opaque. Both Testing-Strategy.md
+   (→ 1.0.1) and Package-Structure.md (→ 1.4.1) were corrected, since both had
+   promised "table-driven". This strengthens the Text-System.md gate rather
+   than contradicting it.
+3. **Pre-existing Index defect:** the §6 status table listed
+   Package-Structure.md at 1.1.0 while the document was at 1.3.0 — ADR-0009 and
+   ADR-0010 bumped the doc without updating the Index, which §11 rule 5
+   requires. Corrected, and all sixteen rows were audited against their
+   documents; the rest agreed. Worth re-auditing whenever an ADR bumps a doc.
+4. **Golden values must be measured, not written.** The `seededRng` stability
+   test was first committed with invented expected values and failed
+   immediately. Generate, inspect, then commit — for every golden.
+
+Next: T-002 (ordering utility, property rows P1-P2) — unblocked. T-003 is
+**blocked** on the `WidgetRegistry` decision from the previous session, now
+recorded in TASKS.md's Blocked table so it cannot be silently picked up.

@@ -9,6 +9,15 @@
  */
 
 export type { Asset, AssetSource } from "./asset.js";
+export type {
+  Clock,
+  IdGenerator,
+  MeasureConstraints,
+  Rng,
+  TextLayout,
+  TextMeasurer,
+  TextRun,
+} from "./capabilities.js";
 export type { ColorValue, ThemeColorToken } from "./color.js";
 export type {
   CanvasConfig,

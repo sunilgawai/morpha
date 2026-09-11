@@ -81,6 +81,16 @@ module.exports = {
       from: { path: from(RING[2]) },
       to: { path: to(ALL), pathNot: to([...RING[0], ...RING[1], ...RING[2]]) },
     },
+    {
+      name: "no-testing-subpath-from-src",
+      severity: "error",
+      comment:
+        "ADR-0012 rule 2 / Package-Structure.md §6: a ./testing subpath publishes " +
+        "fixtures and deterministic capability implementations for test code only. " +
+        "Shipped code paths never import one — not across packages, not within one.",
+      from: { path: "^packages/[^/]+/src/", pathNot: "^packages/[^/]+/src/testing/" },
+      to: { path: "^packages/[^/]+/src/testing/" },
+    },
     ...FORBIDDEN_PAIRS.map(([source, targets]) => ({
       name: `forbidden-pair-${source}`,
       severity: "error",

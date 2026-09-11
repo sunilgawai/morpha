@@ -1,7 +1,7 @@
 # Package-Structure.md
 
 **Status:** Core — changes require an ADR (governed by Architecture-Index.md §11)
-**Version:** 1.4.0
+**Version:** 1.4.1
 
 **Naming (unified 1.1.0, revised 1.2.0/1.3.0 per ADR-0009/ADR-0010):** `presentation-*`
 is the canonical **logical** naming scheme used throughout this handbook.
@@ -73,7 +73,7 @@ therefore uses per-package allowlists, not ring tags alone.
 | --- | --- |
 | Responsibility | The Presentation Domain Model: `PresentationDocument`, `Page`, `WidgetInstance`, `Transform`, `Theme`, `Asset` (Domain-Model.md); validation primitives (Section 12 of that document); versioning/migration contracts |
 | Public API | All Domain Model types; `validateDocument()`; `migrate()` contract shape; `WidgetDefinition` interface (type only, not a registry) |
-| Public API — `./testing` subpath | The deterministic implementations of the injected capabilities whose interfaces this package owns: seeded `Rng`, fixed/advanceable `Clock`, sequential `IdGenerator`, table-driven `TextMeasurer` stub, and pure document fixture builders (ADR-0012). Published, documented, versioned surface — not an internal test folder |
+| Public API — `./testing` subpath | The deterministic implementations of the injected capabilities whose interfaces this package owns: seeded `Rng`, fixed/advanceable `Clock`, sequential `IdGenerator`, recording `TextMeasurer` stub (table-driven once Text-System.md fixes `TextLayout`), and pure document fixture builders (ADR-0012). Published, documented, versioned surface — not an internal test folder |
 | Internal API | Internal normalization helpers, structural-sharing utilities |
 | Dependencies | **None** (zero runtime dependencies — pure data types and pure functions only) |
 | Allowed imports | Nothing from any other `presentation-*` package |
@@ -554,6 +554,7 @@ via project tags [web:209][web:212].
 | Version | Change | Reason |
 | --- | --- | --- |
 | 1.0.0 | Initial finalized version | N/A |
+| 1.4.1 | `presentation-domain`'s `./testing` row: the `TextMeasurer` double is a recording stub, not table-driven — `TextLayout` is opaque until Text-System.md exists | T-005; ADR-0006 |
 | 1.4.0 | Test fixtures are published by the package owning the contract, via a `./testing` subpath export; `presentation-domain` entry gains that surface (deterministic `Rng`/`Clock`/`IdGenerator`/`TextMeasurer` implementations); `presentation-testing` entry corrected — it is the engine-level surface for Ring 2-3 and cannot be consumed by Rings 0-1, which sit in its dependency closure; §6 gains the two fixture-subpath rules | ADR-0012 |
 | 1.2.0 | Naming revised: logical `presentation-*` names map to `@morpha/<short>` npm packages in `packages/<short>` directories | ADR-0009 |
 | 1.1.0 | Ring rule corrected to enumerated-directed-edges (the strict sibling ban contradicted this document's own catalogue); `presentation-*` declared canonical naming with `@engine/*` alias map; added `presentation-widgets-base` and `presentation-renderer-ssr`; `RenderNode` homed in `presentation-widget-api`; removed unsanctioned `widget-api → commands` dependency; §5 diagram corrected (format adapters never depend on renderers) | Readiness Review M3; Widget-System.md 1.1.0 alignment |

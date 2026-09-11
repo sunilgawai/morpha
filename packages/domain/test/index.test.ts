@@ -1,57 +1,16 @@
 import { describe, expect, it } from "vitest";
-import type {
-  Page,
-  PresentationDocument,
-  SerializedPage,
-  SerializedPresentationDocument,
-} from "../src/index";
+import type { Page, PresentationDocument, SerializedPage } from "../src/index";
 import { DECLARED_DEPENDENCIES, PACKAGE_NAME } from "../src/index";
+import { CANONICAL_DOCUMENT } from "../src/testing/index";
 
 /**
- * Domain-Model.md §13's canonical minimal valid document, transcribed
- * verbatim. Typing it as the *serialized* shape is the assertion: §13 is
- * labelled "canonical serialized form — derived caches absent", so if the
- * transcription ever admitted `pageOrder`/`widgetOrder` here, this would stop
- * compiling.
+ * Domain-Model.md §13's canonical example now lives on the published
+ * `./testing` surface (ADR-0012) rather than being copied into this file.
+ * It is typed there as the *serialized* shape, since §13 is labelled
+ * "canonical serialized form — derived caches absent", so a transcription
+ * that re-admitted a derived cache would stop compiling.
  */
-const CANONICAL_EXAMPLE: SerializedPresentationDocument = {
-  id: "doc_1",
-  schemaVersion: 1,
-  metadata: {
-    title: "Untitled",
-    createdAt: "2026-07-12T00:00:00Z",
-    updatedAt: "2026-07-12T00:00:00Z",
-  },
-  canvas: {
-    unit: "engine-unit",
-    defaultPageSize: { width: 1280, height: 720 },
-    defaultPageOrientation: "landscape",
-  },
-  assets: {},
-  themes: {},
-  widgetDefinitionRefs: ["text"],
-  pages: {
-    page_1: {
-      id: "page_1",
-      order: "a0",
-      name: "Page 1",
-      size: { width: 1280, height: 720 },
-      background: { type: "color", color: { type: "static", value: "#ffffff" } },
-    },
-  },
-  widgets: {
-    widget_1: {
-      id: "widget_1",
-      pageId: "page_1",
-      parentId: null,
-      order: "a0",
-      type: "text",
-      dataVersion: 1,
-      transform: { x: 100, y: 100, width: 400, height: 80, rotation: 0, opacity: 1 },
-      data: { runs: [{ text: "Hello, Presentation Engine.", bold: false }] },
-    },
-  },
-};
+const CANONICAL_EXAMPLE = CANONICAL_DOCUMENT;
 
 describe("@morpha/domain package identity", () => {
   it("exports its package name", () => {
