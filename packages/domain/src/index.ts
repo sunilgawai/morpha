@@ -34,6 +34,19 @@ export type {
   WidgetId,
   WidgetTypeId,
 } from "./ids.js";
+export type {
+  DocumentMigration,
+  MigrateDocument,
+  MigrateWidgetData,
+  UnknownDocument,
+  WidgetDataMigrator,
+} from "./migration.js";
+export {
+  CURRENT_SCHEMA_VERSION,
+  needsWidgetDataMigration,
+  UnsupportedSchemaVersionError,
+  UnsupportedWidgetDataVersionError,
+} from "./migration.js";
 export type { Ordered } from "./ordering.js";
 export {
   compareOrdered,

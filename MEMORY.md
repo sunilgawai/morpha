@@ -492,3 +492,39 @@ header.
 
 Next: T-004 (migration contract shapes) is the only unblocked Phase 1 task left.
 T-003 still needs the `WidgetRegistry` ring decision.
+
+### 2026-09-12 — T-004: migration contract shapes; Phase 1 one task from its gate
+
+`packages/domain/src/migration.ts` fixes the document and widget-data migration
+contracts (Serialization.md §15, Widget-System.md §10): `CURRENT_SCHEMA_VERSION`,
+`UnknownDocument`, `DocumentMigration` (single-version steps by construction),
+`MigrateDocument`, `MigrateWidgetData`, `WidgetDataMigrator`,
+`needsWidgetDataMigration`, and two typed errors. Shapes only — the load-time
+runner is `presentation-serialization`'s. 130 tests green.
+
+**Handbook contact report** (gate 8):
+
+1. **The narrow-port pattern now has working precedent, and it answers T-003.**
+   Widget-System.md §10's flow needs `def.version`/`def.migrate` from a widget
+   definition that lives in Ring 2. Rather than reach for it, Ring 0 declares
+   `WidgetDataMigrator` — the minimum surface it consumes — and the real
+   `WidgetDefinition` satisfies it structurally. This is exactly the move
+   Domain-Model.md §12's `validateDocument(doc, registry: WidgetRegistry)`
+   needs, so T-003's blocker is no longer a design question, only a governance
+   one: the pattern is proven, an ADR just has to accept it and amend §12's
+   printed signature.
+2. **A migration's input cannot be typed as the current shape.** A
+   `schemaVersion: 1` document is not today's `SerializedPresentationDocument`,
+   so `UnknownDocument` (`Record<string, unknown>`) is the honest input type and
+   only the completed chain yields the real type. Typing it otherwise would
+   force every migration author to cast their way out of a lie.
+3. **`UnsupportedSchemaVersionError` was homed here, slightly ahead of T-003's
+   "shared typed errors" scope.** Serialization.md §15 names it as part of the
+   migration contract, so the contract is incomplete without it. If T-003
+   introduces a shared error base, re-homing these two under it is a widening,
+   not a break.
+
+**Phase 1 gate status:** exit criteria are met except property row P3 and
+`validateDocument` accepting/rejecting the handbook's example documents — both
+T-003. Everything else (P1, P2, the `./testing` subpath proven from Ring 1, zero
+platform APIs, real README) is done.

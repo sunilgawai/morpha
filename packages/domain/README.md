@@ -24,6 +24,8 @@ functions only, compiling without DOM or Node libs.
 | `SerializedPresentationDocument`, `SerializedPage` | §3 + Serialization.md §4 |
 | `IdGenerator`, `Rng`, `Clock`, `TextMeasurer` | Design Principle 8; ADR-0005 §3; ADR-0006 |
 | `generateKeyBetween`, `generateNKeysBetween`, `compareOrdered`, `compareOrderKeys`, `Ordered` | Ordering-Strategy.md |
+| `CURRENT_SCHEMA_VERSION`, `DocumentMigration`, `MigrateDocument`, `MigrateWidgetData`, `WidgetDataMigrator`, `needsWidgetDataMigration` | Serialization.md §15; Widget-System.md §10 |
+| `UnsupportedSchemaVersionError`, `UnsupportedWidgetDataVersionError` | Serialization.md §15 |
 
 ### Live shape vs. persisted shape
 
@@ -52,6 +54,18 @@ algorithm is vendored from the established reference rather than depended upon,
 since this package carries zero runtime dependencies; a committed table of the
 reference's published values keeps the two in step.
 
+### Migration contracts, not machinery
+
+The document and widget-data migration *shapes* live here; the load sequence
+that composes them is `presentation-serialization`'s (Serialization.md §10).
+`DocumentMigration` steps are single-version by construction — `to` is always
+`from + 1` — because Serialization.md §15 forbids jump migrations.
+
+`WidgetDataMigrator` is worth noting as a pattern: Ring 0 cannot reference
+`WidgetDefinition` (Ring 2), so it declares the *minimum surface it consumes*
+and the real definition satisfies it structurally. Ring 0 states its needs;
+outer rings happen to meet them.
+
 ## Not here
 
-`validateDocument` and the `migrate()` contract arrive with T-003 and T-004.
+`validateDocument` arrives with T-003.

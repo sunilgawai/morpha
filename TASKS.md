@@ -21,8 +21,9 @@ in the [handbook](docs/architecture/Architecture-Index.md), never here.
 
 ## In Progress
 
-*(none — T-001/T-002/T-005 complete. Phase 1's remaining work is T-003, which
-is **blocked** on the `WidgetRegistry` decision, and T-004)*
+*(none — every unblocked Phase 1 task is done: T-001, T-002, T-004, T-005.
+**Phase 1's gate is one task from being met**, and that task is T-003, blocked
+on the `WidgetRegistry` decision below.)*
 
 ## Ready
 
@@ -34,7 +35,6 @@ P1 follow-on.
 
 | ID | Task | Pri | Cx | Depends on | Architecture references |
 | --- | --- | --- | --- | --- | --- |
-| T-004 | Migration contract shapes: chained `migrate(doc, fromVersion)`, widget `dataVersion` flow types | P1 | S | T-001 | Serialization.md §15; Widget-System.md §10 |
 
 ### Document track (WIP 1 — does not count against code WIP)
 
@@ -51,7 +51,7 @@ never competes with code for the WIP ≤ 3 limit.
 
 | ID | Task | Blocked on | Notes |
 | --- | --- | --- | --- |
-| T-003 | Structural validation primitives: `validateDocument`, `ValidationResult`, typed errors; property row P3 | A decision on Domain-Model.md §12's `WidgetRegistry` parameter | §12's signature is a Ring 0 → Ring 2 reference; `WidgetRegistry` lives in `presentation-widget-api`. Domain must own the narrow port it needs. ADR-shaped — see MEMORY.md 2026-09-12 |
+| T-003 | Structural validation primitives: `validateDocument`, `ValidationResult`, typed errors; property row P3 | A decision on Domain-Model.md §12's `WidgetRegistry` parameter | §12's signature is a Ring 0 → Ring 2 reference; `WidgetRegistry` lives in `presentation-widget-api`. **T-004 demonstrated the fix**: Ring 0 declares the narrow port it consumes (`WidgetDataMigrator`) and Ring 2 satisfies it structurally. The same move applies here. Still needs an accepted ADR before §12's signature changes |
 | T-030 | `text` widget in widgets-base | T-006 (Text-System.md accepted) | Hard gate — ADR-0006; PLANS.md Phase 9 |
 | T-040 | PPTX export/import implementation | Import-Export.md authored (T-039) | Mapping tables must exist before code — PLANS.md Phase 12 |
 | T-090 | Raise Node baseline to 22 LTS; unpin dependency-cruiser/cspell | CI matrix proving Node 22; team machines updated | ADR-0008; low urgency |
@@ -117,6 +117,7 @@ never competes with code for the WIP ≤ 3 limit.
 | T-000c | Execution planning system: PLANS.md, MEMORY.md, TASKS.md; ROADMAP.md → pointer | 2026-07-13 | this PR |
 | T-000d | Development environment: apps/{playground,inspector,docs}, numbered examples ladder (01–17), tests taxonomy, root scripts, DEVELOPMENT.md; ADR-0011 (DP7 scoping) | 2026-07-18 | commit `e24263f` |
 | T-045 | Author **Testing-Strategy.md** 1.0.0 (test kinds, fixture rules, property-row checklist P1–P15, conformance-suite table, CI lanes); ADR-0012 (fixtures published by the contract-owning package via `./testing` subpaths); Package-Structure.md → 1.4.0; Index → 1.2.0. Promoted ahead of Phase 1 because PLANS.md §6 gate 2 was unsatisfiable for Rings 0–1 | 2026-09-12 | this PR |
+| T-004 | Migration contract shapes: `CURRENT_SCHEMA_VERSION`, `UnknownDocument`, `DocumentMigration` (single-version steps), `MigrateDocument`, `MigrateWidgetData`, the `WidgetDataMigrator` narrow port, `needsWidgetDataMigration`, and typed `UnsupportedSchemaVersionError`/`UnsupportedWidgetDataVersionError` | 2026-09-12 | this PR |
 | T-002 | Fractional-index ordering: `generateKeyBetween`, `generateNKeysBetween`, injected-RNG jitter with an overshoot guard, `compareOrdered` id tie-break; property rows **P1 and P2**; base-62 reference algorithm vendored (domain has zero dependencies) and pinned by a published-values table | 2026-09-12 | this PR |
 | T-005 | Injected-capability interfaces (`IdGenerator`, `Rng`, `Clock`, `TextMeasurer`) + deterministic implementations and pure fixtures on the `@morpha/domain/testing` subpath; ADR-0012 proven end to end by a Ring 1 (`state`) test consuming the subpath across its existing `domain` edge | 2026-09-12 | this PR |
 | T-047 | dependency-cruiser rule `no-testing-subpath-from-src`, negative-tested (fires by name on an `src/` → `src/testing/` edge) | 2026-09-12 | this PR |

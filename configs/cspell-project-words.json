@@ -3,6 +3,7 @@
     "advanceable",
     "batchable",
     "bypassable",
+    "catchable",
     "coalescable",
     "codegen",
     "codemod",
