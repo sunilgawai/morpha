@@ -35,7 +35,7 @@ pnpm check       # the full local CI gauntlet
 | `pnpm test` / `test:watch` | Vitest (package unit tests + cross-package integration) |
 | `pnpm bench` | Vitest benchmarks (`tests/benchmarks/`) |
 | `pnpm check` | Everything CI runs, locally, in order |
-| `pnpm docs` | Markdown lint + spell check over `docs/` |
+| `pnpm run docs:check` | Markdown lint + spell check over `docs/` |
 | `pnpm changeset` | Record a changeset for your change |
 | `pnpm version-packages` | Apply changesets to package versions (release PR) |
 | `pnpm release` | Build + `changeset publish` (inert while packages are private) |

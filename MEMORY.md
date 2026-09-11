@@ -180,6 +180,18 @@ the handbook's vocabulary in identifiers.
   collision resistance; accepted by Ordering-Strategy.md.
 - **Command ceremony for trivial mutations** — the accepted cost of
   ADR-0007; do not add shortcuts.
+- **`pnpm <script>` can be shadowed by npm.** pnpm forwards commands it does
+  not recognize to npm, so a script named `docs` was never run by `pnpm docs`
+  — npm's `docs` command opened a browser instead, which is why the CI docs job
+  failed on literally every run from the bootstrap until 2026-09-12. The script
+  is now `docs:check` and CI calls `pnpm run`. Audited every other script name;
+  only `test` collides and that one is a real pnpm builtin that runs the script.
+- **Git hooks must be disabled in CI** (`LEFTHOOK: 0`). `pnpm install` runs
+  `prepare` → `lefthook install` on the runner, so any CI step that commits
+  gets the commit-msg hook. That is what broke the Release workflow the moment
+  the first changeset existed: the changesets action's "Version Packages"
+  subject is not a Conventional Commit. commitlint also `ignores` that subject
+  now, for the same commit made locally.
 - **Handbook markdown was whitespace-normalized** by markdownlint during
   bootstrap (content unchanged) — diffs against pre-bootstrap copies will
   show formatting noise.
@@ -411,3 +423,30 @@ depcruise rule (**negative-tested** — fires by rule name on an `src/` →
 Next: T-002 (ordering utility, property rows P1-P2) — unblocked. T-003 is
 **blocked** on the `WidgetRegistry` decision from the previous session, now
 recorded in TASKS.md's Blocked table so it cannot be silently picked up.
+
+### 2026-09-12 — CI was never green; two independent bugs fixed
+
+Owner reported failing CI after merging #3 and #4. Neither failure came from
+the merged work; both are repo-infrastructure bugs, and one predates every
+commit in the project.
+
+1. **CI docs job — broken since the bootstrap.** `pnpm docs` never ran the
+   `docs` script; pnpm forwarded it to `npm docs`, which tries to open the
+   package homepage (`xdg-open`, exit 3 on a runner). Every CI run in the
+   repository's history failed on this, including the bootstrap and the
+   development-environment PR — `gh run list` shows no successful CI run, ever.
+   Fixed by renaming the script to `docs:check` and calling `pnpm run`.
+2. **Release job — broke when the first changeset appeared.** The changesets
+   action commits "Version Packages"; lefthook's commit-msg hook ran commitlint
+   against it and rejected it. Release had been passing only because there were
+   no changesets to act on, so the action no-op'd. Fixed with `LEFTHOOK: 0` on
+   the release job, plus a commitlint `ignores` entry for that subject.
+
+Both verified locally: `pnpm run docs:check` clean, `pnpm test -- --coverage`
+green (67 tests), `pnpm install --frozen-lockfile` clean, `Version Packages`
+now passes commitlint while junk subjects still fail.
+
+Lesson worth keeping: **a green local `pnpm check` is not a green CI.** CI runs
+two steps `check` does not — `pnpm run docs:check` and `pnpm test --coverage` —
+and the Release workflow runs none of them. Nobody had looked at a CI run's
+result since the repository was created.
