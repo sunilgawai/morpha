@@ -21,8 +21,8 @@ in the [handbook](docs/architecture/Architecture-Index.md), never here.
 
 ## In Progress
 
-*(none — T-001/T-005 complete; T-002 and T-003 are next, and T-003 is blocked
-on the `WidgetRegistry` decision recorded in MEMORY.md)*
+*(none — T-001/T-002/T-005 complete. Phase 1's remaining work is T-003, which
+is **blocked** on the `WidgetRegistry` decision, and T-004)*
 
 ## Ready
 
@@ -34,7 +34,6 @@ P1 follow-on.
 
 | ID | Task | Pri | Cx | Depends on | Architecture references |
 | --- | --- | --- | --- | --- | --- |
-| T-002 | Fractional-index ordering utility: `generateKeyBetween`, `generateNKeysBetween`, injected-RNG jitter, id tie-break; property rows P1–P2 | P0 | M | T-001, T-005 | Ordering-Strategy.md; ADR-0005 §3; Testing-Strategy.md §5 |
 | T-004 | Migration contract shapes: chained `migrate(doc, fromVersion)`, widget `dataVersion` flow types | P1 | S | T-001 | Serialization.md §15; Widget-System.md §10 |
 
 ### Document track (WIP 1 — does not count against code WIP)
@@ -118,6 +117,7 @@ never competes with code for the WIP ≤ 3 limit.
 | T-000c | Execution planning system: PLANS.md, MEMORY.md, TASKS.md; ROADMAP.md → pointer | 2026-07-13 | this PR |
 | T-000d | Development environment: apps/{playground,inspector,docs}, numbered examples ladder (01–17), tests taxonomy, root scripts, DEVELOPMENT.md; ADR-0011 (DP7 scoping) | 2026-07-18 | commit `e24263f` |
 | T-045 | Author **Testing-Strategy.md** 1.0.0 (test kinds, fixture rules, property-row checklist P1–P15, conformance-suite table, CI lanes); ADR-0012 (fixtures published by the contract-owning package via `./testing` subpaths); Package-Structure.md → 1.4.0; Index → 1.2.0. Promoted ahead of Phase 1 because PLANS.md §6 gate 2 was unsatisfiable for Rings 0–1 | 2026-09-12 | this PR |
+| T-002 | Fractional-index ordering: `generateKeyBetween`, `generateNKeysBetween`, injected-RNG jitter with an overshoot guard, `compareOrdered` id tie-break; property rows **P1 and P2**; base-62 reference algorithm vendored (domain has zero dependencies) and pinned by a published-values table | 2026-09-12 | this PR |
 | T-005 | Injected-capability interfaces (`IdGenerator`, `Rng`, `Clock`, `TextMeasurer`) + deterministic implementations and pure fixtures on the `@morpha/domain/testing` subpath; ADR-0012 proven end to end by a Ring 1 (`state`) test consuming the subpath across its existing `domain` edge | 2026-09-12 | this PR |
 | T-047 | dependency-cruiser rule `no-testing-subpath-from-src`, negative-tested (fires by name on an `src/` → `src/testing/` edge) | 2026-09-12 | this PR |
 | T-048 | Multi-entry build for the `./testing` subpath: tsdown entries, `exports` + `publishConfig` mapping | 2026-09-12 | this PR |

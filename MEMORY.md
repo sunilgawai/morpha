@@ -450,3 +450,45 @@ Lesson worth keeping: **a green local `pnpm check` is not a green CI.** CI runs
 two steps `check` does not — `pnpm run docs:check` and `pnpm test --coverage` —
 and the Release workflow runs none of them. Nobody had looked at a CI run's
 result since the repository was created.
+
+### 2026-09-12 — T-002: fractional-index ordering (property rows P1, P2)
+
+`packages/domain/src/ordering.ts` implements Ordering-Strategy.md:
+`generateKeyBetween`, `generateNKeysBetween`, jitter from the injected `Rng`,
+and `compareOrdered`'s order-then-id total order. 115 tests green; P1 and P2 are
+marked ✅ in Testing-Strategy.md §5.
+
+The base-62 algorithm is **vendored, not depended upon** — Ordering-Strategy.md's
+Reference Implementation Note directs us to adopt the established
+implementation, and Package-Structure.md gives this package zero runtime
+dependencies, so the two together mean vendoring with attribution in the file
+header.
+
+**Handbook contact report** (gate 8):
+
+1. **Jitter as specified can break the ordering invariant.** Ordering-Strategy.md
+   says to "append a short random suffix on generation". If the generated key is
+   a proper prefix of the upper bound (`"a1"` below `"a1V"`), any suffix can sort
+   *past* that bound. Resolved in implementation with a guard: jitter is applied
+   only while the result stays below the bound, otherwise the unjittered key is
+   returned. Correct ordering is not negotiable; collision resistance is a
+   probability. **Not** raised as an amendment — the document states an intent
+   and this is the faithful way to honor it — but if anyone later reads the
+   jitter promise as unconditional, this is the reason it isn't.
+2. **The key space has a hard floor.** Prepending eventually generates the
+   reserved smallest integer, which the validator then rejects as *input*, so
+   the next prepend throws. Inherited from the reference algorithm and now
+   pinned by a test. Practically unreachable (~62²⁶ prepends below `"a0"`), and
+   it fails loudly rather than returning a key that sorts wrong — which is the
+   behavior we want.
+3. **Verification caught my expectations, not the code.** Property tests passed
+   on the first run, which on an algorithm this fiddly is a warning sign, so I
+   checked the unjittered output against the reference's published value table:
+   17 of 19 matched, and all four eventual mismatches were *my* wrong
+   expectations (an `A`-headed integer part is 27 characters, so `"Az"` is
+   malformed, not merely unusual). The table is now a committed test — order
+   keys are persisted data, so a silent change to generated keys would affect
+   every document written afterward.
+
+Next: T-004 (migration contract shapes) is the only unblocked Phase 1 task left.
+T-003 still needs the `WidgetRegistry` ring decision.

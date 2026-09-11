@@ -8,6 +8,7 @@
 
 import type { PresentationDocument } from "../document.js";
 import type { PageId, WidgetId } from "../ids.js";
+import { compareOrdered } from "../ordering.js";
 import type { Page } from "../page.js";
 import type { SerializedPage, SerializedPresentationDocument } from "../serialized.js";
 import type { WidgetInstance } from "../widget.js";
@@ -124,28 +125,26 @@ export function fixtureSerializedDocument(
  * the way the Store would rebuild them on hydration
  * (Domain-Model.md §3; State-Management.md §3).
  *
- * The rebuild here is the deliberately naive one — sort by `order`, tie-break
- * by `id` (Ordering-Strategy.md). The Store owns the real incremental
+ * The rebuild uses the real `compareOrdered` comparator — Ordering-Strategy.md's
+ * order-then-id total order. The Store owns the real *incremental*
  * maintenance; this is a fixture, not that implementation.
  */
 export function fixtureDocument(
   overrides: Partial<PresentationDocument> = {},
 ): PresentationDocument {
   const serialized = fixtureSerializedDocument();
-  const byOrderThenId = (a: { order: string; id: string }, b: { order: string; id: string }) =>
-    a.order === b.order ? a.id.localeCompare(b.id) : a.order.localeCompare(b.order);
 
   const pages: Record<PageId, Page> = {};
   for (const page of Object.values(serialized.pages)) {
     const topLevel = Object.values(serialized.widgets)
       .filter((w: WidgetInstance) => w.pageId === page.id && w.parentId === null)
-      .sort(byOrderThenId)
+      .sort(compareOrdered)
       .map((w: WidgetInstance) => w.id);
     pages[page.id] = { ...page, widgetOrder: topLevel };
   }
 
   const pageOrder = Object.values(serialized.pages)
-    .sort(byOrderThenId)
+    .sort(compareOrdered)
     .map((p) => p.id);
   const widgets: Record<WidgetId, WidgetInstance> = { ...serialized.widgets };
 
