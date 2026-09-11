@@ -54,6 +54,7 @@ never competes with code for the WIP ≤ 3 limit.
 | T-003 | Structural validation primitives: `validateDocument`, `ValidationResult`, typed errors; property row P3 | A decision on Domain-Model.md §12's `WidgetRegistry` parameter | §12's signature is a Ring 0 → Ring 2 reference; `WidgetRegistry` lives in `presentation-widget-api`. **T-004 demonstrated the fix**: Ring 0 declares the narrow port it consumes (`WidgetDataMigrator`) and Ring 2 satisfies it structurally. The same move applies here. Still needs an accepted ADR before §12's signature changes |
 | T-030 | `text` widget in widgets-base | T-006 (Text-System.md accepted) | Hard gate — ADR-0006; PLANS.md Phase 9 |
 | T-040 | PPTX export/import implementation | Import-Export.md authored (T-039) | Mapping tables must exist before code — PLANS.md Phase 12 |
+| T-049 | Assert `WidgetRegistry satisfies WidgetTypeLookup` in widget-api | ADR-0013 acceptance; T-029 | Compile-time conformance so a drifting signature fails in the package that caused it (ADR-0013 rule 2) |
 | T-090 | Raise Node baseline to 22 LTS; unpin dependency-cruiser/cspell | CI matrix proving Node 22; team machines updated | ADR-0008; low urgency |
 
 ## Backlog (coarse — refine when promoting)
