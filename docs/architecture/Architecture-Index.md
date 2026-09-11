@@ -2,7 +2,7 @@
 
 **Status:** Core — changes require an ADR (governed by Section 11, this
 document's canonical governance statement)
-**Version:** 1.2.0
+**Version:** 1.3.0
 **Depends on:** None (this is the root entry point)
 **This document is the canonical entry point to the entire Architecture Handbook.**
 
@@ -145,7 +145,7 @@ operations-facing form; narrowest blast radius):
 | Vision | Finalized | 1.0.0 | Core |
 | Design-Principles.md | Finalized | 1.0.0 | Core |
 | Ordering-Strategy.md | Finalized | 1.1.0 | Core |
-| Domain-Model.md | Finalized | 1.1.0 | Core |
+| Domain-Model.md | Finalized | 1.2.0 | Core |
 | Widget-System.md | Finalized | 1.1.0 | Core |
 | Rendering-Architecture.md | Finalized | 1.1.0 | Core |
 | Engine-Lifecycle.md | Finalized | 1.1.0 | Core |
@@ -498,5 +498,6 @@ Ordered by recommended priority:
 | Version | Change | Reason |
 | --- | --- | --- |
 | 1.0.0 | Initial finalized version | N/A |
+| 1.3.0 | Domain-Model.md → 1.2.0 (follow-up patch: `LayoutId` registered, `LayoutConstraints` declared opaque pending Layout-System.md) | Gaps found by compiling the model in T-001 |
 | 1.2.0 | Testing-Strategy.md written and finalized at 1.0.0 (§6 status, §7 catalogue, §8 Quality layer, a §9 reading path for test authors, removed from §12's pending list with the remaining items renumbered); records ADR-0012, which relocates test fixtures to per-package `./testing` subpath exports and corrects Package-Structure.md's `presentation-testing` entry (→ 1.4.0) | PLANS.md §6 gates 2-3 were unsatisfiable for Rings 0-1; Index §12.4 |
 | 1.1.0 | Reconciliation pass: dependency graph corrected (ADR-0001 — Domain root, runtime orchestrates); nonexistent "Architecture" document struck; Ordering-Strategy.md registered; State-Management.md written and tracked; governance canonical statement moved here with `adr/` repository created; all "Assumed finalized" statuses resolved; every referenced future document now tracked; Text-System.md added as required-before-Text-widget (ADR-0006) | Architecture Readiness Review (2026-07-12); ADR-0001…0007 |

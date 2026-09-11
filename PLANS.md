@@ -138,12 +138,17 @@ corrected gate text.
   `TextMeasurer` shape from ADR-0006) **and their deterministic
   implementations on the `./testing` subpath** (ADR-0012); shared
   `ValidationResult`/typed-error types.
-- **Deferred out of this phase:** `Theme` and `Asset` shape transcription.
-  Nothing consumes them until theming/asset features ship, and their owning
-  documents (Theme-System.md, Asset-System.md) do not exist — transcribing
-  shapes whose semantics are unwritten is the over-modeling this phase's
-  risk line already warns about. They enter the phase that first consumes
-  them.
+- **`Theme`/`Asset`: shapes in, semantics out.** *Corrected 2026-09-12
+  during T-001, same day the narrowing was written.* Deferring the **shape**
+  transcription was wrong and does not compile: `PresentationDocument.assets`
+  and `.themes` are non-optional fields, `Background`'s asset variant needs
+  `AssetId`, and `ColorValue`'s theme variant needs `ThemeColorToken`. The
+  shapes are structurally load-bearing for the M1 subset, and Domain-Model.md
+  §8/§9 say they fix "only the *shape*" precisely so a later document can
+  design against something stable. What stays deferred is their
+  **semantics** — cascade/inheritance (Theme-System.md) and provider
+  mechanics (Asset-System.md) — which is where the over-modeling risk
+  actually lives.
 - **Exit criteria:** property rows **P1-P3** of Testing-Strategy.md §5;
   `validateDocument` accepts/rejects the handbook's example documents; the
   `./testing` subpath is consumable by a Ring 1 package's tests (proves
