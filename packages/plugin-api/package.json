@@ -2,7 +2,7 @@
   "name": "@morpha/plugin-api",
   "version": "0.0.0",
   "private": true,
-  "description": "Presentation Engine — plugin-api (Ring 2). Placeholder; see docs/architecture/plugins/Plugin-System.md.",
+  "description": "Presentation Engine \u2014 plugin-api (Ring 2). Placeholder; see docs/architecture/plugins/Plugin-System.md.",
   "license": "MIT",
   "type": "module",
   "sideEffects": false,
@@ -28,7 +28,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsdown",
+    "build": "node init && tsdown",
     "clean": "rm -rf dist *.tsbuildinfo"
   },
   "dependencies": {

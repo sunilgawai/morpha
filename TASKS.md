@@ -22,6 +22,7 @@ in the [handbook](docs/architecture/Architecture-Index.md), never here.
 ## In Progress
 
 *(none — Phase 1 is code-complete: T-001, T-002, T-003, T-004, T-005 all done.
+T-050 delivered ADR-0014 (Proposed); T-050b applies it on acceptance.
 **Do not start Phase 2 yet.** PLANS.md Phase 1 gate item 6 is open: the
 `readonly`/immutability question needs an ADR, and Ring 1 will be written
 against whichever shape wins. T-050 tracks it.)*
@@ -61,7 +62,8 @@ never competes with code for the WIP ≤ 3 limit.
 
 | ID | Task | Pri | Cx | Depends on | Architecture references |
 | --- | --- | --- | --- | --- | --- |
-| T-050 | **Author an ADR on domain-model mutability**: should the transcribed interfaces be deeply `readonly`? Blocks Phase 2 (PLANS.md Phase 1 gate item 6) | P0 | S | — | State-Management.md §2; Domain-Model.md; Design Principle 8 |
+| T-050b | Apply ADR-0014 once accepted: `readonly` across the nine domain shape modules, Domain-Model.md → 1.4.0, and rework the one fixture test whose premise changes. Closes Phase 1 gate item 6 and unblocks Phase 2 | P0 | S | ADR-0014 acceptance | ADR-0014; State-Management.md §2 |
+| T-051 | Evaluate development-mode deep freezing of document values | P2 | S | Performance.md (T-044a) | ADR-0014's deferred runtime-enforcement question; `readonly` is compile-time only |
 
 ## Backlog (coarse — refine when promoting)
 
@@ -124,6 +126,7 @@ never competes with code for the WIP ≤ 3 limit.
 | T-000c | Execution planning system: PLANS.md, MEMORY.md, TASKS.md; ROADMAP.md → pointer | 2026-07-13 | this PR |
 | T-000d | Development environment: apps/{playground,inspector,docs}, numbered examples ladder (01–17), tests taxonomy, root scripts, DEVELOPMENT.md; ADR-0011 (DP7 scoping) | 2026-07-18 | commit `e24263f` |
 | T-045 | Author **Testing-Strategy.md** 1.0.0 (test kinds, fixture rules, property-row checklist P1–P15, conformance-suite table, CI lanes); ADR-0012 (fixtures published by the contract-owning package via `./testing` subpaths); Package-Structure.md → 1.4.0; Index → 1.2.0. Promoted ahead of Phase 1 because PLANS.md §6 gate 2 was unsatisfiable for Rings 0–1 | 2026-09-12 | this PR |
+| T-050 | Author an ADR on domain-model mutability → **ADR-0014** (Proposed): deeply readonly printed shapes, backed by measurement — full deep `readonly` costs 1 test line today, and all four Store write patterns compile with no casts and no draft type | 2026-09-12 | this PR |
 | T-003 | Structural validation: `validateDocument` with referential integrity, parent-cycle detection, theme/asset reference checks and optional derived-cache checking; `ValidationResult`/`ValidationIssue` shapes (undefined by any document until Domain-Model.md 1.3.0); `WidgetTypeLookup`/`WidgetDataValidator` ports per ADR-0013; registry stubs on the `./testing` subpath; property row **P3**, mutation-tested | 2026-09-12 | this PR |
 | T-004 | Migration contract shapes: `CURRENT_SCHEMA_VERSION`, `UnknownDocument`, `DocumentMigration` (single-version steps), `MigrateDocument`, `MigrateWidgetData`, the `WidgetDataMigrator` narrow port, `needsWidgetDataMigration`, and typed `UnsupportedSchemaVersionError`/`UnsupportedWidgetDataVersionError` | 2026-09-12 | this PR |
 | T-002 | Fractional-index ordering: `generateKeyBetween`, `generateNKeysBetween`, injected-RNG jitter with an overshoot guard, `compareOrdered` id tie-break; property rows **P1 and P2**; base-62 reference algorithm vendored (domain has zero dependencies) and pinned by a published-values table | 2026-09-12 | this PR |
