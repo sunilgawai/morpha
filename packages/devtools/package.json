@@ -2,7 +2,7 @@
   "name": "@morpha/devtools",
   "version": "0.0.0",
   "private": true,
-  "description": "Presentation Engine — devtools (Ring 3). Placeholder; see docs/architecture/packages/Package-Structure.md.",
+  "description": "Presentation Engine \u2014 devtools (Ring 3). Placeholder; see docs/architecture/packages/Package-Structure.md.",
   "license": "MIT",
   "type": "module",
   "sideEffects": false,
@@ -28,7 +28,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsdown",
+    "build": "node init && tsdown",
     "clean": "rm -rf dist *.tsbuildinfo"
   },
   "dependencies": {

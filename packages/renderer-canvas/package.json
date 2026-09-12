@@ -2,7 +2,7 @@
   "name": "@morpha/renderer-canvas",
   "version": "0.0.0",
   "private": true,
-  "description": "Presentation Engine — renderer-canvas (Ring 2). Placeholder; see docs/architecture/rendering/Rendering-Architecture.md.",
+  "description": "Presentation Engine \u2014 renderer-canvas (Ring 2). Placeholder; see docs/architecture/rendering/Rendering-Architecture.md.",
   "license": "MIT",
   "type": "module",
   "sideEffects": false,
@@ -28,7 +28,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsdown",
+    "build": "node init && tsdown",
     "clean": "rm -rf dist *.tsbuildinfo"
   },
   "dependencies": {

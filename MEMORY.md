@@ -571,3 +571,35 @@ question is an open governance item against the layer's owning document. Left
 open deliberately rather than quietly decided, and **Phase 2 must not start
 until it closes**, because every Ring 1 package gets written against whichever
 shape wins. T-050 tracks it and is the only Ready task.
+
+### 2026-09-12 — T-050: ADR-0014 drafted on domain-model immutability (Proposed)
+
+The open Phase 1 gate-6 item now has a decision in reviewable form. Not written
+from first principles — **measured** against Phase 1's merged code, and the
+numbers changed what the ADR recommends:
+
+- Deep `readonly` on `PresentationDocument`/`Page`/`WidgetInstance`: **0**
+  typecheck errors, 163 tests still green.
+- Extended to every remaining shape: **1** error, in the fixture test that
+  deliberately mutates to assert builders return mutable copies.
+- The four write patterns `presentation-state` will need — single-entity spread,
+  incremental multi-entity build, derived-cache array rebuild, reference-identity
+  preservation — compile against readonly types with **0 casts and no `Mutable<T>`
+  draft type**.
+
+That third measurement is why the ADR recommends plain deep `readonly` rather
+than the Immer-style public-readonly/internal-draft split I expected to land on.
+The standard objection to readonly domain types is an unbearable write path; it
+is simply not true here, because a fresh mutable local spread into a readonly
+field assigns in the safe direction. Proposing a draft type anyway would have
+been speculative machinery (DP7).
+
+Also worth keeping: **`readonly` is already this handbook's idiom** — Command-System.md
+§3, Event-System.md §6 and Plugin-System.md §9 all print it. Domain-Model.md is
+the outlier, so this is drift repair, not a new convention.
+
+Runtime freezing is deliberately left undecided (T-051): it is the only option
+that binds JavaScript callers, but it costs per-entity work on the write path and
+Performance.md does not exist to price it.
+
+**Cost of delay, concretely: 1 test line today, four packages after Phase 2-5.**
