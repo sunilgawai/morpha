@@ -1,6 +1,6 @@
 {
   "name": "@morpha/renderer-dom",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "description": "Presentation Engine — renderer-dom (Ring 2). Placeholder; see docs/architecture/rendering/Rendering-Architecture.md.",
   "license": "MIT",

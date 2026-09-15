@@ -1,6 +1,6 @@
 {
   "name": "@morpha/interaction",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "description": "Presentation Engine — interaction (Ring 2). Placeholder; see docs/architecture/interaction/Selection-and-Interaction.md.",
   "license": "MIT",

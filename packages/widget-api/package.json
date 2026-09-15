@@ -1,6 +1,6 @@
 {
   "name": "@morpha/widget-api",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "description": "Presentation Engine — widget-api (Ring 2). Placeholder; see docs/architecture/widgets/Widget-System.md.",
   "license": "MIT",

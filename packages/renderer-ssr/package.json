@@ -1,6 +1,6 @@
 {
   "name": "@morpha/renderer-ssr",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "description": "Presentation Engine — renderer-ssr (Ring 2). Placeholder; see docs/architecture/rendering/Rendering-Architecture.md.",
   "license": "MIT",

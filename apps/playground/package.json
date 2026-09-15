@@ -1,6 +1,6 @@
 {
   "name": "app-playground",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "type": "module",
   "description": "morpha Playground — the daily engine development environment (ADR-0011). Consumes only @morpha/* public exports.",

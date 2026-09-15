@@ -1,6 +1,6 @@
 {
   "name": "@morpha/events",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "description": "Presentation Engine — events (Ring 1). Placeholder; see docs/architecture/runtime/Event-System.md.",
   "license": "MIT",
