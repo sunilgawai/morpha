@@ -1,8 +1,8 @@
 {
   "name": "@morpha/renderer-dom",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
-  "description": "Presentation Engine — renderer-dom (Ring 2). Placeholder; see docs/architecture/rendering/Rendering-Architecture.md.",
+  "description": "Presentation Engine \u2014 renderer-dom (Ring 2). Placeholder; see docs/architecture/rendering/Rendering-Architecture.md.",
   "license": "MIT",
   "type": "module",
   "sideEffects": false,
@@ -28,7 +28,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsdown",
+    "build": "node init && tsdown",
     "clean": "rm -rf dist *.tsbuildinfo"
   },
   "dependencies": {

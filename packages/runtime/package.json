@@ -1,8 +1,8 @@
 {
   "name": "@morpha/runtime",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
-  "description": "Presentation Engine — runtime (Ring 1). Placeholder; see docs/architecture/runtime/Engine-Lifecycle.md.",
+  "description": "Presentation Engine \u2014 runtime (Ring 1). Placeholder; see docs/architecture/runtime/Engine-Lifecycle.md.",
   "license": "MIT",
   "type": "module",
   "sideEffects": false,
@@ -28,7 +28,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsdown",
+    "build": "node init && tsdown",
     "clean": "rm -rf dist *.tsbuildinfo"
   },
   "dependencies": {
