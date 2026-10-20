@@ -1,12 +1,12 @@
 {
   "name": "app-inspector",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "type": "module",
-  "description": "morpha Inspector — DevTools-class runtime debugger (ADR-0011). Consumes only @morpha/* public exports.",
+  "description": "morpha Inspector \u2014 DevTools-class runtime debugger (ADR-0011). Consumes only @morpha/* public exports.",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
+    "dev": "node init && vite",
+    "build": "node init && vite build",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit -p tsconfig.json"
   },

@@ -1,8 +1,8 @@
 {
   "name": "@morpha/widgets-base",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
-  "description": "Presentation Engine — widgets-base (Ring 2). Placeholder; see docs/architecture/widgets/Widget-System.md.",
+  "description": "Presentation Engine \u2014 widgets-base (Ring 2). Placeholder; see docs/architecture/widgets/Widget-System.md.",
   "license": "MIT",
   "type": "module",
   "sideEffects": false,
@@ -28,7 +28,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsdown",
+    "build": "node init && tsdown",
     "clean": "rm -rf dist *.tsbuildinfo"
   },
   "dependencies": {

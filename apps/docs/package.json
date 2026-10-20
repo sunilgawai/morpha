@@ -3,10 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "description": "morpha documentation website — Astro + Starlight (ADR-0011).",
+  "description": "morpha documentation website \u2014 Astro + Starlight (ADR-0011).",
   "scripts": {
-    "dev": "astro dev --port 4175",
-    "build": "astro build",
+    "dev": "node init && astro dev --port 4175",
+    "build": "node init && astro build",
     "preview": "astro preview --port 4175",
     "sync": "astro sync"
   },

@@ -1,8 +1,8 @@
 {
   "name": "@morpha/import-pptx",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
-  "description": "Presentation Engine — import-pptx (Ring 2). Placeholder; see docs/architecture/persistence/Serialization.md.",
+  "description": "Presentation Engine \u2014 import-pptx (Ring 2). Placeholder; see docs/architecture/persistence/Serialization.md.",
   "license": "MIT",
   "type": "module",
   "sideEffects": false,
@@ -28,7 +28,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsdown",
+    "build": "node init && tsdown",
     "clean": "rm -rf dist *.tsbuildinfo"
   },
   "dependencies": {

@@ -1,8 +1,8 @@
 {
   "name": "@morpha/domain",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": true,
-  "description": "Presentation Engine — domain (Ring 0). The Presentation Domain Model; see docs/architecture/domain/Domain-Model.md.",
+  "description": "Presentation Engine \u2014 domain (Ring 0). The Presentation Domain Model; see docs/architecture/domain/Domain-Model.md.",
   "license": "MIT",
   "type": "module",
   "sideEffects": false,
@@ -37,7 +37,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsdown",
+    "build": "node init && tsdown",
     "clean": "rm -rf dist *.tsbuildinfo"
   }
 }
