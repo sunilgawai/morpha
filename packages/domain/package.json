@@ -1,6 +1,6 @@
 {
   "name": "@morpha/domain",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": true,
   "description": "Presentation Engine — domain (Ring 0). The Presentation Domain Model; see docs/architecture/domain/Domain-Model.md.",
   "license": "MIT",

@@ -1,6 +1,6 @@
 {
   "name": "@morpha/commands",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "description": "Presentation Engine — commands (Ring 1). Placeholder; see docs/architecture/runtime/Command-System.md.",
   "license": "MIT",

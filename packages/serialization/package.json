@@ -1,6 +1,6 @@
 {
   "name": "@morpha/serialization",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "description": "Presentation Engine — serialization (Ring 2). Placeholder; see docs/architecture/persistence/Serialization.md.",
   "license": "MIT",

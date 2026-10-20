@@ -1,6 +1,6 @@
 {
   "name": "@morpha/runtime",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "description": "Presentation Engine — runtime (Ring 1). Placeholder; see docs/architecture/runtime/Engine-Lifecycle.md.",
   "license": "MIT",
